@@ -23,12 +23,11 @@ def kill_zombie(signum, frame):
     os.waitpid(0, 0)
 
 # AGENT ****
-def agent(socket_client, num, list_client):
+def agent(socket_client, list_client):
 
     request = socket_client.recv(BUFFER_SIZE)
     while len(request) != 0:
-        print "recu de " + str(num) + " : " + request
-        for socket_other in list_client:
+        for socket_c in list_client :
             socket_other.send(request)
         request = socket_client.recv(BUFFER_SIZE)
     socket_client.close()
@@ -52,31 +51,25 @@ def main():
     print('Waiting for the client ...')
 
     # LOOP  
-    for i in range(0,4) : 
-        try:
-            socket_client, address_client = listening_socket.accept()
-            list_client.append(socket_client)
-            socket_client.send(str(i)+"\n")
-            print "client "+str(i) +" arrivee"
-        except socket.error:
-            time.sleep(0.01)
-            continue
+    while True:
+        for i in range(0,3) : 
+            try:
+                socket_client, address_client = listening_socket.accept()
+                list_client.append(socket_client)
+                socket_client.send(str(i)+"\n")
+                print "client "+str(i) +" arrivee"
+            except socket.error:
+                time.sleep(0.01)
+                continue
+        for i in range(0,len(list_client)) : 
+            socket_client = list_client[i]
+            pid = os.fork()
+            if pid == 0:
+                listening_socket.close()
+                agent(socket_client, list_client)
+            else:
+                socket_client.close()
 
-    print "Tout le monde est connecté."
-    for i in range(0,len(list_client)): 
-        socket_client = list_client[i]
-        pid = os.fork()
-        if pid == 0:
-            listening_socket.close()
-            agent(socket_client, i, list_client)
-        else:
-            pass
-            #socket_client.close()
-
-    os.wait()
-    os.wait()
-    os.wait()
-    os.wait()
 # PROGRAM ENTRY
 if __name__ == '__main__':
     main()
