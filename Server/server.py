@@ -23,7 +23,7 @@ def kill_zombie(signum, frame):
     os.waitpid(0, 0)
 
 # AGENT ****
-def agent(socket_client, num, list_client):
+def agent(socket_client, list_client):
 
     request = socket_client.recv(BUFFER_SIZE)
     while len(request) != 0:
@@ -53,6 +53,7 @@ def main():
     print('Waiting for the client ...')
 
     # LOOP  
+
     for i in range(0,4) : 
         try:
             socket_client, address_client = listening_socket.accept()
@@ -79,6 +80,7 @@ def main():
     os.wait()
     os.wait()
     os.wait()
+
 # PROGRAM ENTRY
 if __name__ == '__main__':
     main()
