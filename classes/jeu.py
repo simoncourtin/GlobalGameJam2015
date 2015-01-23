@@ -23,10 +23,24 @@ class Jeu():
         #run des 2 thread qui envoie les donnees
         self.consumer.start()
         self.producer.start()
+        
+        #LOOP
         while True :
+            #gestion des evenement
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.socket.close()
                     return
+                if event.type == KEYDOWN:
+                    if event.key == K_UP:
+                        self.joueurs[self.id_client].setY(-3)
+                    elif event.key == K_DOWN:
+                        self.joueurs[self.id_client].setY(3)
+                    elif event.key == K_RIGHT:
+                        self.joueurs[self.id_client].setX(-3)
+                    elif event.key == K_LEFT:
+                        self.joueurs[self.id_client].setX(3)
+            self.screen.fill((0,0,0))
             self.afficherJoueur()
             pygame.display.flip()
     

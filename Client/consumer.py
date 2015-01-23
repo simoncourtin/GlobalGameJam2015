@@ -1,5 +1,6 @@
 import threading
 import socket
+
 class Consumer(threading.Thread):
     
     def __init__(self,socket, jeu):
@@ -10,8 +11,6 @@ class Consumer(threading.Thread):
     def recevoirDonneesServeur(self):
         request = self.socket.recv(1024)
         donnee = request.split(':')
-        print donnee[0]
-        print donnee
         numero =int(donnee[0])
         donnee = donnee[1].split(',')
         x = int(donnee[0])
@@ -21,3 +20,6 @@ class Consumer(threading.Thread):
     def run(self):
         while True:
             self.recevoirDonneesServeur()
+    
+    
+    
