@@ -9,11 +9,11 @@ class Producer(threading.Thread):
     
     def envoyerDonneeServeur(self):
         num=self.jeu.id_client
-        x=self.jeu.joueurs[num].rect.x
-        y=self.jeu.joueurs[num].rect.y
+        x=self.jeu.joueurs.sprites()[num].rect.x
+        y=self.jeu.joueurs.sprites()[num].rect.y
         self.socket.send(str(num)+':'+str(x)+','+str(y))
         
     def run(self):
         while True:
-            time.sleep(0.1)
+            time.sleep(0.05)
             self.envoyerDonneeServeur()

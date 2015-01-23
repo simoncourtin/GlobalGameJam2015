@@ -14,9 +14,11 @@ class Jeu():
         pygame.display.set_caption('Play game')
         self.id_client = id_client
         self.socket = socket
-        self.joueurs = []
-        self.joueurs.append(player.Player())
-        self.joueurs.append(player.Player())
+        self.joueurs = pygame.sprite.Group()
+        self.joueurs.add(player.Player())
+        self.joueurs.add(player.Player())
+        #definition du sprite controlable
+        self.joueurs.sprites()[self.id_client].is_controllable = True
         #creation du producteur et du consommateur
         self.consumer = consumer.Consumer(self.socket, self)
         self.producer = producer.Producer(self.socket, self)
@@ -24,7 +26,7 @@ class Jeu():
         self.consumer.start()
         self.producer.start()
         #repetition des touches
-        pygame.key.set_repeat(5,5)
+        pygame.key.set_repeat(5,20)
         #LOOP
         while True :
             #gestion des evenement
@@ -33,21 +35,10 @@ class Jeu():
                     self.socket.close()
                     return
                 
-                
-                if event.type == KEYDOWN:
-                    if event.key == K_UP:
-                        self.joueurs[self.id_client].deplacer("haut")
-                    elif event.key == K_DOWN:
-                        self.joueurs[self.id_client].deplacer("bas")
-                    elif event.key == K_RIGHT:
-                        self.joueurs[self.id_client].deplacer("droite")
-                    elif event.key == K_LEFT:
-                        self.joueurs[self.id_client].deplacer("gauche")
             self.screen.fill((0,0,0))
-            self.afficherJoueur()
+            self.joueurs.update()
+            self.joueurs.draw(self.screen)
             pygame.display.flip()
     
-    def afficherJoueur(self):
-        for joueur in self.joueurs:
-            self.screen.blit(joueur.image,(joueur.rect.x,joueur.rect.y))
+    
         

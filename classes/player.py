@@ -1,5 +1,8 @@
 __author__ = 'Simon'
 import pygame
+from pygame.locals import *
+VELOCITY=3
+
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -13,19 +16,27 @@ class Player(pygame.sprite.Sprite):
         self.image = self.droite
         #position de depart du personnage
         self.rect = self.image.get_rect()
-
+        #caracteristique du player
+        self.is_controllable = False
+        self.life = 100
+        self.speed = 1
+        self.force = 1
+        #la velocite
+        self.x_velocite = 0
+        self.y_velocite = 0
+                
     def deplacer(self, direction):
         if direction == 'droite':
-            self.setX(3)
+            self.x_velocite = VELOCITY
             self.image = self.droite
         elif direction == 'gauche':
-            self.setX(-3)
+            self.x_velocite = -VELOCITY
             self.image = self.gauche
         elif direction == 'haut':
-            self.setY(-3)
+            self.y_velocite = -VELOCITY
             self.image = self.haut
         elif direction == 'bas':
-            self.setY(3)
+            self.y_velocite = VELOCITY
             self.image = self.bas
             
             
@@ -44,6 +55,7 @@ class Player(pygame.sprite.Sprite):
 
     def setY(self,y):
             self.rect.y += y
+            
     def getDirection(self):
         if self.image == self.droite:
             direction = 1
@@ -54,3 +66,22 @@ class Player(pygame.sprite.Sprite):
         elif self.image == self.bas:
             direction = 4
         return direction
+    
+    def update(self):
+        if self.is_controllable:
+            keys = pygame.key.get_pressed()
+            if keys[K_UP]:
+                self.deplacer("haut")
+            if keys[K_DOWN]:
+                self.deplacer("bas")
+            if keys[K_RIGHT]:
+                self.deplacer("droite")
+            if keys[K_LEFT]:
+                self.deplacer("gauche")
+            if not keys[K_LEFT] and not keys[K_RIGHT]:
+                self.x_velocite =0
+            if not keys[K_UP] and not keys[K_DOWN]:
+                self.y_velocite =0
+            
+            self.setX(self.x_velocite)
+            self.setY(self.y_velocite)    
