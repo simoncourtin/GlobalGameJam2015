@@ -29,7 +29,8 @@ def agent(socket_client, num, list_client):
     while len(request) != 0:
         print "recu de " + str(num) + " : " + request
         for socket_other in list_client:
-            socket_other.send(request)
+            if not socket_other is socket_client:
+                socket_other.send(request)
         request = socket_client.recv(BUFFER_SIZE)
     socket_client.close()
     exit(0)
@@ -65,6 +66,7 @@ def main():
     print "Tout le monde est connecté."
     for i in range(0,len(list_client)): 
         socket_client = list_client[i]
+        socket_client.send("CHARGER")
         pid = os.fork()
         if pid == 0:
             listening_socket.close()
