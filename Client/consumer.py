@@ -10,8 +10,10 @@ class Consumer(threading.Thread):
     def recevoirDonneesServeur(self):
         request = self.socket.recv(1024)
         donnee = request.split(':')
+        print donnee[0]
+        print donnee
         numero =int(donnee[0])
-        donnee = str(donnee[1:]).split(',')
+        donnee = donnee[1].split(',')
         x = int(donnee[0])
         y = int(donnee[1])
         self.jeu.joueurs[numero].rect.x = x
