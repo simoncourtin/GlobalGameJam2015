@@ -33,13 +33,13 @@ class Jeu():
                     return
                 if event.type == KEYDOWN:
                     if event.key == K_UP:
-                        self.joueurs[self.id_client].setY(-3)
+                        self.joueurs[self.id_client].deplacer("haut")
                     elif event.key == K_DOWN:
-                        self.joueurs[self.id_client].setY(3)
+                        self.joueurs[self.id_client].deplacer("bas")
                     elif event.key == K_RIGHT:
-                        self.joueurs[self.id_client].setX(-3)
+                        self.joueurs[self.id_client].deplacer("droite")
                     elif event.key == K_LEFT:
-                        self.joueurs[self.id_client].setX(3)
+                        self.joueurs[self.id_client].deplacer("gauche")
             self.screen.fill((0,0,0))
             self.afficherJoueur()
             pygame.display.flip()
