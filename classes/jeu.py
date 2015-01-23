@@ -5,9 +5,9 @@ from pygame.locals import *
 from classes import player
 from Client import producer, consumer
 
+MAX_FPS = 60
+
 class Jeu():
-
-
     def __init__(self,id_client,socket,width=300,height=300):
         pygame.init()
         self.screen = pygame.display.set_mode((800,800))
@@ -27,8 +27,11 @@ class Jeu():
         self.producer.start()
         #repetition des touches
         pygame.key.set_repeat(5,20)
+        clock = pygame.time.Clock()
         #LOOP
         while True :
+            clock.tick(MAX_FPS)
+            
             #gestion des evenement
             for event in pygame.event.get():
                 if event.type == QUIT:
