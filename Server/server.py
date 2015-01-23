@@ -47,7 +47,7 @@ def main():
         print('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1])
         sys.exit()
     
-    listening_socket.listen(5)
+    listening_socket.listen(4)
     print('Waiting for the client ...')
 
     # LOOP  
@@ -56,7 +56,8 @@ def main():
             try:
                 socket_client, address_client = listening_socket.accept()
                 list_client.append(socket_client)
-                socket_client.send(str(i))
+                socket_client.send(str(i)+"\n")
+                print "client "+str(i) +" arrivee"
             except socket.error:
                 time.sleep(0.01)
                 continue
