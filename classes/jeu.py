@@ -23,7 +23,8 @@ class Jeu():
         #run des 2 thread qui envoie les donnees
         self.consumer.start()
         self.producer.start()
-        
+        #repetition des touches
+        pygame.key.set_repeat(5,5)
         #LOOP
         while True :
             #gestion des evenement
@@ -31,6 +32,8 @@ class Jeu():
                 if event.type == QUIT:
                     self.socket.close()
                     return
+                
+                
                 if event.type == KEYDOWN:
                     if event.key == K_UP:
                         self.joueurs[self.id_client].deplacer("haut")

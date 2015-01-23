@@ -27,9 +27,30 @@ class Player(pygame.sprite.Sprite):
         elif direction == 'bas':
             self.setY(3)
             self.image = self.bas
-
+            
+            
+    def changerPosition(self,direction):
+        if direction == 'droite':
+            self.image = self.droite
+        elif direction == 'gauche':
+            self.image = self.gauche
+        elif direction == 'haut':
+            self.image = self.haut
+        elif direction == 'bas':
+            self.image = self.bas
+    
     def setX(self,x):
         self.rect.x += x
 
     def setY(self,y):
             self.rect.y += y
+    def getDirection(self):
+        if self.image == self.droite:
+            direction = 1
+        elif self.image == self.gauche:
+            direction = 2
+        elif self.image == self.haut:
+            direction = 3
+        elif self.image == self.bas:
+            direction = 4
+        return direction

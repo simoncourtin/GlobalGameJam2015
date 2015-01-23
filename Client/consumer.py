@@ -15,6 +15,19 @@ class Consumer(threading.Thread):
         donnee = donnee[1].split(',')
         x = int(donnee[0])
         y = int(donnee[1])
+        
+        #changement de direction du personnage
+        
+        if(self.jeu.joueurs[numero].rect.x<x):
+            self.jeu.joueurs[numero].changerPosition("droite")
+        elif(self.jeu.joueurs[numero].rect.x>x):
+            self.jeu.joueurs[numero].changerPosition("gauche")
+        
+        if(self.jeu.joueurs[numero].rect.y<y):
+            self.jeu.joueurs[numero].changerPosition("bas")
+        elif(self.jeu.joueurs[numero].rect.y>y):
+            self.jeu.joueurs[numero].changerPosition("haut")
+          
         self.jeu.joueurs[numero].rect.x = x
         self.jeu.joueurs[numero].rect.y = y
     def run(self):
