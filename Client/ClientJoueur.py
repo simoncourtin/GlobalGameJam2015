@@ -14,7 +14,7 @@ while not message == "CHARGEZ":
     
 #chargement
 socket_joueur1.send("READY")
-for i in range (0,3) :
+for i in range (0,2) :
     message = socket_joueur1.recv(1024)
 
 while True :
