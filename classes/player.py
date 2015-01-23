@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         #images du personnage
         self.droite = pygame.image.load("images/sprite_profile.png").convert_alpha()
-        self.gauche = pygame.transform.rotate(self.droite,False,True)
+        self.gauche = pygame.transform.flip(self.droite,False,True)
         self.haut = pygame.image.load("images/sprite_dos.png").convert_alpha()
         self.bas = pygame.image.load("images/sprite_face.png").convert_alpha()
         #image actuelle du personnage
