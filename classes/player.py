@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import *
 
 VELOCITY = 3
+WEAPON_DAMAGE = 2
 
 BASE_RESSOURCE = "images/"
 RESSOURCES_J1 = ["sprite_profile.png", "sprite_dos.png", "sprite_face.png"]
@@ -49,7 +50,7 @@ class Player(pygame.sprite.Sprite):
         self.jeu = jeu
 
         if name == "joueur":
-            self.name = name + str(classe)
+            self.name = name + ' ' + str(classe + 1)
         else:
             self.name = name
 
@@ -86,16 +87,16 @@ class Player(pygame.sprite.Sprite):
 
     def deplacer(self, direction):
         if direction == 'droite':
-            self.x_velocite = VELOCITY
+            self.x_velocite = VELOCITY * self.speed
             self.image = self.droite
         elif direction == 'gauche':
-            self.x_velocite = -VELOCITY
+            self.x_velocite = -VELOCITY * self.speed
             self.image = self.gauche
         elif direction == 'haut':
-            self.y_velocite = -VELOCITY
+            self.y_velocite = -VELOCITY * self.speed
             self.image = self.haut
         elif direction == 'bas':
-            self.y_velocite = VELOCITY
+            self.y_velocite = VELOCITY * self.speed
             self.image = self.bas
 
 
@@ -120,6 +121,15 @@ class Player(pygame.sprite.Sprite):
 
     def getY(self):
         return self.rect.y
+
+    def getXVelocity(self):
+        return self.x_velocite
+
+    def getYVelocity(self):
+        return self.y_velocite
+
+    def getRect(self):
+        return self.rect
 
 
     def getDirection(self):
@@ -166,3 +176,16 @@ class Player(pygame.sprite.Sprite):
 
     def setControllable(self, boolean):
         self.is_controllable = boolean
+
+
+    def attack(self, target=None):
+        self.setSpeed(0)
+
+        if len(target) > 1:
+            target.remove(self)
+            print repr(target)
+        #    target.receiveDamage(WEAPON_DAMAGE)
+
+
+    def setSpeed(self, speed):
+        self.speed = speed

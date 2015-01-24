@@ -1,9 +1,7 @@
-__author__ = 'Simon'
-import threading
 import pygame
 import time
 from pygame.locals import *
-from classes import player , map, interface, camera
+from classes import player, map, interface, camera
 from Client import producer, consumer
 
 
@@ -31,11 +29,6 @@ class Jeu():
         self.joueurs.add(player.Player(self, 2))
         self.joueurs.add(player.Player(self, 3))
 
-        groupe_sansJ = pygame.sprite.Group()
-        for j in self.joueurs:
-            if not j is self.playerById(self.id_client):
-                groupe_sansJ.add(j)
-
         """
         self.HUD = interface.Interface(self)
         """
@@ -52,47 +45,45 @@ class Jeu():
         self.map = map.Map(self.screen)
 
         # La camera
-        self.cam = camera.Camera(self, camera.simple_camera, self.screen.get_rect().width, self.screen.get_rect().height)
-        #repetition des touches
-        pygame.key.set_repeat(5,20)
+        self.cam = camera.Camera(self, camera.simple_camera, self.screen.get_rect().width,
+                                 self.screen.get_rect().height)
+        # repetition des touches
+        pygame.key.set_repeat(5, 20)
 
         clock = pygame.time.Clock()
-        colliding = 0
-        tempsAvantHit = 0
-        tempsApresHit = 0
+        timeFirst = pygame.time.get_ticks()
+
         # LOOP
         while True:
             clock.tick(MAX_FPS)
+
             # gestion des evenement
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.socket.close()
                     return
 
-            # marqueur avant collision
-            tempsAvantHit = time.time()
-            # collision avec les autres joueurs
-            collision = pygame.sprite.spritecollide(self.playerById(self.id_client), groupe_sansJ, False)
-            # collision avec le decors
+                elif event.type == KEYDOWN:
+                    if event.key == K_SPACE:
+                        if timeFirst + 3000 < pygame.time.get_ticks():
+                            target = pygame.sprite.spritecollide(self.playerById(self.id_client), self.joueurs, False)
+                            self.playerById(self.id_client).attack(target)
 
-            if tempsApresHit - tempsAvantHit > 2:
-                for other in collision:
-                    self.playerById(self.id_client).life -= 10
-                    print 'hit'
-                    tempsApresHit = time.time()
+                            timeFirst = pygame.time.get_ticks()
 
-                    if (self.playerById(self.id_client).life <= 0):
-                        print "You dead"
+                elif event.type == KEYUP:
+                    if event.key == K_SPACE:
+                        self.playerById(self.id_client).setSpeed(player.VELOCITY)
 
             """
             self.HUD.displayScoreJoueur(self.playerById(self.id_client))
             """
 
             self.joueurs.update()
-            
+
             self.cam.update(self.playerById(self.id_client))
-            
-            #rafraichissement de la map des des affichages des joueurs
+
+            # rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map(self.cam)
             for j in self.joueurs:
                 self.screen.blit(j.image, self.cam.apply(j))
