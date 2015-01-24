@@ -8,6 +8,7 @@ class Consumer(threading.Thread):
         threading.Thread.__init__(self)
         self.socket = socket
         self.jeu = jeu
+        self.death_cooldown = 0
         
     def recevoirDonneesServeur(self):
         request = ""
@@ -32,7 +33,8 @@ class Consumer(threading.Thread):
                 death = pygame.mixer.Sound("death.ogg")
                 death.play()
                 # Il est mort
-                joueur_attaque.reinit()
+                joueur_attaque.mourir()
+                
                 
         else: # Position
             numero = int(donnee[0])
@@ -62,6 +64,9 @@ class Consumer(threading.Thread):
     def run(self):
         while True:
             self.recevoirDonneesServeur()
+            self.death_cooldown -= 1
+            if self.death_cooldown < 0:
+                self.death_cooldown = 0
     
     
     

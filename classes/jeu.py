@@ -5,17 +5,30 @@ from classes import player, map, interface, camera, item
 from Client import producer, consumer
 
 
+NB_JOUEURS = 4
+NB_PIECES = 3
+
 MAX_FPS = 60
+FONT_SIZE = 16
+FONT_STYLE = None
+KEY_REPEAT_DELAY = 2000  # milliseconds
+
+WINDOW_WIDTH = 900
+WINDOW_HEIGHT = 700
+
+LINE_THIKNESS = 20
+SCOREBOARD_TOP_X = WINDOW_WIDTH * 6 / 8
+SCOREBOARD_TOP_Y = WINDOW_HEIGHT - NB_JOUEURS * LINE_THIKNESS
 
 
 class Jeu():
-    def __init__(self, id_client, socket, idnom, width=300, height=300, ):
+    def __init__(self, id_client, socket, idnom, width=300, height=300):
         pygame.init()
         self.idnom = idnom
-        NB_PIECES = 3
 
-        self.screen = pygame.display.set_mode((800, 800))
+        self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Broken pipe')
+        self.font = pygame.font.Font(FONT_STYLE, FONT_SIZE)
         self.id_client = id_client
         self.socket = socket
         # map
@@ -57,7 +70,7 @@ class Jeu():
 
         # declenchement du fond sonore
         pygame.mixer.music.play()
-        #pygame.mixer.music.set_volume(0.5)
+        # pygame.mixer.music.set_volume(0.5)
 
         # La camera
         largeur_map = self.map.layer1.largeur_map * self.map.layer1.x_tile
@@ -82,7 +95,7 @@ class Jeu():
 
                 elif event.type == KEYDOWN:
                     if event.key == K_SPACE:
-                        if timeFirst + 2000 < pygame.time.get_ticks():
+                        if timeFirst + KEY_REPEAT_DELAY < pygame.time.get_ticks():
                             target = pygame.sprite.spritecollide(self.playerById(self.id_client), self.joueurs, False)
                             self.playerById(self.id_client).attack(target)
                             timeFirst = pygame.time.get_ticks()
@@ -124,9 +137,11 @@ class Jeu():
                 text, rect = joueur.getHealthbar().displayName(joueur.getX() - 20, joueur.getY() - 20)
                 self.screen.blit(text, self.cam.apply_rect(rect))
 
-                #if id == self.id_client:
-                text, rect = joueur.getHealthbar().displayLife(joueur.getX() - 20, joueur.getY() - 10)
-                self.screen.blit(text, self.cam.apply_rect(rect))
+                self.displayScore(joueur, SCOREBOARD_TOP_X, SCOREBOARD_TOP_Y + LINE_THIKNESS * (id + 1))
+
+                if id == self.id_client:
+                    text, rect = joueur.getHealthbar().displayLife(joueur.getX() - 20, joueur.getY() - 10)
+                    self.screen.blit(text, self.cam.apply_rect(rect))
 
             pygame.display.flip()
 
@@ -137,7 +152,11 @@ class Jeu():
             if j.classe == id_player:
                 return j
 
-    # deplacer la map
-    def deplacer(self, x, y):
-        # decaller map
-        print str(y)
+
+    def displayScore(self, joueur, xAbs, yAbs):
+        handlebar = joueur.getHealthbar()
+        joueur_text = self.font.render(handlebar.getName()[:11] + "  :  " + handlebar.getLife(), True, (0, 0, 0))
+        joueur_rect = joueur_text.get_rect()
+        joueur_rect.topleft = (xAbs, yAbs)
+
+        self.screen.blit(joueur_text, joueur_rect)
