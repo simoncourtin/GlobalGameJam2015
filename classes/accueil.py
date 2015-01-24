@@ -43,4 +43,4 @@ class Accueil() :
         fenetre.mainloop()
         self.ADRESSE = texte0.get()
         self.PORT = int(texte1.get())
-        self.NOM = text2.get()
+        self.NOM = texte2.get()

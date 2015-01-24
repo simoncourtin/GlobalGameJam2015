@@ -11,7 +11,7 @@ MAX_FPS = 60
 
 
 class Jeu():
-    def __init__(self, id_client, socket, width=300, height=300):
+    def __init__(self, id_client, socket, width=300, height=300,nom="Joueur"):
         pygame.init()
         self.nom = nom
         """
