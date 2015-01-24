@@ -7,5 +7,5 @@ class Attaque(pygame.sprite.Sprite) :
         self.rect = self.image.get_rect()
         self.isVisible = False
     
-    def setVisibleTrue(self):
-        self.isVisible = True
+    def setVisible(self, boolean):
+        self.isVisible = boolean
