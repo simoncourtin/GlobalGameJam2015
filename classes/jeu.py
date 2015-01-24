@@ -1,6 +1,7 @@
 __author__ = 'Simon'
 import threading
 import pygame
+import time
 from pygame.locals import *
 from classes import player
 from Client import producer, consumer
@@ -40,6 +41,7 @@ class Jeu():
         pygame.key.set_repeat(5,20)
         clock = pygame.time.Clock()
         colliding = 0
+        cooldown = 10
         #LOOP
         while True :
             clock.tick(MAX_FPS)
@@ -49,15 +51,19 @@ class Jeu():
                     self.socket.close()
                     return
             
-
-            
+            #marqueur avant collision
+            tempsAvantHit=time.time()
             collision=pygame.sprite.spritecollide(self.playerById(self.id_client),groupe_sansJ,False)
             
-            for other in collision:
-                self.playerById(self.id_client).life -= 10
-                print 'hit'
-                if (self.playerById(self.id_client).life <= 0):
-                    print "You dead"
+            if tempsApresHit-tempsAvantHit > 2:
+                for other in collision:
+                    self.playerById(self.id_client).life -= 10
+                    print 'hit'
+                    tempsApresHit=time.time()
+                    
+                    if (self.playerById(self.id_client).life <= 0):
+                        print "You dead"
+                        
             """
             if len(collision) > 1:
                 if(colliding==1):
