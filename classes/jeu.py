@@ -3,7 +3,7 @@ import threading
 import pygame
 import time
 from pygame.locals import *
-from classes import player , map, interface
+from classes import player , map, interface, camera
 from Client import producer, consumer
 
 
@@ -42,6 +42,9 @@ class Jeu():
         self.producer.start()
         #map
         self.map = map.Map(self.screen)
+
+        # La camera
+        self.cam = camera.Camera(self, camera.simple_camera, self.screen.get_rect().width, self.screen.get_rect().height)
         #repetition des touches
         pygame.key.set_repeat(5,20)
         clock = pygame.time.Clock()
@@ -75,11 +78,15 @@ class Jeu():
             self.HUD.displayScoreJoueur(self.playerById(self.id_client))
 
             self.joueurs.update()
-                
+            
+            self.cam.update(self.playerById(self.id_client))
+            
             #rafraichissement de la map des des affichages des joueurs
-            self.map.afficher_map()
-            self.joueurs.draw(self.screen)
-            pygame.display.flip()
+            self.map.afficher_map(self.cam)
+            for j in self.joueurs:
+                self.screen.blit(j.image, self.cam.apply(j))
+
+            pygame.display.update()
     #recuperer je joueur controlle par le client
     def playerById(self, id_player):
         for j in self.joueurs:

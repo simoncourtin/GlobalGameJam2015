@@ -13,9 +13,9 @@ class Map():
         self.layer2 = layer.Layer(self.screen,"maps/cobblestone/collision.txt",'maps/cobblestone/cobblestone.png',True,30,30)
         self.calques.append(self.layer2)
 
-    def afficher_map(self):
+    def afficher_map(self, camera):
         for calque in self.calques:
-            calque.afficher_layer()
+            calque.afficher_layer(camera)
 
 
 

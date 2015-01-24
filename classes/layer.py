@@ -46,9 +46,11 @@ class Layer():
                 y+=hauteur
                 x=0
 
-    def afficher_layer(self):
-        self.tuiles_colision.draw(self.screen)
-        self.tuiles_non_colision.draw(self.screen)
+    def afficher_layer(self, cam):
+        for tuile_c in self.tuiles_colision:
+            self.screen.blit(tuile_c.image, cam.apply(tuile_c))
+        for tuile_nc in self.tuiles_non_colision:
+            self.screen.blit(tuile_nc.image, cam.apply(tuile_nc))
 
     def isCollision(self):
         return self.collision

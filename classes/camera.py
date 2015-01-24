@@ -15,4 +15,12 @@ class Camera():
         return target.rect.move(self.state.topleft)
 
     def update(self, target):
-        self.state = self.camera_func(self.state, target.rect)
+        self.state = self.camera_func(self.state, target.rect, self.jeu.screen)
+
+
+def simple_camera(camera, target_rect, screen):
+    HALF_WIDTH = screen.get_rect().width / 2
+    HALF_HEIGHT = screen.get_rect().height / 2
+    l, t, _, _ = target_rect # l = left,  t = top
+    _, _, w, h = camera      # w = width, h = height
+    return pygame.Rect(-l+HALF_WIDTH, -t+HALF_HEIGHT, w, h)
