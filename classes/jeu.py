@@ -62,12 +62,11 @@ class Jeu():
         pygame.mixer.music.queue("fondSonore.ogg")
         hit = pygame.mixer.Sound("hit.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
-        respawn = pygame.mixer.Sound("respawn.ogg")
-        death = pygame.mixer.Sound("death.ogg")
         select = pygame.mixer.Sound("select.ogg")
 
         # declenchement du fond sonore
         pygame.mixer.music.play()
+        pygame.mixer.music.set_volume(0.5)
 
         # La camera
         largeur_map = self.map.layer1.largeur_map * self.map.layer1.x_tile

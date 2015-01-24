@@ -1,5 +1,6 @@
 import threading
 import socket
+import pygame
 
 class Consumer(threading.Thread):
     
@@ -28,6 +29,8 @@ class Consumer(threading.Thread):
             # Ensuite on verifie si le perso est mort, si oui on l'enleve
             joueur_attaque = self.jeu.playerById(int(attaque))
             if joueur_attaque.life <= 0:
+                death = pygame.mixer.Sound("death.ogg")
+                death.play()
                 # Il est mort
                 joueur_attaque.reinit()
                 
