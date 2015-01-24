@@ -13,9 +13,13 @@ MAX_FPS = 60
 class Jeu():
     def __init__(self, id_client, socket, width=300, height=300):
         pygame.init()
+
+        """
         global BASICFONT, BASICFONTSIZE
         BASICFONTSIZE = 20
         BASICFONT = pygame.font.Font('freesansbold.ttf', BASICFONTSIZE)
+        """
+
         self.screen = pygame.display.set_mode((800, 800))
         pygame.display.set_caption('Broken pipe')
         self.id_client = id_client
@@ -32,7 +36,9 @@ class Jeu():
             if not j is self.playerById(self.id_client):
                 groupe_sansJ.add(j)
 
-        # self.interface = interface.Interface(self.playerById(self.id_client),self.screen)
+        """
+        self.HUD = interface.Interface(self)
+        """
 
         # definition du sprite controlable
         self.playerById(self.id_client).setControllable(True)
@@ -44,29 +50,32 @@ class Jeu():
         self.producer.start()
         # map
         self.map = map.Map(self.screen)
-        #repetition des touches
+        # repetition des touches
         pygame.key.set_repeat(5, 20)
         clock = pygame.time.Clock()
         colliding = 0
         tempsAvantHit = 0
         tempsApresHit = 0
-        #LOOP
+        # LOOP
         while True:
             clock.tick(MAX_FPS)
-            #gestion des evenement
+            # gestion des evenement
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.socket.close()
                     return
 
-            #marqueur avant collision
+            # marqueur avant collision
             tempsAvantHit = time.time()
             #collision avec les autres joueurs
             collision = pygame.sprite.spritecollide(self.playerById(self.id_client), groupe_sansJ, False)
             #collision avec le decors
-            collision_decors = pygame.sprite.spritecollide(self.playerById(self.id_client), self.map.layer2.tuiles,
+
+            collision_decors = pygame.sprite.spritecollide(self.playerById(self.id_client),
+                                                           self.map.layer2.tuiles_colision,
                                                            False)
             if tempsApresHit - tempsAvantHit > 2:
+
                 for other in collision:
                     self.playerById(self.id_client).life -= 10
                     print 'hit'
@@ -75,22 +84,27 @@ class Jeu():
                     if (self.playerById(self.id_client).life <= 0):
                         print "You dead"
 
-            #interface.displayScoreJoueur(self.playerById(self.id_client))
+            """
+            self.HUD.displayScoreJoueur(self.playerById(self.id_client))
+            """
 
             #gestion collision avec le decors
-            #for other in collision_decors:
-
+            for other in collision_decors:
+                self.playerById(self.id_client).x_velocite = 0
+                self.playerById(self.id_client).y_velocite = 0
             #rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map()
             self.joueurs.update()
 
-            joueur = self.playerById(self.id_client)
+            for id in range(4):
+                joueur = self.playerById(id)
 
-            text, rect = joueur.getHealthbar().displayName(joueur.getX() - 20, joueur.getY() - 20)
-            self.screen.blit(text, rect)
+                text, rect = joueur.getHealthbar().displayName(joueur.getX() - 20, joueur.getY() - 20)
+                self.screen.blit(text, rect)
 
-            text, rect = joueur.getHealthbar().displayLife(joueur.getX() - 20, joueur.getY() - 10)
-            self.screen.blit(text, rect)
+                if id == self.id_client:
+                    text, rect = joueur.getHealthbar().displayLife(joueur.getX() - 20, joueur.getY() - 10)
+                    self.screen.blit(text, rect)
 
             self.joueurs.draw(self.screen)
             pygame.display.flip()

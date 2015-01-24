@@ -4,7 +4,7 @@ import tuile as _tuile
 
 class Layer():
 
-    def __init__(self,screen,fichier,image,x_tile=32,y_tile=32,):
+    def __init__(self,screen,fichier,image,collision=False,x_tile=32,y_tile=32,):
         #fenetre ou ajouter
         self.screen = screen
         #image du calque
@@ -20,11 +20,12 @@ class Layer():
         self.x_tile=x_tile
         self.y_tile=y_tile
         #collision
-        self.collision = False
-        self.tuiles = pygame.sprite.Group()
+        self.collision = collision
+        self.tuiles_colision = pygame.sprite.Group()
+        self.tuiles_non_colision = pygame.sprite.Group()
+        self.construire_layer()
 
-
-    def afficher_layer(self):
+    def construire_layer(self):
         hauteur = self.x_tile
         largeur = self.y_tile
         x=0
@@ -35,16 +36,19 @@ class Layer():
                     X = (((int(element))-(((int(element)-1)/16)*16))-1)*32
                     Y=(int(element)/16)*32
                     tile = self.tilset.subsurface(X,Y,hauteur,largeur)
+                    tuile = _tuile.Tuile(tile,x,y)
                     if self.isCollision():
-                        tuile = _tuile.Tuile(tile,x,y)
-                        self.tuiles.add(tuile)
+                        self.tuiles_colision.add(tuile)
                     else:
-                        self.screen.blit(tile,(x,y))
+                        self.tuiles_non_colision.add(tuile)
                 x+=largeur
             else:
                 y+=hauteur
                 x=0
-        self.tuiles.draw(self.screen)
+
+    def afficher_layer(self):
+        self.tuiles_colision.draw(self.screen)
+        self.tuiles_non_colision.draw(self.screen)
 
     def isCollision(self):
         return self.collision
