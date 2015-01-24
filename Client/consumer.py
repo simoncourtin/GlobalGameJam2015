@@ -32,10 +32,8 @@ class Consumer(threading.Thread):
             if joueur_attaque.life <= 0:
                 death = pygame.mixer.Sound("death.ogg")
                 death.play()
-                self.death_cooldown = 200
-                if self.death_cooldown <= 0:   
-                    # Il est mort
-                    joueur_attaque.reinit()
+                # Il est mort
+                joueur_attaque.mourir()
                 
                 
         else: # Position
