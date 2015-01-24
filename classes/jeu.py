@@ -19,14 +19,18 @@ class Jeu():
         self.socket = socket
         
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(0))
-        self.joueurs.add(player.Player(1))
-        self.joueurs.add(player.Player(2))
-        self.joueurs.add(player.Player(3))
+        self.joueurs.add(player.Player(0,self))
+        self.joueurs.add(player.Player(1,self))
+        self.joueurs.add(player.Player(2,self))
+        self.joueurs.add(player.Player(3,self))
+
+        groupe_sansJ = pygame.sprite.Group()
+        for j in self.joueurs:
+            if not j is self.playerById(self.id_client):
+                groupe_sansJ.add(j)
         
         #definition du sprite controlable
         self.playerById(self.id_client).setControllable(True)
-        self.playerById(self.id_client).is_controllable = True
         #creation du producteur et du consommateur
         self.consumer = consumer.Consumer(self.socket, self)
         self.producer = producer.Producer(self.socket, self)
@@ -60,16 +64,23 @@ class Jeu():
                     
                     if (self.playerById(self.id_client).life <= 0):
                         print "You dead"
-                                    
-            collision=pygame.sprite.spritecollide(self.playerById(self.id_client),self.joueurs,False)
+            
+            collision=pygame.sprite.spritecollide(self.playerById(self.id_client),groupe_sansJ,False)
+            
+            for other in collision:
+                self.playerById(self.id_client).life -= 10
+                print 'hit'
+                if (self.playerById(self.id_client).life <= 0):
+                    print "You dead"
+
             if len(collision) > 1:
                 if(colliding==1):
-                    print colliding
+                    print collision
                     if(len(collision) == 1):
                         colliding=0
-                        print colliding
+                        print collision
                 else:
-                    print colliding
+                    print collision
                     if(len(collision) > 1):
                         colliding=1
                         print 'encule !'+str(self.id_client)
@@ -87,3 +98,6 @@ class Jeu():
         for j in self.joueurs:
             if j.classe == id_player:
                 return j
+    
+    def deplacer(self, x, y) :
+        print str(y)
