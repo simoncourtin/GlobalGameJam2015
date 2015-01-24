@@ -14,9 +14,11 @@ class Item(pygame.sprite.Sprite):
         self.rect.y=y
         self.image=pygame.image.load(self.resource)
         self.screen = self.jeu.screen
+        self.visible = True
         
     def afficherItem(self, jeu):
         self.screen.blit(self.image, (self.rect.x,self.rect.y))
-    
-    def pickUpItem(self, jeu):
+
+    def setVisible(self,bool):
+        self.visible=bool
         
