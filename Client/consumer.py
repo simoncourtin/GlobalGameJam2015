@@ -26,7 +26,7 @@ class Consumer(threading.Thread):
         if(self.jeu.playerById(numero).rect.x<x):
             self.jeu.playerById(numero).changerPosition("droite")
         elif(self.jeu.playerById(numero).rect.x>x):
-            self.jeu.joueursById(numero).changerPosition("gauche")
+            self.jeu.playerById(numero).changerPosition("gauche")
         
         if(self.jeu.playerById(numero).rect.y<y):
             self.jeu.playerById(numero).changerPosition("bas")
