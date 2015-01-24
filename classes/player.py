@@ -43,12 +43,16 @@ class Healthbar(object):
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, jeu, classe=0, name="joueur1"):
+    def __init__(self, jeu, classe=0, name="joueur"):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
         self.jeu = jeu
 
-        self.name = name
+        if name == "joueur":
+            self.name = name + str(classe)
+        else:
+            self.name = name
+
         self.healthbar = Healthbar(owner=self)
 
         # images du personnage
