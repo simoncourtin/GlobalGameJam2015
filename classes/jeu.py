@@ -77,8 +77,8 @@ class Jeu():
             displayScoreJoueur(self.playerById(self.id_client))
             
             #gestion collision avec le decors
-            for other in collision_decors:
-                    print "dans le decors"
+            #for other in collision_decors:
+
             #rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map()
             self.joueurs.update()
