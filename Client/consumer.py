@@ -17,7 +17,7 @@ class Consumer(threading.Thread):
         donnee = request.split(':')
         numero = int(donnee[0])
         donnee = donnee[1].split(',')
-        donnee = donnee.strip("@")
+        donnee[1] = donnee[1].strip("@")
         x = int(donnee[0])
         y = int(donnee[1])
         
