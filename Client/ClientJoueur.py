@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 #̣ coding: utf-8
 import socket
+from os import wait
 
 PORT = 12345
 ADRESSE_SERVEUR = 'sixfoisneuf.fr'
@@ -20,5 +21,5 @@ for i in range (0,2) :
 while True :
     wait(0.01)
     socket_joueur1.send(numero_client+":0,0")
-    message = socket_recv(1024)
+    message = socket_joueur1.socket_recv(1024)
     

@@ -1,18 +1,18 @@
+# coding: utf-8
 
+import pygame
 
 class Camera():
 
-    def __init__(self,jeu):
-        #camera position
-        self.camera_x =0
-        self.camera_y =0
-        #camera dimension
-        self.camera_largeur = 200
-        self.camera_hauteur = 100
-        self.camera_marge_x = 10
-        self.camera_marge_y = 20
+    def __init__(self, jeu, camera_func, width, height):
         #jeu
         self.jeu = jeu
 
+        self.camera_func = camera_func
+        self.state = pygame.Rect(0, 0, width, height)
 
+    def apply(self, target):
+        return target.rect.move(self.state.topleft)
 
+    def update(self, target):
+        self.state = self.camera_func(self.state, target.rect)
