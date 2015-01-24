@@ -1,0 +1,38 @@
+from Tkinter import Button
+import Tkinter as tk
+
+class Accueil() :
+    
+    def __init__(self, ADRESSE, PORT) :
+        self.ADRESSE = ADRESSE
+        self.PORT = PORT
+        fenetre = tk.Tk()
+        texte = tk.Label ( fenetre, text="Hello World" )
+ 
+        # l'objet Label() nomm? texte est ensuite
+        # rendu visible dans fenetre gr?ce ? pack()
+ 
+        texte.pack()
+ 
+        # pour finir, on lance la boucle programme
+ 
+        invite0=tk.Label(fenetre, text='Adresse du serveur :', width=20, height=3, fg="navy")
+        invite0.pack()
+        texte0=tk.StringVar()  # definition d'une variable-chaine pour recevoir la saisie d'un texte
+        texte0.set("sixfoisneuf.fr")  # facultatif: assigne une valeur ? la variable
+        saisie0=tk.Entry(textvariable=texte0, width=30)
+        saisie0.pack()
+        
+        invite1=tk.Label(fenetre, text='Port du serveur :', width=20, height=3, fg="navy")
+        invite1.pack()
+        texte1=tk.StringVar()  # definition d'une variable-chaine pour recevoir la saisie d'un texte
+        texte1.set("12345")  # facultatif: assigne une valeur ? la variable
+        saisie1=tk.Entry(textvariable=texte1, width=30)
+        saisie1.pack()
+
+        b = Button(fenetre, text="OK",command=fenetre.quit)
+        b.pack()
+        
+        fenetre.mainloop()
+        self.ADRESSE = texte0.get()
+        self.PORT = int(texte1.get())
