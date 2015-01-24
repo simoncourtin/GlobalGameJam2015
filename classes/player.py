@@ -79,8 +79,9 @@ class Player(pygame.sprite.Sprite):
         self.is_controllable = False
         self.life_max = 100
         self.life = 100
-        self.speed = 1
+        self.speed = VELOCITY
         self.force = 1
+        self.dash_cooldown = 0
         # la velocite
         self.x_velocite = 0
         self.y_velocite = 0
@@ -89,16 +90,16 @@ class Player(pygame.sprite.Sprite):
 
     def deplacer(self, direction):
         if direction == 'droite':
-            self.x_velocite = VELOCITY
+            self.x_velocite = self.speed
             self.image = self.droite
         elif direction == 'gauche':
-            self.x_velocite = -VELOCITY
+            self.x_velocite = -self.speed
             self.image = self.gauche
         elif direction == 'haut':
-            self.y_velocite = -VELOCITY
+            self.y_velocite = -self.speed
             self.image = self.haut
         elif direction == 'bas':
-            self.y_velocite = VELOCITY
+            self.y_velocite = self.speed
             self.image = self.bas
 
 
@@ -136,6 +137,11 @@ class Player(pygame.sprite.Sprite):
             direction = 4
         return direction
 
+    def dash(self):
+        if self.dash_cooldown <= 0:
+            self.speed = 20
+            self.dash_cooldown = 500
+
     def update(self):
         if self.is_controllable:
             keys = pygame.key.get_pressed()
@@ -147,6 +153,8 @@ class Player(pygame.sprite.Sprite):
                 self.deplacer("droite")
             if keys[K_LEFT]:
                 self.deplacer("gauche")
+            if keys[K_LSHIFT]:
+                self.dash()
             if not keys[K_LEFT] and not keys[K_RIGHT]:
                 self.x_velocite = 0
             if not keys[K_UP] and not keys[K_DOWN]:
@@ -161,6 +169,13 @@ class Player(pygame.sprite.Sprite):
             if collision_decors:
                 self.rect.x = old_x
                 self.rect.y = old_y
+
+            if self.speed > VELOCITY:
+                self.speed -= 1
+                    
+            self.dash_cooldown -= 1
+            if self.dash_cooldown < 0:
+                self.dash_cooldown = 0
 
 
     def getHealthbar(self):
