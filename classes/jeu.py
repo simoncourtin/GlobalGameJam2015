@@ -14,6 +14,7 @@ class Jeu():
     def __init__(self, id_client, socket, width=300, height=300,nom="Joueur"):
         pygame.init()
         self.nom = nom
+        NB_PIECES=3
         """
         global BASICFONT, BASICFONTSIZE
         BASICFONTSIZE = 20
@@ -32,7 +33,9 @@ class Jeu():
         self.joueurs.add(player.Player(self, 3))
 
         self.items = pygame.sprite.Group()
-        self.items.add(item.Item(self, "sprite_coins.png", 100, 100))
+        for i in range(NB_PIECES):
+            for j in range(NB_PIECES):
+                self.items.add(item.Item(self, "sprite_coins.png", 200+50*j, 200+50*i))
 
         groupe_sansJ = pygame.sprite.Group()
         for j in self.joueurs:
