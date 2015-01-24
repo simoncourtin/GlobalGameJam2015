@@ -288,6 +288,6 @@ class Player(pygame.sprite.Sprite):
         self.items[:] = []
 
     def mourir(self):
-        self.death_cooldown = 100
+        self.death_cooldown = 500
         self.rect.x = -30
         self.rect.y = -30
