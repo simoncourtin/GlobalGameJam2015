@@ -3,7 +3,7 @@ import threading
 import pygame
 import time
 from pygame.locals import *
-from classes import player , map
+from classes import player , map, interface
 from Client import producer, consumer
 
 
@@ -14,10 +14,14 @@ class Jeu():
 
     def __init__(self,id_client,socket,width=300,height=300):
         pygame.init()
+        global BASICFONT, BASICFONTSIZE
+        BASICFONTSIZE = 20
+        BASICFONT = pygame.font.Font('freesansbold.ttf', BASICFONTSIZE)
         self.screen = pygame.display.set_mode((800,800))
         pygame.display.set_caption('Broken pipe')
         self.id_client = id_client
         self.socket = socket
+        self.interface = interface.Interface(self.playerById(self.id_client),self.screen)
         
         self.joueurs = pygame.sprite.Group()
         self.joueurs.add(player.Player(self,0))
@@ -68,6 +72,8 @@ class Jeu():
                     if (self.playerById(self.id_client).life <= 0):
                         print "You dead"
     
+            displayScoreJoueur(self.playerById(self.id_client))
+            
             self.map.afficher_map()
             self.joueurs.update()
             self.joueurs.draw(self.screen)
