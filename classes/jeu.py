@@ -74,7 +74,6 @@ class Jeu():
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.socket.close()
-                    return
 
                 elif event.type == KEYDOWN:
                     if event.key == K_SPACE:

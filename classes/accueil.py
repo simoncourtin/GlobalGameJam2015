@@ -7,7 +7,9 @@ class Accueil() :
         self.ADRESSE = ADRESSE
         self.PORT = PORT
         fenetre = tk.Tk()
-        texte = tk.Label ( fenetre, text="Hello World" )
+        fenetre.title("Broken Pipe")
+        fenetre.geometry("500x500+500+500")
+        texte = tk.Label ( fenetre, text="Broken Pipe Connection" )
  
         # l'objet Label() nomm? texte est ensuite
         # rendu visible dans fenetre gr?ce ? pack()
