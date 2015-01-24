@@ -1,7 +1,5 @@
 import pygame
 from pygame.locals import *
- 
-from classes import attaque
 
 VELOCITY = 3
 WEAPON_DAMAGE = 2
@@ -298,7 +296,7 @@ class Player(pygame.sprite.Sprite):
             return True
 
         return False
-        
+
 
     def lacherItems(self):
         self.items[:] = []
@@ -312,7 +310,7 @@ class Player(pygame.sprite.Sprite):
         self.jeu.items.add(self.items)
         self.jeu.items_taken.remove(self.items)
         self.lacherItems()
-        
+
         self.death_cooldown = 100
         self.rect.x = -40
         self.rect.y = -40
