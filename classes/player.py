@@ -88,6 +88,11 @@ class Player(pygame.sprite.Sprite):
         # les items
         self.items = []
 
+    def reinit(self):
+        self.rect.x = 70
+        self.rect.y = 70
+        self.life = LIFE_MAX
+
     def deplacer(self, direction):
         if direction == 'droite':
             self.x_velocite = VELOCITY * self.speed
