@@ -312,5 +312,3 @@ class Player(pygame.sprite.Sprite):
         self.lacherItems()
         
         self.death_cooldown = 100
-        self.rect.x = -30
-        self.rect.y = -30
