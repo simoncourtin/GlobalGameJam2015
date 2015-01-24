@@ -35,8 +35,10 @@ class Jeu():
         self.items = pygame.sprite.Group()
         for i in range(NB_PIECES):
             for j in range(NB_PIECES):
-                self.items.add(item.Item(self, "sprite_coins.png", 200+50*j, 200+50*i))
-
+                self.items.add(item.Item(self, "sprite_coins.png", 200+50*j, 200+50*i, "rouge"))
+    
+        self.items.add(item.Item(self, "sprite_coins.png", 10, 10, "bleu"))
+        
         groupe_sansJ = pygame.sprite.Group()
         for j in self.joueurs:
             if not j is self.playerById(self.id_client):
@@ -68,8 +70,17 @@ class Jeu():
         colliding = 0
         tempsAvantHit = 0
         tempsApresHit = 0
+        
+        #load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
         pygame.mixer.music.queue("fondSonore.ogg")
+        hit=pygame.mixer.Sound("hit.wav")
+        pickCoins=pygame.mixer.Sound("pickCoins.wav")
+        respawn=pygame.mixer.Sound("respawn.wav")
+        death=pygame.mixer.Sound("death.wav")
+        select=pygame.mixer.Sound("select.wav")
+        
+        #declenchement du fond sonore
         pygame.mixer.music.play()
         
         # LOOP
@@ -85,6 +96,15 @@ class Jeu():
             tempsAvantHit = time.time()
             # collision avec les autres joueurs
             collision = pygame.sprite.spritecollide(self.playerById(self.id_client), groupe_sansJ, False)
+           
+            #collisions avec les items
+            collision_items = pygame.sprite.spritecollide(self.playerById(id_client), self.items, False)
+            for it in collision_items:
+                keys = pygame.key.get_pressed()
+                if keys[K_SPACE]:
+                    self.playerById(id_client).pickUpItem(it)
+                    pickCoins.play()
+            
             # collision avec le decors
 
             if tempsApresHit - tempsAvantHit > 2:
