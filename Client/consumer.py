@@ -22,6 +22,7 @@ class Consumer(threading.Thread):
 
             print "Attaquant : " + attaquant
             print "Attaque : " + attaque
+            print "Dommages : " + damage
             if int(attaque) == self.jeu.id_client:
                 print "C'est moi"
                 joueur_attaque = self.jeu.playerById(self.jeu.id_client)
