@@ -43,6 +43,8 @@ class Player(pygame.sprite.Sprite):
         self.bas = pygame.transform.scale(self.bas, (w*5, h*5))
         #image actuelle du personnage
         self.image = self.droite
+        self.image.rect.x = 400 - w/2
+        self.image.rect.y = 400 - h/2
         #position de depart du personnage
         self.rect = self.image.get_rect()
         self.image
