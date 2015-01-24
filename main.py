@@ -26,7 +26,7 @@ while car != "@":
     car = socket_joueur.recv(1)
 
 nbr_players = int(request.split(" ")[1])
-idnom = ['', '', '', '']
+idnom = ['', '', '', '', '']
 socket_joueur.send("NAME "+str(numero_client) + " "+NOM+'@')
 
 car = socket_joueur.recv(1)
