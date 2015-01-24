@@ -43,12 +43,11 @@ class Player(pygame.sprite.Sprite):
         self.bas = pygame.transform.scale(self.bas, (w*5, h*5))
         #image actuelle du personnage
         self.image = self.droite
-        self.rect.x = 400 - w/2
-        self.rect.y = 400 - h/2
         #position de depart du personnage
         self.rect = self.image.get_rect()
-        self.image
         #caracteristique du player
+        self.rect.x = 400 - w/2
+        self.rect.y = 400 - h/2
         
         self.is_controllable = False
         self.life = 100
