@@ -21,7 +21,6 @@ class Jeu():
         pygame.display.set_caption('Broken pipe')
         self.id_client = id_client
         self.socket = socket
-        self.interface = interface.Interface(self.playerById(self.id_client),self.screen)
         
         self.joueurs = pygame.sprite.Group()
         self.joueurs.add(player.Player(self,0))
@@ -33,6 +32,8 @@ class Jeu():
         for j in self.joueurs:
             if not j is self.playerById(self.id_client):
                 groupe_sansJ.add(j)
+        
+        self.interface = interface.Interface(self.playerById(self.id_client),self.screen)
         
         #definition du sprite controlable
         self.playerById(self.id_client).setControllable(True)
