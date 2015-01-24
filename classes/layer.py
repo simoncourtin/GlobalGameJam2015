@@ -27,6 +27,7 @@ class Layer():
         self.tuiles_colision = pygame.sprite.Group()
         self.tuiles_non_colision = pygame.sprite.Group()
         self.construire_layer()
+        self.spawn = []
 
     def construire_layer(self):
         hauteur = self.x_tile
@@ -45,10 +46,13 @@ class Layer():
                         self.tuiles_colision.add(tuile)
                     else:
                         self.tuiles_non_colision.add(tuile)
+                    if element == '256':
+                        self.spawn.append((x+16,y+16))
                 x+=largeur
             else:
                 y+=hauteur
                 x=0
+
                 self.hauteur_map += 1
                 self.largeur_map = 0
 

@@ -41,7 +41,7 @@ class Healthbar(object):
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, jeu, classe=0, name="joueur"):
+    def __init__(self, jeu, classe=0, name="joueur",x=70,y=70):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
         self.jeu = jeu
@@ -72,8 +72,8 @@ class Player(pygame.sprite.Sprite):
         self.image = self.droite
         # position de depart du personnage
         self.rect = self.image.get_rect()
-        self.rect.x = 70
-        self.rect.y = 70
+        self.rect.x = x
+        self.rect.y = y
         self.is_controllable = False
         self.life_max = LIFE_MAX
         self.life = 10
@@ -163,6 +163,10 @@ class Player(pygame.sprite.Sprite):
             self.dash_cooldown = 500
             dash= pygame.mixer.Sound("dash.ogg")
             dash.play()
+
+    def spawn(self,x,y):
+        self.rect.x=x
+        self.rect.y=y
 
     def update(self):
         if self.is_controllable:
