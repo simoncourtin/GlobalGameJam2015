@@ -8,8 +8,6 @@ class Player(pygame.sprite.Sprite):
     def __init__(self,  jeu, classe = 0):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
-        self.xAbs = 0
-        self.yAbs = 0
         self.jeu = jeu
         #images du personnage
         if classe == 0 :
@@ -46,8 +44,6 @@ class Player(pygame.sprite.Sprite):
         #position de depart du personnage
         self.rect = self.image.get_rect()
         #caracteristique du player
-        self.rect.x = 400 - w/2
-        self.rect.y = 400 - h/2
         
         self.is_controllable = False
         self.life = 100
@@ -82,11 +78,11 @@ class Player(pygame.sprite.Sprite):
         elif direction == 'bas':
             self.image = self.bas
     
-    """def setX(self,x):
+    def setX(self,x):
         self.rect.x += x
 
     def setY(self,y):
-            self.rect.y += y"""
+            self.rect.y += y
    
     def getDirection(self):
         if self.image == self.droite:
@@ -115,13 +111,8 @@ class Player(pygame.sprite.Sprite):
             if not keys[K_UP] and not keys[K_DOWN]:
                 self.y_velocite =0
             
-            self.jeu.deplacer(self.x_velocite,self.y_velocite)
-            self.xAbs += self.x_velocite
-            self.yAbs += self.y_velocite
+            self.setX(x)
+            self.setY(y)
     
     def setControllable(self, boolean) :
         self.is_controllable = True
-        if boolean :
-            h,w = self.image.get_size()
-            self.rect.x = 400 - w/2
-            self.rect.y = 400 - h/2
