@@ -82,8 +82,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 70
         self.rect.y = 70
         self.is_controllable = False
-        self.life_max = 100
-        self.life = 100
+        self.life_max = 10
+        self.life = 10
         self.speed = VELOCITY
         self.force = 1
         self.dash_cooldown = 0
@@ -235,7 +235,7 @@ class Player(pygame.sprite.Sprite):
 
     def receiveAttack(self, damage):
         self.life -= damage
-        print self.life + " / " + self.life_max
+        print str(self.life) + " / " + str(self.life_max)
         print self.healthbar.toString()
 
     def setSpeed(self, speed):
