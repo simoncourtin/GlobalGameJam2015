@@ -35,7 +35,7 @@ class Consumer(threading.Thread):
         
         xAbs = self.jeu.playerById(self.jeu.id_client).xAbs
         yAbs = self.jeu.playerById(self.jeu.id_client).yAbs
-        h,w = self.jeu.image.get_size()
+        h,w = self.jeu.playerById(self.jeu.id_client).image.get_size()
         self.jeu.playerById(numero).rect.x = (x -xAbs) * 5 +(400-w/2)
         self.jeu.playerById(numero).rect.y = (y -yAbs) * 5 +(400-h/2)
         self.jeu.playerById(numero).xAbs = x
