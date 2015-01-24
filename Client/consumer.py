@@ -23,19 +23,23 @@ class Consumer(threading.Thread):
         
         #changement de direction du personnage
         
-        if(self.jeu.playerById(numero).rect.x<x):
+        if(self.jeu.playerById(numero).xAbs<x):
             self.jeu.playerById(numero).changerPosition("droite")
-        elif(self.jeu.playerById(numero).rect.x>x):
+        elif(self.jeu.playerById(numero).xAbs>x):
             self.jeu.playerById(numero).changerPosition("gauche")
         
-        if(self.jeu.playerById(numero).rect.y<y):
+        if(self.jeu.playerById(numero).yAbs<y):
             self.jeu.playerById(numero).changerPosition("bas")
-        elif(self.jeu.playerById(numero).rect.y>y):
+        elif(self.jeu.playerById(numero).yAbs>y):
             self.jeu.playerById(numero).changerPosition("haut")
-          
-        self.jeu.playerById(numero).rect.x = x
-        self.jeu.playerById(numero).rect.y = y
-
+        
+        xAbs = self.jeu.playerById(self.jeu.id_client).xAbs
+        yAbs = self.jeu.playerById(self.jeu.id_client).yAbs
+        self.jeu.playerById(numero).rect.x = (x -xAbs) * 5
+        self.jeu.playerById(numero).rect.y = (y -xAbs) * 5
+        self.jeu.playerById(numero).xAbs = x
+        self.jeu.playerById(numero).yAbs = y
+        
     def run(self):
         while True:
             self.recevoirDonneesServeur()

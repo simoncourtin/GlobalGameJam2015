@@ -76,4 +76,5 @@ class Jeu():
                 return j
     
     def deplacer(self, x, y) :
+        #décaller map
         print str(y)
