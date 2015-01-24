@@ -23,6 +23,9 @@ class Healthbar(object):
 
         self.font = pygame.font.Font(None, 13)
 
+    def toString(self):
+        return "%s" % (repr(self.owner))
+
 
     def displayLife(self, xAbs, yAbs):
         rendered_text = self.font.render(self.getLife(), True, (0, 0, 0))
