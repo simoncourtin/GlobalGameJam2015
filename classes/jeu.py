@@ -5,6 +5,7 @@ import time
 from pygame.locals import *
 from classes import player
 from Client import producer, consumer
+from classes import map
 
 MAX_FPS = 60
 
@@ -43,6 +44,11 @@ class Jeu():
         colliding = 0
         tempsAvantHit = 0
         tempsApresHit = 0
+
+
+        #la map
+        map = map.Map(self.screen)
+        map.afficher_map()
         #LOOP
         while True :
             clock.tick(MAX_FPS)
@@ -68,6 +74,7 @@ class Jeu():
             self.screen.fill((0,0,0))
             self.joueurs.update()
             self.joueurs.draw(self.screen)
+            map.afficher_map()
             pygame.display.flip()
 
     def playerById(self, id_player):
