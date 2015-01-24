@@ -33,9 +33,6 @@ class Consumer(threading.Thread):
         elif(self.jeu.playerById(numero).y>y):
             self.jeu.playerById(numero).changerPosition("haut")
         
-        xAbs = self.jeu.playerById(self.jeu.id_client).xAbs
-        yAbs = self.jeu.playerById(self.jeu.id_client).yAbs
-        h,w = self.jeu.playerById(self.jeu.id_client).image.get_size()
         self.jeu.playerById(numero).rect.x = x 
         self.jeu.playerById(numero).rect.y = y
 

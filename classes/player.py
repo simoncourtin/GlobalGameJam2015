@@ -31,15 +31,6 @@ class Player(pygame.sprite.Sprite):
         self.gauche = pygame.transform.flip(self.droite, True, False)
         self.haut = pygame.image.load(BASE_RESSOURCE + ressources[1]).convert_alpha()
         self.bas = pygame.image.load(BASE_RESSOURCE + ressources[2]).convert_alpha()
-
-        w, h = self.droite.get_size()
-        self.droite = pygame.transform.scale(self.droite, (w * 5, h * 5))
-        w, h = self.gauche.get_size()
-        self.gauche = pygame.transform.scale(self.gauche, (w * 5, h * 5))
-        w, h = self.haut.get_size()
-        self.haut = pygame.transform.scale(self.haut, (w * 5, h * 5))
-        w, h = self.bas.get_size()
-        self.bas = pygame.transform.scale(self.bas, (w * 5, h * 5))
         # image actuelle du personnage
         self.image = self.droite
         # position de depart du personnage
