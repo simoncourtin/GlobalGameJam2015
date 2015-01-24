@@ -160,7 +160,7 @@ class Player(pygame.sprite.Sprite):
     def dash(self):
         if self.dash_cooldown <= 0:
             self.speed = 20
-            self.dash_cooldown = 500
+            self.dash_cooldown = 10
             dash= pygame.mixer.Sound("dash.ogg")
             dash.play()
 
