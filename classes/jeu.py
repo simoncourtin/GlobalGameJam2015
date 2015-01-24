@@ -47,16 +47,16 @@ class Jeu():
             
             collision=pygame.sprite.spritecollide(self.playerById(self.id_client),self.joueurs,False)
             print collision
-            if collision > 1:
+            if len(collision) > 1:
                 if(colliding==1):
                     print colliding
                     print collision
-                    if(not collision):
+                    if(len(collision) == 1):
                         colliding=0
                         print colliding
                 else:
                     print colliding
-                    if(collision):
+                    if(len(collision) > 1):
                         print collision
                         colliding=1
                         print colliding
