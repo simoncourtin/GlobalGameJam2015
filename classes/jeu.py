@@ -3,7 +3,7 @@ import threading
 import pygame
 import time
 from pygame.locals import *
-from classes import player , map, interface, camera
+from classes import player , map, interface, camera, item
 from Client import producer, consumer
 
 
@@ -30,6 +30,9 @@ class Jeu():
         self.joueurs.add(player.Player(self, 1))
         self.joueurs.add(player.Player(self, 2))
         self.joueurs.add(player.Player(self, 3))
+
+        self.items = pygame.sprite.Group()
+        self.items.add(item.Item(self, 100, 100))
 
         groupe_sansJ = pygame.sprite.Group()
         for j in self.joueurs:
@@ -98,6 +101,8 @@ class Jeu():
             self.map.afficher_map(self.cam)
             for j in self.joueurs:
                 self.screen.blit(j.image, self.cam.apply(j))
+            
+            self.items.afficherItem(self)
 
             pygame.display.update()
             for id in range(len(self.joueurs.sprites())):
