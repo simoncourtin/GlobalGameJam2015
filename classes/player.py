@@ -11,13 +11,30 @@ RESSOURCES_J3 = ["sprite3_profile.png", "sprite3_dos.png", "sprite3_face.png"]
 RESSOURCES_J4 = ["sprite4_profile.png", "sprite4_dos.png", "sprite4_face.png"]
 
 
+class Healthbar(object):
+    def __init__(self, owner, unit_character="#", blank_unit_character="~", max_length=50):
+        self.owner = owner
+        self.unit = unit_character
+        self.max_length = max_length
+        self.blank_unit_character = blank_unit_character
+        self.amount = lambda: int((((10 * owner.life) / owner.life_max) / 10) * max_length)
+
+    def __repr__(self):
+        return "HP {}{}|{}".format(self.owner.name.upper(), (20 - len(self.owner.name)) * " ",
+                                   self.unit * self.amount() + (
+                                   self.max_length - self.amount()) * self.blank_unit_character)
+
+
 class Player(pygame.sprite.Sprite):
-    def __init__(self, jeu, classe=0):
+    def __init__(self, jeu, classe=0, name="joueur1"):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
         self.xAbs = 0
         self.yAbs = 0
         self.jeu = jeu
+
+        self.name = name
+        self.healthbar = Healthbar(owner=self)
 
         # images du personnage
         if classe == 0:
@@ -51,10 +68,11 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = 400 - h / 2
 
         self.is_controllable = False
+        self.life_max = 100
         self.life = 100
         self.speed = 1
         self.force = 1
-        #la velocite
+        # la velocite
         self.x_velocite = 0
         self.y_velocite = 0
 
@@ -119,6 +137,17 @@ class Player(pygame.sprite.Sprite):
             self.jeu.deplacer(self.x_velocite, self.y_velocite)
             self.xAbs += self.x_velocite
             self.yAbs += self.y_velocite
+
+
+    def getHealthbar(self):
+        return self.healthbar
+
+    def getXAbs(self):
+        return self.xAbs
+
+    def getYAbs(self):
+        return self.yAbs
+
 
     def setControllable(self, boolean):
         self.is_controllable = True

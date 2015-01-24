@@ -18,6 +18,8 @@ class Jeu():
         pygame.display.set_caption('Broken pipe')
         self.id_client = id_client
         self.socket = socket
+
+        self.font = pygame.font.Font(None, 16)
         
         self.joueurs = pygame.sprite.Group()
         self.joueurs.add(player.Player(self,0))
@@ -70,6 +72,13 @@ class Jeu():
     
             self.map.afficher_map()
             self.joueurs.update()
+
+            for joueur in self.joueurs:
+                healthbar_text = self.font.render(joueur.getHealthbar().__repr__(), True, (0, 0, 0))
+                healthbar_rect = healthbar_text.get_rect()
+                healthbar_rect.topleft = (joueur.getXAbs(), joueur.getYAbs())
+                self.screen.blit(healthbar_text, healthbar_rect)
+
             self.joueurs.draw(self.screen)
             pygame.display.flip()
 

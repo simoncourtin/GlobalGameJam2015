@@ -3,7 +3,7 @@ from classes import jeu
 import socket
 
 #Connexion au serveur
-PORT = 12345
+PORT = 1234
 ADRESSE_SERVEUR = 'sixfoisneuf.fr'
 
 print "Connexion au serveur..."
