@@ -27,8 +27,8 @@ class Jeu():
         self.socket = socket
 
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(self, 0, idnom['0']))
-        self.joueurs.add(player.Player(self, 1, idnom['1']))
+        self.joueurs.add(player.Player(self, 0, self.idnom[0]))
+        self.joueurs.add(player.Player(self, 1, self.idnom[1]))
         #self.joueurs.add(player.Player(self, 2,idnom[2]))
         #self.joueurs.add(player.Player(self, 3,idnom[3]))
 
