@@ -18,10 +18,7 @@ class Item(pygame.sprite.Sprite):
         
     def afficherItem(self, jeu):
         self.screen.blit(self.image, (self.rect.x,self.rect.y))
-<<<<<<< HEAD
 
     def setVisible(self,bool):
         self.visible=bool
         
-=======
->>>>>>> origin/master
