@@ -29,6 +29,7 @@ class Jeu():
                 groupe_sansJ.add(j)
         
         #definition du sprite controlable
+        self.playerById(self.id_client).setControllable(True)
         self.playerById(self.id_client).is_controllable = True
         #creation du producteur et du consommateur
         self.consumer = consumer.Consumer(self.socket, self)

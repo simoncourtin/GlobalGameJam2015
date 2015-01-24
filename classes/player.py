@@ -29,11 +29,22 @@ class Player(pygame.sprite.Sprite):
             self.gauche = pygame.transform.flip(self.droite,True,False)
             self.haut = pygame.image.load("images/sprite4_dos.png").convert_alpha()
             self.bas = pygame.image.load("images/sprite4_face.png").convert_alpha()
+        
+        w,h=self.droite.get_size()
+        self.droite = pygame.transform.scale(self.droite, (w*5, h*5))
+        w,h=self.gauche.get_size()
+        self.gauche = pygame.transform.scale(self.gauche, (w*5, h*5))
+        w,h=self.haut.get_size()
+        self.haut = pygame.transform.scale(self.haut, (w*5, h*5))
+        w,h=self.bas.get_size()
+        self.bas = pygame.transform.scale(self.bas, (w*5, h*5))
         #image actuelle du personnage
         self.image = self.droite
         #position de depart du personnage
         self.rect = self.image.get_rect()
+        self.image
         #caracteristique du player
+        
         self.is_controllable = False
         self.life = 100
         self.speed = 1
@@ -72,7 +83,7 @@ class Player(pygame.sprite.Sprite):
 
     def setY(self,y):
             self.rect.y += y
-            
+   
     def getDirection(self):
         if self.image == self.droite:
             direction = 1
@@ -100,5 +111,11 @@ class Player(pygame.sprite.Sprite):
             if not keys[K_UP] and not keys[K_DOWN]:
                 self.y_velocite =0
             
-            self.setX(self.x_velocite)
-            self.setY(self.y_velocite)    
+            self.jeu.deplacer(self.x_velocite,self.y_velocite)
+    
+    def setControllable(self, boolean) :
+        self.is_controllable = True
+        if boolean :
+            h,w = self.image.get_size()
+            self.rect.x = 400 - w/2
+            self.rect.y = 400 - h/2
