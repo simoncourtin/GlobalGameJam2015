@@ -65,7 +65,7 @@ class Jeu():
 
         # declenchement du fond sonore
         pygame.mixer.music.play()
-        #pygame.mixer.music.set_volume(0.5)
+        # pygame.mixer.music.set_volume(0.5)
 
         # La camera
         largeur_map = self.map.layer1.largeur_map * self.map.layer1.x_tile
@@ -150,7 +150,7 @@ class Jeu():
 
     def displayScore(self, joueur, xAbs, yAbs):
         handlebar = joueur.getHealthbar()
-        joueur_text = self.font.render(handlebar.getName() + " : " + handlebar.getLife(), True, (0, 0, 0))
+        joueur_text = self.font.render(handlebar.getName()[:11] + "  :  " + handlebar.getLife(), True, (0, 0, 0))
         joueur_rect = joueur_text.get_rect()
         joueur_rect.topleft = (xAbs, yAbs)
 
