@@ -26,6 +26,7 @@ class Jeu():
         self.joueurs.add(player.Player(self, 3, self.idnom[3]))
 
         self.items = pygame.sprite.Group()
+        self.items_taken = pygame.sprite.Group()
         for i in range(NB_PIECES):
             for j in range(NB_PIECES):
                 self.items.add(item.Item(self, "sprite_coins.png", 200 + 50 * j, 200 + 50 * i, "rouge"))
@@ -88,6 +89,8 @@ class Jeu():
                         if coins:
                             self.playerById(self.id_client).pickUpItem(coins)
                             pickCoins.play()
+                            self.items.remove(coins)
+                            self.items_taken.add(coins)
 
                 elif event.type == KEYUP:
                     if event.key == K_SPACE:
@@ -107,8 +110,7 @@ class Jeu():
                 self.screen.blit(j.image, self.cam.apply(j))
 
             for it in self.items:
-                if it.getVisible:
-                    self.screen.blit(it.image, self.cam.apply(it))
+                self.screen.blit(it.image, self.cam.apply(it))
 
             pygame.display.update()
 
@@ -118,9 +120,9 @@ class Jeu():
                 text, rect = joueur.getHealthbar().displayName(joueur.getX() - 20, joueur.getY() - 20)
                 self.screen.blit(text, self.cam.apply_rect(rect))
 
-                if id == self.id_client:
-                    text, rect = joueur.getHealthbar().displayLife(joueur.getX() - 20, joueur.getY() - 10)
-                    self.screen.blit(text, self.cam.apply_rect(rect))
+                #if id == self.id_client:
+                text, rect = joueur.getHealthbar().displayLife(joueur.getX() - 20, joueur.getY() - 10)
+                self.screen.blit(text, self.cam.apply_rect(rect))
 
             pygame.display.flip()
 

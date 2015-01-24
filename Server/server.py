@@ -15,7 +15,7 @@ list_client = []
 
 PORT = 12344
 BUFFER_SIZE = 2048
-MAX_PLAYERS = 4
+MAX_PLAYERS = 2
 
 # DARTH VADER ****
 def kill_zombie(signum, frame):

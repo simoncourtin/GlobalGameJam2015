@@ -232,7 +232,8 @@ class Player(pygame.sprite.Sprite):
     def pickUpItem(self, item):
         print item
         self.items.append(item)
-        item.setVisible(False)
+        for it in item:
+            it.setVisible(False)
 
     def lacherItems(self):
         for item in self.items:
