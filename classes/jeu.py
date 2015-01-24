@@ -57,7 +57,7 @@ class Jeu():
 
         # La camera
         largeur_map = self.map.layer1.largeur_map * self.map.layer1.x_tile
-        hauteur_map = self.map.layer1.hauteur_map * self.map.layer1.y_tile
+        hauteur_map = self.map.layer1.hauteur_map+1 * self.map.layer1.y_tile
         self.cam = camera.Camera(self, camera.complex_camera, largeur_map, hauteur_map)
 
         # repetition des touches
