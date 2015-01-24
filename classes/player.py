@@ -18,7 +18,7 @@ class Healthbar(object):
         self.unit = unit_character
         self.blank_unit_character = blank_unit_character
 
-        self.font = pygame.font.Font(None, 13)
+        self.font = pygame.font.Font(None, 16)
 
     def displayLife(self, xAbs, yAbs):
         rendered_text = self.font.render(self.getLife(), True, (0, 0, 0))
