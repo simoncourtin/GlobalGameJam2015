@@ -83,7 +83,7 @@ class Jeu():
                             self.playerById(self.id_client).attack(target)
                             timeFirst = pygame.time.get_ticks()
 
-                    if event.key == K_a:
+                    if event.key == K_e:
                         coins = pygame.sprite.spritecollide(self.playerById(self.id_client), self.items, False)
                         coins = [visible for visible in coins if visible.getVisible()]
                         if coins:
@@ -97,6 +97,7 @@ class Jeu():
             self.joueurs.update()
 
             # rafraichissement de la map des des affichages des joueurs
+            self.cam.update(self.playerById(self.id_client))
             if self.playerById(self.id_client).afficher_attaque:
                 self.cam.update(self.playerById(self.id_client))
                 self.playerById(self.id_client).afficher_attaque = False
