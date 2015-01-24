@@ -1,7 +1,5 @@
-__author__ = 'Simon'
 import pygame
 from pygame.locals import *
-import item as _item
 
 VELOCITY = 3
 WEAPON_DAMAGE = 2
@@ -237,7 +235,10 @@ class Player(pygame.sprite.Sprite):
                 self.jeu.socket.send(message)
 
     def receiveAttack(self, damage):
-        self.life -= damage
+        if damage > self.life:
+            self.life = 0
+        else:
+            self.life -= damage
 
 
     def pickUpItem(self, item):
