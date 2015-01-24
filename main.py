@@ -41,4 +41,4 @@ for i in range(0,nbr_players-1):
     donnee = request.split(' ')
     print donnee
     idnom[int(donnee[1])] = donnee[2]
-fenetre = jeu.Jeu(numero_client,socket_joueur,NOM, donnee)
+fenetre = jeu.Jeu(numero_client,socket_joueur,idnom, donnee)
