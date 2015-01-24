@@ -19,6 +19,9 @@ class Layer():
         #hauteur et largeur des tuile
         self.x_tile=x_tile
         self.y_tile=y_tile
+
+        self.largeur_map = 0
+        self.hauteur_map = 0
         #collision
         self.collision = collision
         self.tuiles_colision = pygame.sprite.Group()
@@ -32,6 +35,7 @@ class Layer():
         y=0
         for element in self.calque:
             if element != '\n':
+                self.largeur_map += 1
                 if element!='0':
                     X = (((int(element))-(((int(element)-1)/16)*16))-1)*32
                     Y=(int(element)/16)*32
@@ -45,6 +49,8 @@ class Layer():
             else:
                 y+=hauteur
                 x=0
+                self.hauteur_map += 1
+                self.largeur_map = 0
 
     def afficher_layer(self, cam):
         for tuile_c in self.tuiles_colision:

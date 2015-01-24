@@ -52,7 +52,9 @@ class Jeu():
         self.map = map.Map(self.screen)
 
         # La camera
-        self.cam = camera.Camera(self, camera.simple_camera, self.screen.get_rect().width, self.screen.get_rect().height)
+        largeur_map = self.map.layer1.largeur_map * self.map.layer1.x_tile
+        hauteur_map = self.map.layer1.hauteur_map * self.map.layer1.y_tile
+        self.cam = camera.Camera(self, camera.complex_camera, largeur_map, hauteur_map)
         #repetition des touches
         pygame.key.set_repeat(5,20)
 
