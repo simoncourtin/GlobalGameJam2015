@@ -23,11 +23,6 @@ class Jeu():
         self.joueurs.add(player.Player(1))
         self.joueurs.add(player.Player(2))
         self.joueurs.add(player.Player(3))
-
-        groupe_sansJ = pygame.sprite.Group()
-        for j in self.joueurs:
-            if not j is self.playerById(self.id_client):
-                groupe_sansJ.add(j)
         
         #definition du sprite controlable
         self.playerById(self.id_client).setControllable(True)
@@ -65,16 +60,16 @@ class Jeu():
                     
                     if (self.playerById(self.id_client).life <= 0):
                         print "You dead"
-                        
-            """
+                                    
+            collision=pygame.sprite.spritecollide(self.playerById(self.id_client),self.joueurs,False)
             if len(collision) > 1:
                 if(colliding==1):
-                    print collision
+                    print colliding
                     if(len(collision) == 1):
                         colliding=0
-                        print collision
+                        print colliding
                 else:
-                    print collision
+                    print colliding
                     if(len(collision) > 1):
                         colliding=1
                         print 'encule !'+str(self.id_client)
@@ -82,7 +77,6 @@ class Jeu():
                         if(self.playerById(self.id_client).life==0):
                             print("perdu")
                             return
-            """
     
             self.screen.fill((0,0,0))
             self.joueurs.update()
