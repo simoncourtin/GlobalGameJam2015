@@ -90,7 +90,7 @@ class Jeu():
             self.map.afficher_map()
             self.joueurs.draw(self.screen)
 
-            for id in range(4):
+            for id in range(len(self.joueurs.sprites)):
                 joueur = self.playerById(id)
 
                 text, rect = joueur.getHealthbar().displayName(joueur.getX() - 20, joueur.getY() - 20)
