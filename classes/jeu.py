@@ -68,6 +68,10 @@ class Jeu():
         colliding = 0
         tempsAvantHit = 0
         tempsApresHit = 0
+        pygame.mixer.music.load("fondSonore.mp3")
+        pygame.mixer.music.queue("fondSonore.mp3")
+        pygame.mixer.music.play()
+        
         # LOOP
         while True:
             clock.tick(MAX_FPS)
