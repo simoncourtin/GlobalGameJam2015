@@ -34,15 +34,15 @@ class Jeu():
         # map
         self.map = map.Map(self.screen)
         self.spawn = self.map.getSpawn()
-        if len(self.spawn)>0:
-            x= self.spawn[0][0]
-            y= self.spawn[0][1]
+        if len(self.spawn) > 0:
+            x = self.spawn[0][0]
+            y = self.spawn[0][1]
 
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(self, 0, self.idnom[0],x,y))
-        self.joueurs.add(player.Player(self, 1, self.idnom[1],x,y))
-        self.joueurs.add(player.Player(self, 2, self.idnom[2],x,y))
-        self.joueurs.add(player.Player(self, 3, self.idnom[3],x,y))
+        self.joueurs.add(player.Player(self, 0, self.idnom[0], x, y))
+        self.joueurs.add(player.Player(self, 1, self.idnom[1], x, y))
+        self.joueurs.add(player.Player(self, 2, self.idnom[2], x, y))
+        self.joueurs.add(player.Player(self, 3, self.idnom[3], x, y))
 
         self.items = pygame.sprite.Group()
         self.items_taken = pygame.sprite.Group()
@@ -66,6 +66,7 @@ class Jeu():
         pygame.mixer.music.load("fondSonore.ogg")
         pygame.mixer.music.queue("fondSonore.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
+        missCoins = pygame.mixer.Sound("missCoins.ogg")
         select = pygame.mixer.Sound("select.ogg")
 
         # declenchement du fond sonore
@@ -95,6 +96,8 @@ class Jeu():
 
                 elif event.type == KEYDOWN:
                     if event.key == K_SPACE:
+                        self.playerById(self.id_client).setSpeed(0)
+
                         if timeFirst + KEY_REPEAT_DELAY < pygame.time.get_ticks():
                             target = pygame.sprite.spritecollide(self.playerById(self.id_client), self.joueurs, False)
                             self.playerById(self.id_client).attack(target)
@@ -108,7 +111,7 @@ class Jeu():
                                 self.items.remove(coins)
                                 self.items_taken.add(coins)
                             else:
-                                pass # Faire un son d'erreur
+                                missCoins.play()
 
                 elif event.type == KEYUP:
                     if event.key == K_SPACE:
@@ -122,6 +125,7 @@ class Jeu():
                 print "patate"
                 self.screen.blit(self.playerById(self.id_client).attaque.image,self.cam.apply(self.playerById(self.id_client).attaque))
                 #self.playerById(self.id_client).afficher_attaque = False
+
 
             # rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map(self.cam)
