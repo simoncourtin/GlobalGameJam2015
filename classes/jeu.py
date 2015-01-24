@@ -38,6 +38,9 @@ class Jeu():
         #run des 2 thread qui envoie les donnees
         self.consumer.start()
         self.producer.start()
+        #la carte
+        self.map = map.Map(self.screen)
+        self.map.afficher_map()
         #repetition des touches
         pygame.key.set_repeat(5,20)
         clock = pygame.time.Clock()
@@ -46,9 +49,6 @@ class Jeu():
         tempsApresHit = 0
 
 
-        #la map
-        map = map.Map(self.screen)
-        map.afficher_map()
         #LOOP
         while True :
             clock.tick(MAX_FPS)
@@ -74,7 +74,7 @@ class Jeu():
             self.screen.fill((0,0,0))
             self.joueurs.update()
             self.joueurs.draw(self.screen)
-            map.afficher_map()
+            self.map.afficher_map()
             pygame.display.flip()
 
     def playerById(self, id_player):
