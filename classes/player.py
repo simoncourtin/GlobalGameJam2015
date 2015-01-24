@@ -242,7 +242,7 @@ class Player(pygame.sprite.Sprite):
                 self.x_velocite = 0
             if not keys[K_UP] and not keys[K_DOWN]:
                 self.y_velocite = 0
-            if keys[K_e]:
+            if keys[K_SPACE]:
                 self.y_velocite = 0
                 self.x_velocite = 0
                 self.attaque.setVisible(True)
