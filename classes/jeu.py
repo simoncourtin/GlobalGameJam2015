@@ -5,7 +5,6 @@ import time
 from pygame.locals import *
 from classes import player
 from Client import producer, consumer
-from classes import map
 
 MAX_FPS = 60
 
@@ -38,17 +37,12 @@ class Jeu():
         #run des 2 thread qui envoie les donnees
         self.consumer.start()
         self.producer.start()
-        #la carte
-        self.map = map.Map(self.screen)
-        self.map.afficher_map()
         #repetition des touches
         pygame.key.set_repeat(5,20)
         clock = pygame.time.Clock()
         colliding = 0
         tempsAvantHit = 0
         tempsApresHit = 0
-
-
         #LOOP
         while True :
             clock.tick(MAX_FPS)
@@ -70,10 +64,10 @@ class Jeu():
                     
                     if (self.playerById(self.id_client).life <= 0):
                         print "You dead"
-            self.map.afficher_map()
+    
+            self.screen.fill((0,0,0))
             self.joueurs.update()
             self.joueurs.draw(self.screen)
-
             pygame.display.flip()
 
     def playerById(self, id_player):
