@@ -115,6 +115,9 @@ class Player(pygame.sprite.Sprite):
         elif direction == 'bas':
             self.image = self.bas
 
+    def getClasse(self):
+        return self.classe
+
     def setX(self, x):
         self.rect.x += x
 
@@ -222,8 +225,13 @@ class Player(pygame.sprite.Sprite):
 
         if len(target) > 1:
             target.remove(self)
-            print repr(target)
-            # target.receiveDamage(WEAPON_DAMAGE)
+            for ennemy in target:
+                message = "ATK:%d:%d" % (self.classe, ennemy.getClasse())
+                print message
+                self.jeu.socket.send(message)
+
+    def receiveAttack(self, damage):
+        self.life -= damage
 
     def setSpeed(self, speed):
         self.speed = speed
