@@ -9,8 +9,9 @@ MAX_FPS = 60
 
 
 class Jeu():
-    def __init__(self, id_client, socket, width=300, height=300):
+    def __init__(self, id_client, socket, idnom, width=300, height=300, ):
         pygame.init()
+        self.idnom = idnom
         NB_PIECES = 3
 
         self.screen = pygame.display.set_mode((800, 800))
@@ -19,10 +20,10 @@ class Jeu():
         self.socket = socket
 
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(self, 0))
-        self.joueurs.add(player.Player(self, 1))
-        self.joueurs.add(player.Player(self, 2))
-        self.joueurs.add(player.Player(self, 3))
+        self.joueurs.add(player.Player(self, 0, idnom[0]))
+        self.joueurs.add(player.Player(self, 1, idnom[1]))
+        # self.joueurs.add(player.Player(self, 2,idnom[2]))
+        #self.joueurs.add(player.Player(self, 3,idnom[3]))
 
         self.items = pygame.sprite.Group()
         for i in range(NB_PIECES):
