@@ -1,5 +1,6 @@
 import pygame
 import time
+from pygame import sprite
 from pygame.locals import *
 from classes import player, map, interface, camera, item
 from Client import producer, consumer
@@ -25,7 +26,7 @@ class Jeu():
     def __init__(self, id_client, socket, idnom, width=300, height=300):
         pygame.init()
         self.idnom = idnom
-
+        
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Broken pipe')
         self.font = pygame.font.Font(FONT_STYLE, FONT_SIZE)
@@ -83,7 +84,9 @@ class Jeu():
 
         clock = pygame.time.Clock()
         timeFirst = pygame.time.get_ticks()
-
+        
+        self.groupe_attaque = pygame.sprite.Group()
+        self.groupe_attaque.add(self.playerById(self.id_client).attaque)
         # LOOP
         while True:
             clock.tick(MAX_FPS)
@@ -121,9 +124,10 @@ class Jeu():
 
             # rafraichissement de la map des des affichages des joueurs
             self.cam.update(self.playerById(self.id_client))
-            if self.playerById(self.id_client).attaque.isVisible:
-                print "patate"
-                self.screen.blit(self.playerById(self.id_client).attaque.image,self.cam.apply(self.playerById(self.id_client).attaque))
+            
+            if (self.playerById(self.id_client)).attaque.getVisible() :
+                self.groupe_attaque.draw(self.playerById(self.id_client).attaque.image)
+                #self.screen.blit(self.playerById(self.id_client).attaque.image,self.cam.apply(self.playerById(self.id_client).attaque))
                 #self.playerById(self.id_client).afficher_attaque = False
 
 
