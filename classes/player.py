@@ -169,6 +169,8 @@ class Player(pygame.sprite.Sprite):
         if self.dash_cooldown <= 0:
             self.speed = 20
             self.dash_cooldown = 500
+            dash= pygame.mixer.Sound("dash.ogg")
+            dash.play()
 
     def update(self):
         self.nbTrame += 1
@@ -243,6 +245,8 @@ class Player(pygame.sprite.Sprite):
             target.remove(self)
             for ennemy in target:
                 message = "ATK:%d:%d:%d@" % (self.classe, ennemy.getClasse(), WEAPON_DAMAGE)
+                hit = pygame.mixer.Sound("hit.ogg")
+                hit.play()
                 print message
                 self.jeu.socket.send(message)
 
@@ -251,6 +255,8 @@ class Player(pygame.sprite.Sprite):
             self.life = 0
         else:
             self.life -= damage
+            hit = pygame.mixer.Sound("hit.ogg")
+            hit.play()
 
 
     def pickUpItem(self, item):

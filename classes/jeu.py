@@ -60,13 +60,12 @@ class Jeu():
         # load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
         pygame.mixer.music.queue("fondSonore.ogg")
-        hit = pygame.mixer.Sound("hit.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
         select = pygame.mixer.Sound("select.ogg")
 
         # declenchement du fond sonore
         pygame.mixer.music.play()
-        pygame.mixer.music.set_volume(0.5)
+        #pygame.mixer.music.set_volume(0.5)
 
         # La camera
         largeur_map = self.map.layer1.largeur_map * self.map.layer1.x_tile
@@ -86,6 +85,7 @@ class Jeu():
             # gestion des evenement
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.socket.send("QUIT")
                     self.socket.close()
 
                 elif event.type == KEYDOWN:
