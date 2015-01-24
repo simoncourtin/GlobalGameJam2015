@@ -87,6 +87,8 @@ class Player(pygame.sprite.Sprite):
         self.items = []
 
     def reinit(self):
+        respawn = pygame.mixer.Sound("respawn.ogg")
+        respawn.play()
         self.rect.x = 70
         self.rect.y = 70
         self.life = LIFE_MAX

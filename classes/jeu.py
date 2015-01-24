@@ -49,8 +49,6 @@ class Jeu():
         pygame.mixer.music.queue("fondSonore.ogg")
         hit = pygame.mixer.Sound("hit.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
-        respawn = pygame.mixer.Sound("respawn.ogg")
-        death = pygame.mixer.Sound("death.ogg")
         select = pygame.mixer.Sound("select.ogg")
 
         # declenchement du fond sonore
