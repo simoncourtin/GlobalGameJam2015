@@ -15,28 +15,37 @@ class Consumer(threading.Thread):
             request += car
             car = self.socket.recv(1)
         donnee = request.split(':')
-        numero = int(donnee[0])
-        coords = donnee[1].split(',')
-        donnee[2] = donnee[2].strip("@")
-        x = int(coords[0])
-        y = int(coords[1])
-        life = int(donnee[2])
+        if donnee[0] == "ATK":
+            attaquant = donnee[1]
+            attaque = donnees[2]
+
+            if attaque == self.jeu.id_client:
+                joueur_attaque = self.jeu.playerById(self.jeu.id_client)
+                joueur_attaque.receiveAttack()
+                
+        else: # Position
+            numero = int(donnee[0])
+            coords = donnee[1].split(',')
+            donnee[2] = donnee[2].strip("@")
+            x = int(coords[0])
+            y = int(coords[1])
+            life = int(donnee[2])
+            
+            #changement de direction du personnage
+            
+            if(self.jeu.playerById(numero).rect.x<x):
+                self.jeu.playerById(numero).changerPosition("droite")
+            elif(self.jeu.playerById(numero).rect.x>x):
+                self.jeu.playerById(numero).changerPosition("gauche")
+                
+            if(self.jeu.playerById(numero).rect.y<y):
+                self.jeu.playerById(numero).changerPosition("bas")
+            elif(self.jeu.playerById(numero).rect.y>y):
+                self.jeu.playerById(numero).changerPosition("haut")
         
-        #changement de direction du personnage
-        
-        if(self.jeu.playerById(numero).rect.x<x):
-            self.jeu.playerById(numero).changerPosition("droite")
-        elif(self.jeu.playerById(numero).rect.x>x):
-            self.jeu.playerById(numero).changerPosition("gauche")
-        
-        if(self.jeu.playerById(numero).rect.y<y):
-            self.jeu.playerById(numero).changerPosition("bas")
-        elif(self.jeu.playerById(numero).rect.y>y):
-            self.jeu.playerById(numero).changerPosition("haut")
-        
-        self.jeu.playerById(numero).rect.x = x 
-        self.jeu.playerById(numero).rect.y = y
-        self.jeu.playerById(numero).life = life
+            self.jeu.playerById(numero).rect.x = x 
+            self.jeu.playerById(numero).rect.y = y
+            self.jeu.playerById(numero).life = life
 
         
     def run(self):
