@@ -52,8 +52,8 @@ class Jeu():
             else:
                 if(collision):
                     colliding=1
-                    player.life-=10
-                    if(player.life==0):
+                    self.playerById(self.id_client).life-=10
+                    if(self.playerById(self.id_client).life==0):
                         print("perdu")
                         return
     
