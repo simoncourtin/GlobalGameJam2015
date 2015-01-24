@@ -18,7 +18,7 @@ class Accueil() :
             validation.pack()
             attente=tk.Label(fenetre, text='Veuillez patienter lors de la connexion des autres joueurs', height=2, fg="navy")
             attente.pack()
-            warning=tk.Label(fenetre, text='La fenetre de connexion va se fermee automatiquement dans 5 secondes ', height=2, fg="navy")
+            warning=tk.Label(fenetre, text='La fenetre de connexion va se fermer automatiquement dans 5 secondes ', height=2, fg="navy")
             warning.pack()
             fenetre.update()
             time.sleep(5)
