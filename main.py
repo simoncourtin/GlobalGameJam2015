@@ -10,7 +10,7 @@ ADRESSE_SERVEUR = 'sf.fr'
 fenetre = accueil.Accueil(ADRESSE_SERVEUR, PORT)
 ADRESSE_SERVEUR = fenetre.ADRESSE
 PORT = fenetre.PORT
-NOM = fenetre.NOM 
+NOM = fenetre.NOM
 print "Connexion au serveur..."
 #creation et connexion socket
 socket_joueur=socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
