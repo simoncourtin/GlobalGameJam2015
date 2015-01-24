@@ -31,12 +31,18 @@ class Jeu():
         self.font = pygame.font.Font(FONT_STYLE, FONT_SIZE)
         self.id_client = id_client
         self.socket = socket
+        # map
+        self.map = map.Map(self.screen)
+        self.spawn = self.map.getSpawn()
+        if len(self.spawn)>0:
+            x= self.spawn[0][0]
+            y= self.spawn[0][1]
 
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(self, 0, self.idnom[0]))
-        self.joueurs.add(player.Player(self, 1, self.idnom[1]))
-        self.joueurs.add(player.Player(self, 2, self.idnom[2]))
-        self.joueurs.add(player.Player(self, 3, self.idnom[3]))
+        self.joueurs.add(player.Player(self, 0, self.idnom[0],x,y))
+        self.joueurs.add(player.Player(self, 1, self.idnom[1],x,y))
+        self.joueurs.add(player.Player(self, 2, self.idnom[2],x,y))
+        self.joueurs.add(player.Player(self, 3, self.idnom[3],x,y))
 
         self.items = pygame.sprite.Group()
         self.items_taken = pygame.sprite.Group()
@@ -54,8 +60,7 @@ class Jeu():
         # run des 2 thread qui envoie les donnees
         self.consumer.start()
         self.producer.start()
-        # map
-        self.map = map.Map(self.screen)
+
 
         # load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
