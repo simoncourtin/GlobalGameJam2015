@@ -21,7 +21,7 @@ print "Vous etes le client numero "+str(numero_client)
 #creation du jeu
 idnom =['','','','']
 socket_joueur.send("NAME "+str(numero_client) + NOM+'@')
-car = self.socket.recv(1)
+car = socket_joueur.recv(1)
 idnom[numero_client] = NOM
 for i in range(0,3):
     while car != "@":
