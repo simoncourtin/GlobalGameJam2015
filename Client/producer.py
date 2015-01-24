@@ -11,7 +11,7 @@ class Producer(threading.Thread):
         num=self.jeu.id_client
         x=self.jeu.joueurs.sprites()[num].rect.x
         y=self.jeu.joueurs.sprites()[num].rect.y
-        self.socket.send(str(num)+':'+str(x)+','+str(y))
+        self.socket.send(str(num)+':'+str(x)+','+str(y) + "@")
         
     def run(self):
         while True:

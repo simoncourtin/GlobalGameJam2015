@@ -9,9 +9,13 @@ class Consumer(threading.Thread):
         self.jeu = jeu
         
     def recevoirDonneesServeur(self):
-        request = self.socket.recv(1024)
+        request = ""
+        car = self.socket.recv(1)
+        while socket != "@":
+            request += car
+            car = self.socket.recv(1)
         donnee = request.split(':')
-        numero =int(donnee[0])
+        numero = int(donnee[0])
         donnee = donnee[1].split(',')
         x = int(donnee[0])
         y = int(donnee[1])
