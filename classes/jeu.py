@@ -23,7 +23,7 @@ class Jeu():
         #self.joueurs.add(player.Player(2))
         #self.joueurs.add(player.Player(3))
         
-        #déclaration du groupe des joueurs
+        #declaration du groupe des joueurs
         player_group=pygame.sprite.RenderClear()
         
         #ajout des joueurs au groupe
