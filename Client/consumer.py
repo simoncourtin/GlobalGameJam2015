@@ -17,7 +17,7 @@ class Consumer(threading.Thread):
         donnee = request.split(':')
         if donnee[0] == "ATK":
             attaquant = donnee[1]
-            attaque = donnees[2]
+            attaque = donnee[2]
 
             if attaque == self.jeu.id_client:
                 joueur_attaque = self.jeu.playerById(self.jeu.id_client)
