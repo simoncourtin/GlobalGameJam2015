@@ -1,6 +1,5 @@
 import pygame
 from pygame.locals import *
- 
 from classes import attaque
 
 VELOCITY = 3
@@ -242,7 +241,7 @@ class Player(pygame.sprite.Sprite):
                 self.x_velocite = 0
             if not keys[K_UP] and not keys[K_DOWN]:
                 self.y_velocite = 0
-            if keys[K_e]:
+            if keys[K_SPACE]:
                 self.y_velocite = 0
                 self.x_velocite = 0
                 self.attaque.setVisible(True)
@@ -254,7 +253,7 @@ class Player(pygame.sprite.Sprite):
                     self.attaque.image = pygame.transform.rotate(self.attaque.image, 90)
                     self.attaque.rect.x  = self.rect.x - 32
                     self.attaque.rect.y = self.rect.y - 32
-                elif self.image == self.haut_1 or seft.image == self.haut_2:
+                elif self.image == self.haut_1 or self.image == self.haut_2:
                     self.attaque.rect.x = self.rect.x - 32
                     self.attaque.rect.y = self.rect.y - 32
                 elif self.image == self.bas_1 or self.image == self.bas_1:
@@ -322,7 +321,7 @@ class Player(pygame.sprite.Sprite):
             return True
 
         return False
-        
+
 
     def lacherItems(self):
         self.items[:] = []
@@ -336,7 +335,7 @@ class Player(pygame.sprite.Sprite):
         self.jeu.items.add(self.items)
         self.jeu.items_taken.remove(self.items)
         self.lacherItems()
-        
+
         self.death_cooldown = 100
         self.rect.x = -40
         self.rect.y = -40
