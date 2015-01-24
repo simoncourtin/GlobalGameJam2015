@@ -291,21 +291,26 @@ class Player(pygame.sprite.Sprite):
 
 
     def pickUpItem(self, item):
-        print item
-        self.items.append(item)
-        for it in item:
-            it.setVisible(False)
+        if len(self.items) + len(item) <= 2:
+            self.items.append(item)
+            return True
+
+        return False
+        
 
     def lacherItems(self):
-        for item in self.items:
-            item.setVisible(True)
         self.items[:] = []
 
     def deposerItem(self, camp):
         camp.deposer(self.items)
-        self.items[:] = []
+        self.lacherItems()
 
     def mourir(self):
+        # On lache tous ses items
+        self.jeu.items.add(self.items)
+        self.jeu.items_taken.remove(self.items)
+        self.lacherItems()
+        
         self.death_cooldown = 100
         self.rect.x = -30
         self.rect.y = -30

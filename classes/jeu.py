@@ -102,12 +102,13 @@ class Jeu():
 
                     if event.key == K_e:
                         coins = pygame.sprite.spritecollide(self.playerById(self.id_client), self.items, False)
-                        coins = [visible for visible in coins if visible.getVisible()]
                         if coins:
-                            self.playerById(self.id_client).pickUpItem(coins)
-                            pickCoins.play()
-                            self.items.remove(coins)
-                            self.items_taken.add(coins)
+                            if self.playerById(self.id_client).pickUpItem(coins):
+                                pickCoins.play()
+                                self.items.remove(coins)
+                                self.items_taken.add(coins)
+                            else:
+                                pass # Faire un son d'erreur
 
                 elif event.type == KEYUP:
                     if event.key == K_SPACE:
