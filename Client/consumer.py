@@ -16,10 +16,10 @@ class Consumer(threading.Thread):
             car = self.socket.recv(1)
         donnee = request.split(':')
         numero = int(donnee[0])
-        donnee = donnee[1].split(',')
-        donnee[1] = donnee[1].strip("@")
-        x = int(donnee[0])
-        y = int(donnee[1])
+        coords = donnee[1].split(',')
+        donnee[2] = donnee[2].strip("@")
+        x = int(coords[0])
+        y = int(coords[1])
         life = int(donnee[2])
         
         #changement de direction du personnage
