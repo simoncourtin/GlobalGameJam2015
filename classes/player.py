@@ -4,6 +4,7 @@ from pygame.locals import *
 import item as _item
 
 VELOCITY = 3
+WEAPON_DAMAGE = 2
 
 BASE_RESSOURCE = "images/"
 RESSOURCES_J1 = ["sprite_profile.png", "sprite_dos.png", "sprite_face.png"]
@@ -51,7 +52,7 @@ class Player(pygame.sprite.Sprite):
         self.attaque = pygame.image.load("images/frappe.png").convert_alpha()
         self.afficher_attaque = False
         if name == "joueur":
-            self.name = name + str(classe)
+            self.name = name + ' ' + str(classe + 1)
         else:
             self.name = name
 
@@ -86,21 +87,21 @@ class Player(pygame.sprite.Sprite):
         # la velocite
         self.x_velocite = 0
         self.y_velocite = 0
-        #les items
+        # les items
         self.items = []
 
     def deplacer(self, direction):
         if direction == 'droite':
-            self.x_velocite = self.speed
+            self.x_velocite = VELOCITY * self.speed
             self.image = self.droite
         elif direction == 'gauche':
-            self.x_velocite = -self.speed
+            self.x_velocite = -VELOCITY * self.speed
             self.image = self.gauche
         elif direction == 'haut':
-            self.y_velocite = -self.speed
+            self.y_velocite = -VELOCITY * self.speed
             self.image = self.haut
         elif direction == 'bas':
-            self.y_velocite = self.speed
+            self.y_velocite = VELOCITY * self.speed
             self.image = self.bas
 
 
@@ -125,6 +126,15 @@ class Player(pygame.sprite.Sprite):
 
     def getY(self):
         return self.rect.y
+
+    def getXVelocity(self):
+        return self.x_velocite
+
+    def getYVelocity(self):
+        return self.y_velocite
+
+    def getRect(self):
+        return self.rect
 
 
     def getDirection(self):
@@ -167,20 +177,20 @@ class Player(pygame.sprite.Sprite):
                 self.afficher_attaque = True
                 if self.image == self.droite:
                     self.attaque = pygame.transform.rotate(self.attaque, 90)
-                    self.Arect.x = self.rect.x +32
-                    self.Arect.y = self.rect.y -32
+                    self.Arect.x = self.rect.x + 32
+                    self.Arect.y = self.rect.y - 32
                 elif self.image == self.gauche:
                     self.attaque = pygame.transform.rotate(self.attaque, 90)
-                    self.Arect.x = self.rect.x -32
-                    self.Arect.y = self.rect.y -32
+                    self.Arect.x = self.rect.x - 32
+                    self.Arect.y = self.rect.y - 32
                 elif self.image == self.haut:
-                    self.Arect.x = self.rect.x -32
-                    self.Arect.y = self.rect.y -32
+                    self.Arect.x = self.rect.x - 32
+                    self.Arect.y = self.rect.y - 32
                 elif self.image == self.bas:
                     self.attaque = pygame.transform.rotate(self.attaque, 180)
-                    self.Arect.x = self.rect.x -32
-                    self.Arect.y = self.rect.y +32
-            
+                    self.Arect.x = self.rect.x - 32
+                    self.Arect.y = self.rect.y + 32
+
             old_x = self.rect.x
             old_y = self.rect.y
             self.setX(self.x_velocite)
@@ -193,7 +203,7 @@ class Player(pygame.sprite.Sprite):
 
             if self.speed > VELOCITY:
                 self.speed -= 1
-                    
+
             self.dash_cooldown -= 1
             if self.dash_cooldown < 0:
                 self.dash_cooldown = 0
@@ -206,16 +216,28 @@ class Player(pygame.sprite.Sprite):
     def setControllable(self, boolean):
         self.is_controllable = boolean
 
-    def pickUpItem(self,item):
+
+    def attack(self, target=None):
+        self.setSpeed(0)
+
+        if len(target) > 1:
+            target.remove(self)
+            print repr(target)
+            # target.receiveDamage(WEAPON_DAMAGE)
+
+    def setSpeed(self, speed):
+        self.speed = speed
+
+
+    def pickUpItem(self, item):
         self.items.append(item)
         item.setVisible(False)
 
-    def lachezItems(self):
+    def lacherItems(self):
         for item in self.items:
             item.setVisible(True)
         self.items[:] = []
 
-    def deposerItem(self,camp):
+    def deposerItem(self, camp):
         camp.deposer(self.items)
-        self.items[:]=[]
-
+        self.items[:] = []
