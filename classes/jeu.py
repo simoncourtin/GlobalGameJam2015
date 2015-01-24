@@ -6,6 +6,7 @@ from classes import player
 from Client import producer, consumer
 
 MAX_FPS = 60
+colliding=0
 
 class Jeu():
 
