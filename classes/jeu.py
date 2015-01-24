@@ -54,17 +54,17 @@ class Jeu():
                     if(not collision):
                         colliding=0
                         print colliding
-                    else:
+                else:
+                    print colliding
+                    if(collision):
+                        print collision
+                        colliding=1
                         print colliding
-                        if(collision):
-                            print collision
-                            colliding=1
-                            print colliding
-                            print 'encule !'+str(self.id_client)
-                            self.playerById(self.id_client).life-=10
-                            if(self.playerById(self.id_client).life==0):
-                                print("perdu")
-                        return
+                        print 'encule !'+str(self.id_client)
+                        self.playerById(self.id_client).life-=10
+                        if(self.playerById(self.id_client).life==0):
+                            print("perdu")
+                            return
     
             self.screen.fill((0,0,0))
             self.joueurs.update()
