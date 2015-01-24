@@ -19,10 +19,10 @@ class Jeu():
         self.socket = socket
         
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(0,self))
-        self.joueurs.add(player.Player(1,self))
-        self.joueurs.add(player.Player(2,self))
-        self.joueurs.add(player.Player(3,self))
+        self.joueurs.add(player.Player(self,0))
+        self.joueurs.add(player.Player(self,1))
+        self.joueurs.add(player.Player(self,2))
+        self.joueurs.add(player.Player(self,3))
 
         groupe_sansJ = pygame.sprite.Group()
         for j in self.joueurs:
@@ -76,5 +76,5 @@ class Jeu():
                 return j
     
     def deplacer(self, x, y) :
-        #décaller map
+        #decaller map
         print str(y)
