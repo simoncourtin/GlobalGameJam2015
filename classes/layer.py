@@ -32,7 +32,6 @@ class Layer():
                 if element!='0':
                     X = (((int(element))-(((int(element)-1)/16)*16))-1)*32
                     Y=(int(element)/16)*32
-                    print element,X, Y
                     self.screen.blit(self.tilset.subsurface(X,Y,hauteur,largeur),(x,y))
                 x+=largeur
             else:
