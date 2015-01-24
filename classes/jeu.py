@@ -74,11 +74,11 @@ class Jeu():
         #load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
         pygame.mixer.music.queue("fondSonore.ogg")
-        hit=pygame.mixer.Sound("hit.wav")
-        pickCoins=pygame.mixer.Sound("pickCoins.wav")
-        respawn=pygame.mixer.Sound("respawn.wav")
-        death=pygame.mixer.Sound("death.wav")
-        select=pygame.mixer.Sound("select.wav")
+        hit=pygame.mixer.Sound("hit.ogg")
+        pickCoins=pygame.mixer.Sound("pickCoins.ogg")
+        respawn=pygame.mixer.Sound("respawn.ogg")
+        death=pygame.mixer.Sound("death.ogg")
+        select=pygame.mixer.Sound("select.ogg")
         
         #declenchement du fond sonore
         pygame.mixer.music.play()
@@ -110,7 +110,7 @@ class Jeu():
             if tempsApresHit - tempsAvantHit > 2:
                 for other in collision:
                     self.playerById(self.id_client).life -= 10
-                    print 'hit'
+                    hit.play()
                     tempsApresHit = time.time()
 
                     if (self.playerById(self.id_client).life <= 0):
