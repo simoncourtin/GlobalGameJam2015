@@ -46,20 +46,16 @@ class Jeu():
             
             
             collision=pygame.sprite.spritecollide(self.playerById(self.id_client),self.joueurs,False)
-            print collision
             if len(collision) > 1:
                 if(colliding==1):
                     print colliding
-                    print collision
                     if(len(collision) == 1):
                         colliding=0
                         print colliding
                 else:
                     print colliding
                     if(len(collision) > 1):
-                        print collision
                         colliding=1
-                        print colliding
                         print 'encule !'+str(self.id_client)
                         self.playerById(self.id_client).life-=10
                         if(self.playerById(self.id_client).life==0):
