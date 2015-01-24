@@ -30,7 +30,7 @@ class Jeu():
             if not j is self.playerById(self.id_client):
                 groupe_sansJ.add(j)
         
-        self.interface = interface.Interface(self)
+        self.HUD = interface.Interface(self)
         
         #definition du sprite controlable
         self.playerById(self.id_client).setControllable(True)
@@ -72,7 +72,7 @@ class Jeu():
                     if (self.playerById(self.id_client).life <= 0):
                         print "You dead"
     
-            interface.displayScoreJoueur(self.playerById(self.id_client))
+            self.HUD.displayScoreJoueur(self.playerById(self.id_client))
             
             #gestion collision avec le decors
             #for other in collision_decors:
