@@ -22,7 +22,6 @@ print "Vous etes le client numero "+str(numero_client)
 car = socket_joueur.recv(1)
 request = ""
 while car != "@":
-    print car
     request += car
     car = socket_joueur.recv(1)
 
@@ -36,10 +35,8 @@ for i in range(0,nbr_players-1):
     request = ''
     car = socket_joueur.recv(1)
     while car != "@":
-        print car
         request += car
         car = socket_joueur.recv(1)
     donnee = request.split(' ')
-    print donnee
     idnom[int(donnee[1])] = donnee[2]
 fenetre = jeu.Jeu(numero_client,socket_joueur,idnom, donnee)
