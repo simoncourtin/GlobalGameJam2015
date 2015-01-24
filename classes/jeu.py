@@ -123,7 +123,9 @@ class Jeu():
             self.joueurs.update()
             
             self.cam.update(self.playerById(self.id_client))
-            
+            if self.playerById(self.id_client).afficher_attaque :
+                self.cam.update(self.playerById(self.id_client).attaque)
+                self.playerById(self.id_client).afficher_attaque = False
             #rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map(self.cam)
             for j in self.joueurs:
