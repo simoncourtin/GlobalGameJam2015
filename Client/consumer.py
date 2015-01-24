@@ -20,13 +20,16 @@ class Consumer(threading.Thread):
             attaque = donnee[2]
             damage = donnee[3].strip("@")
 
-            print "Attaquant : " + attaquant
-            print "Attaque : " + attaque
-            print "Dommages : " + damage
             if int(attaque) == self.jeu.id_client:
-                print "C'est moi"
+                # C'est notre joueur
                 joueur_attaque = self.jeu.playerById(self.jeu.id_client)
                 joueur_attaque.receiveAttack(int(damage))
+
+            # Ensuite on verifie si le perso est mort, si oui on l'enleve
+            joueur_attaque = self.jeu.playerById(int(attaque))
+            if (joueur_attaque.life - int(damage)) <= 0:
+                # Il est mort
+                self.jeu.players.remove(joueur_attaque)
                 
         else: # Position
             numero = int(donnee[0])
