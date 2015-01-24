@@ -29,8 +29,8 @@ class Jeu():
         self.joueurs = pygame.sprite.Group()
         self.joueurs.add(player.Player(self, 0,idnom[0]))
         self.joueurs.add(player.Player(self, 1,idnom[1]))
-        self.joueurs.add(player.Player(self, 2,idnom[2]))
-        self.joueurs.add(player.Player(self, 3,idnom[3]))
+        #self.joueurs.add(player.Player(self, 2,idnom[2]))
+        #self.joueurs.add(player.Player(self, 3,idnom[3]))
 
         self.items = pygame.sprite.Group()
         for i in range(NB_PIECES):

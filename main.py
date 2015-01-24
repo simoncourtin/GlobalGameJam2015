@@ -20,6 +20,7 @@ numero_client = int(socket_joueur.recv(1024))
 print "Vous etes le client numero "+str(numero_client)
 #creation du jeu
 request = socket_joueur.recv(1024)
+print request
 idnom =['','','','']
 socket_joueur.send("NAME "+str(numero_client) + " "+NOM+'@')
 
@@ -28,6 +29,7 @@ idnom[numero_client] = NOM
 for i in range(0,3):
     request = ''
     while car != "@":
+        print car
         request += car
         car = socket_joueur.recv(1)
     donnee = request.split(' ') 
