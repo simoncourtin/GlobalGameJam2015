@@ -5,13 +5,29 @@ VELOCITY=3
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, classe = 0):
         pygame.sprite.Sprite.__init__(self)
         #images du personnage
-        self.droite = pygame.image.load("images/sprite_profile.png").convert_alpha()
-        self.gauche = pygame.transform.flip(self.droite,True,False)
-        self.haut = pygame.image.load("images/sprite_dos.png").convert_alpha()
-        self.bas = pygame.image.load("images/sprite_face.png").convert_alpha()
+        if classe == 0 :
+            self.droite = pygame.image.load("images/sprite_profile.png").convert_alpha()
+            self.gauche = pygame.transform.flip(self.droite,True,False)
+            self.haut = pygame.image.load("images/sprite_dos.png").convert_alpha()
+            self.bas = pygame.image.load("images/sprite_face.png").convert_alpha()
+        elif classe ==1  :
+            self.droite = pygame.image.load("images/sprite2_profile.png").convert_alpha()
+            self.gauche = pygame.transform.flip(self.droite,True,False)
+            self.haut = pygame.image.load("images/sprite2_dos.png").convert_alpha()
+            self.bas = pygame.image.load("images/sprite2_face.png").convert_alpha()
+        elif classe ==2  :
+            self.droite = pygame.image.load("images/sprite3_profile.png").convert_alpha()
+            self.gauche = pygame.transform.flip(self.droite,True,False)
+            self.haut = pygame.image.load("images/sprite3_dos.png").convert_alpha()
+            self.bas = pygame.image.load("images/sprite3_face.png").convert_alpha()
+        elif classe ==3  :
+            self.droite = pygame.image.load("images/sprite4_profile.png").convert_alpha()
+            self.gauche = pygame.transform.flip(self.droite,True,False)
+            self.haut = pygame.image.load("images/sprite4_dos.png").convert_alpha()
+            self.bas = pygame.image.load("images/sprite4_face.png").convert_alpha()
         #image actuelle du personnage
         self.image = self.droite
         #position de depart du personnage
