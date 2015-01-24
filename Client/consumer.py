@@ -1,5 +1,6 @@
 import threading
 import socket
+import pygame
 
 class Consumer(threading.Thread):
     
