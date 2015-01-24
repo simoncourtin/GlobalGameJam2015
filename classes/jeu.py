@@ -1,7 +1,7 @@
 import pygame
 import time
 from pygame.locals import *
-from classes import player, map, interface, camera
+from classes import player, map, interface, camera, item
 from Client import producer, consumer
 
 
@@ -11,12 +11,7 @@ MAX_FPS = 60
 class Jeu():
     def __init__(self, id_client, socket, width=300, height=300):
         pygame.init()
-
-        """
-        global BASICFONT, BASICFONTSIZE
-        BASICFONTSIZE = 20
-        BASICFONT = pygame.font.Font('freesansbold.ttf', BASICFONTSIZE)
-        """
+        NB_PIECES = 3
 
         self.screen = pygame.display.set_mode((800, 800))
         pygame.display.set_caption('Broken pipe')
@@ -29,9 +24,12 @@ class Jeu():
         self.joueurs.add(player.Player(self, 2))
         self.joueurs.add(player.Player(self, 3))
 
-        """
-        self.HUD = interface.Interface(self)
-        """
+        self.items = pygame.sprite.Group()
+        for i in range(NB_PIECES):
+            for j in range(NB_PIECES):
+                self.items.add(item.Item(self, "sprite_coins.png", 200 + 50 * j, 200 + 50 * i, "rouge"))
+
+        self.items.add(item.Item(self, "sprite_coins.png", 10, 10, "bleu"))
 
         # definition du sprite controlable
         self.playerById(self.id_client).setControllable(True)
@@ -44,9 +42,23 @@ class Jeu():
         # map
         self.map = map.Map(self.screen)
 
+        # load de toutes les musiques + bruitages
+        pygame.mixer.music.load("fondSonore.ogg")
+        pygame.mixer.music.queue("fondSonore.ogg")
+        hit = pygame.mixer.Sound("hit.ogg")
+        pickCoins = pygame.mixer.Sound("pickCoins.ogg")
+        respawn = pygame.mixer.Sound("respawn.ogg")
+        death = pygame.mixer.Sound("death.ogg")
+        select = pygame.mixer.Sound("select.ogg")
+
+        # declenchement du fond sonore
+        pygame.mixer.music.play()
+
         # La camera
-        self.cam = camera.Camera(self, camera.simple_camera, self.screen.get_rect().width,
-                                 self.screen.get_rect().height)
+        largeur_map = self.map.layer1.largeur_map * self.map.layer1.x_tile
+        hauteur_map = self.map.layer1.hauteur_map * self.map.layer1.y_tile
+        self.cam = camera.Camera(self, camera.complex_camera, largeur_map, hauteur_map)
+
         # repetition des touches
         pygame.key.set_repeat(5, 20)
 
@@ -65,30 +77,39 @@ class Jeu():
 
                 elif event.type == KEYDOWN:
                     if event.key == K_SPACE:
-                        if timeFirst + 3000 < pygame.time.get_ticks():
+                        if timeFirst + 2000 < pygame.time.get_ticks():
                             target = pygame.sprite.spritecollide(self.playerById(self.id_client), self.joueurs, False)
                             self.playerById(self.id_client).attack(target)
-
                             timeFirst = pygame.time.get_ticks()
+
+                    if event.key == K_a:
+                        coins = pygame.sprite.spritecollide(self.playerById(self.id_client), self.items, False)
+                        coins = [visible for visible in coins if visible.getVisible()]
+                        if coins:
+                            self.playerById(self.id_client).pickUpItem(it)
+                            pickCoins.play()
 
                 elif event.type == KEYUP:
                     if event.key == K_SPACE:
                         self.playerById(self.id_client).setSpeed(player.VELOCITY)
 
-            """
-            self.HUD.displayScoreJoueur(self.playerById(self.id_client))
-            """
-
             self.joueurs.update()
 
-            self.cam.update(self.playerById(self.id_client))
+            # rafraichissement de la map des des affichages des joueurs
+            if self.playerById(self.id_client).afficher_attaque:
+                self.cam.update(self.playerById(self.id_client))
+                self.playerById(self.id_client).afficher_attaque = False
 
             # rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map(self.cam)
             for j in self.joueurs:
                 self.screen.blit(j.image, self.cam.apply(j))
 
+            for it in self.items:
+                self.screen.blit(it.image, self.cam.apply(it))
+
             pygame.display.update()
+
             for id in range(len(self.joueurs.sprites())):
                 joueur = self.playerById(id)
 

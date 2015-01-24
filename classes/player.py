@@ -1,6 +1,7 @@
 __author__ = 'Simon'
 import pygame
 from pygame.locals import *
+import item as _item
 
 VELOCITY = 3
 WEAPON_DAMAGE = 2
@@ -48,7 +49,8 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
         self.jeu = jeu
-
+        self.attaque = pygame.image.load("images/frappe.png").convert_alpha()
+        self.afficher_attaque = False
         if name == "joueur":
             self.name = name + ' ' + str(classe + 1)
         else:
@@ -66,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         elif classe == 3:
             ressources = RESSOURCES_J4
 
-        self.droite = pygame.image.load(BASE_RESSOURCE + ressources[0])
+        self.droite = pygame.image.load(BASE_RESSOURCE + ressources[0]).convert_alpha()
         self.gauche = pygame.transform.flip(self.droite, True, False)
         self.haut = pygame.image.load(BASE_RESSOURCE + ressources[1]).convert_alpha()
         self.bas = pygame.image.load(BASE_RESSOURCE + ressources[2]).convert_alpha()
@@ -79,11 +81,14 @@ class Player(pygame.sprite.Sprite):
         self.is_controllable = False
         self.life_max = 100
         self.life = 100
-        self.speed = 1
+        self.speed = VELOCITY
         self.force = 1
+        self.dash_cooldown = 0
         # la velocite
         self.x_velocite = 0
         self.y_velocite = 0
+        # les items
+        self.items = []
 
     def deplacer(self, direction):
         if direction == 'droite':
@@ -143,6 +148,11 @@ class Player(pygame.sprite.Sprite):
             direction = 4
         return direction
 
+    def dash(self):
+        if self.dash_cooldown <= 0:
+            self.speed = 20
+            self.dash_cooldown = 500
+
     def update(self):
         if self.is_controllable:
             keys = pygame.key.get_pressed()
@@ -154,10 +164,32 @@ class Player(pygame.sprite.Sprite):
                 self.deplacer("droite")
             if keys[K_LEFT]:
                 self.deplacer("gauche")
+            if keys[K_LSHIFT]:
+                self.dash()
             if not keys[K_LEFT] and not keys[K_RIGHT]:
                 self.x_velocite = 0
             if not keys[K_UP] and not keys[K_DOWN]:
                 self.y_velocite = 0
+            if keys[K_e]:
+                self.y_velocite = 0
+                self.x_velocite = 0
+                self.Arect = self.attaque.get_rect()
+                self.afficher_attaque = True
+                if self.image == self.droite:
+                    self.attaque = pygame.transform.rotate(self.attaque, 90)
+                    self.Arect.x = self.rect.x + 32
+                    self.Arect.y = self.rect.y - 32
+                elif self.image == self.gauche:
+                    self.attaque = pygame.transform.rotate(self.attaque, 90)
+                    self.Arect.x = self.rect.x - 32
+                    self.Arect.y = self.rect.y - 32
+                elif self.image == self.haut:
+                    self.Arect.x = self.rect.x - 32
+                    self.Arect.y = self.rect.y - 32
+                elif self.image == self.bas:
+                    self.attaque = pygame.transform.rotate(self.attaque, 180)
+                    self.Arect.x = self.rect.x - 32
+                    self.Arect.y = self.rect.y + 32
 
             old_x = self.rect.x
             old_y = self.rect.y
@@ -168,6 +200,13 @@ class Player(pygame.sprite.Sprite):
             if collision_decors:
                 self.rect.x = old_x
                 self.rect.y = old_y
+
+            if self.speed > VELOCITY:
+                self.speed -= 1
+
+            self.dash_cooldown -= 1
+            if self.dash_cooldown < 0:
+                self.dash_cooldown = 0
 
 
     def getHealthbar(self):
@@ -184,8 +223,21 @@ class Player(pygame.sprite.Sprite):
         if len(target) > 1:
             target.remove(self)
             print repr(target)
-        #    target.receiveDamage(WEAPON_DAMAGE)
-
+            # target.receiveDamage(WEAPON_DAMAGE)
 
     def setSpeed(self, speed):
         self.speed = speed
+
+
+    def pickUpItem(self, item):
+        self.items.append(item)
+        item.setVisible(False)
+
+    def lacherItems(self):
+        for item in self.items:
+            item.setVisible(True)
+        self.items[:] = []
+
+    def deposerItem(self, camp):
+        camp.deposer(self.items)
+        self.items[:] = []

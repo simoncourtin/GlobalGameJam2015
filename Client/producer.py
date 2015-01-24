@@ -11,7 +11,8 @@ class Producer(threading.Thread):
         num=self.jeu.id_client
         x=self.jeu.playerById(num).rect.x
         y=self.jeu.playerById(num).rect.y
-        self.socket.send(str(num)+':'+str(x)+','+str(y) + "@")
+        life = self.jeu.playerById(num).life
+        self.socket.send(str(num)+':'+str(x)+','+str(y) + ":" + str(life) + "@")
         
     def run(self):
         while True:
