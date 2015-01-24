@@ -64,30 +64,6 @@ class Jeu():
                     
                     if (self.playerById(self.id_client).life <= 0):
                         print "You dead"
-            
-            collision=pygame.sprite.spritecollide(self.playerById(self.id_client),groupe_sansJ,False)
-            
-            for other in collision:
-                self.playerById(self.id_client).life -= 10
-                print 'hit'
-                if (self.playerById(self.id_client).life <= 0):
-                    print "You dead"
-
-            if len(collision) > 1:
-                if(colliding==1):
-                    print collision
-                    if(len(collision) == 1):
-                        colliding=0
-                        print collision
-                else:
-                    print collision
-                    if(len(collision) > 1):
-                        colliding=1
-                        print 'encule !'+str(self.id_client)
-                        self.playerById(self.id_client).life-=10
-                        if(self.playerById(self.id_client).life==0):
-                            print("perdu")
-                            return
     
             self.screen.fill((0,0,0))
             self.joueurs.update()
