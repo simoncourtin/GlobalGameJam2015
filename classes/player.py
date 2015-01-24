@@ -111,8 +111,8 @@ class Player(pygame.sprite.Sprite):
             if not keys[K_UP] and not keys[K_DOWN]:
                 self.y_velocite =0
             
-            self.setX(x)
-            self.setY(y)
+            self.setX(self.x_velocite)
+            self.setY(self.y_velocite)
     
     def setControllable(self, boolean):
         self.is_controllable = boolean
