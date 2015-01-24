@@ -2,18 +2,19 @@ __author__ = 'Simon'
 import pygame
 from pygame.locals import *
 
-class Item(pygame.sprite.Sprite):
+BASE_RESSOURCE = "images/"
 
-    BASE_RESSOURCE = "images/"
+class Item(pygame.sprite.Sprite):
 
     def __init__(self,  jeu, resource, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.jeu = jeu
         self.resource = BASE_RESSOURCE + resource
+        self.image=pygame.image.load(self.resource)
+        self.rect = self.image.get_rect()
         self.rect.x=x
         self.rect.y=y
-        self.image=pygame.image.load(self.resource)
         self.screen = self.jeu.screen
         
     def afficherItem(self, jeu):
-        self.screen.blit(self.image, (self.rect.x,self.rect.y))
+        self.screen.blit(self.image, self.jeu.cam.apply(self))

@@ -32,7 +32,7 @@ class Jeu():
         self.joueurs.add(player.Player(self, 3))
 
         self.items = pygame.sprite.Group()
-        self.items.add(item.Item(self, 100, 100))
+        self.items.add(item.Item(self, "sprite_coins.png", 100, 100))
 
         groupe_sansJ = pygame.sprite.Group()
         for j in self.joueurs:
@@ -102,7 +102,8 @@ class Jeu():
             for j in self.joueurs:
                 self.screen.blit(j.image, self.cam.apply(j))
             
-            self.items.afficherItem(self)
+            for it in self.items:
+                self.screen.blit(it.image, self.cam.apply(it))
 
             pygame.display.update()
             for id in range(len(self.joueurs.sprites())):
