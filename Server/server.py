@@ -27,10 +27,16 @@ def agent(socket_client, num, list_client):
 
     request = socket_client.recv(BUFFER_SIZE)
     while len(request) != 0:
-        #print "recu de " + str(num) + " : " + request
         for socket_other in list_client:
+            if request == "QUIT" :
+                print "num client se deconnecte"
+                socket_client.shutdown(0)
+                socket_client.close()
+                sys.exit()
             if not socket_other is socket_client:
-                socket_other.send(request)
+                if socket_other.send(request):
+                    pass    
+                
         request = socket_client.recv(BUFFER_SIZE)
     socket_client.close()
     exit(0)

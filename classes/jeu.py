@@ -72,6 +72,7 @@ class Jeu():
             # gestion des evenement
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.socket.send("QUIT")
                     self.socket.close()
 
                 elif event.type == KEYDOWN:
