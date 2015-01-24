@@ -6,10 +6,10 @@ WEAPON_DAMAGE = 2
 LIFE_MAX = 10
 
 BASE_RESSOURCE = "images/"
-RESSOURCES_J1 = ["sprite_profile.png", "sprite_dos.png", "sprite_face.png"]
-RESSOURCES_J2 = ["sprite2_profile.png", "sprite2_dos.png", "sprite2_face.png"]
-RESSOURCES_J3 = ["sprite3_profile.png", "sprite3_dos.png", "sprite3_face.png"]
-RESSOURCES_J4 = ["sprite4_profile.png", "sprite4_dos.png", "sprite4_face.png"]
+RESSOURCES_J1 = ["sprite_profile.png", "face_1.png", "face_2.png"]
+RESSOURCES_J2 = ["sprite2_profile.png", "face_1.png", "face_2.png"]
+RESSOURCES_J3 = ["sprite3_profile.png", "face_1.png", "face_2.png"]
+RESSOURCES_J4 = ["sprite4_profile.png", "face_1.png", "face_2.png"]
 
 
 class Healthbar(object):
