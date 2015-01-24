@@ -62,7 +62,7 @@ class Jeu():
             #collision avec les autres joueurs
             collision=pygame.sprite.spritecollide(self.playerById(self.id_client),groupe_sansJ,False)
             #collision avec le decors
-           #collision_decors= pygame.sprite.spritecollide(self.playerById(self.id_client),self.map.layer2.tuiles,False)
+            collision_decors= pygame.sprite.spritecollide(self.playerById(self.id_client),self.map.layer2.tuiles_colision,False)
             if tempsApresHit-tempsAvantHit > 2:
                 for other in collision:
                     self.playerById(self.id_client).life -= 10
@@ -75,8 +75,9 @@ class Jeu():
             self.HUD.displayScoreJoueur(self.playerById(self.id_client))
             
             #gestion collision avec le decors
-            #for other in collision_decors:
-
+            for other in collision_decors:
+                self.playerById(self.id_client).x_velocite=0
+                self.playerById(self.id_client).y_velocite=0
             #rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map()
             self.joueurs.update()

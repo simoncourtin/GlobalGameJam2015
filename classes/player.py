@@ -35,6 +35,8 @@ class Player(pygame.sprite.Sprite):
         self.image = self.droite
         # position de depart du personnage
         self.rect = self.image.get_rect()
+        self.rect.x=40
+        self.rect.y=40
         self.is_controllable = False
         self.life = 100
         self.speed = 1
