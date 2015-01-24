@@ -6,10 +6,10 @@ WEAPON_DAMAGE = 2
 LIFE_MAX = 10
 
 BASE_RESSOURCE = "images/"
-RESSOURCES_J1 = ["sprite_profile.png", "sprite_dos.png", "sprite_face.png"]
-RESSOURCES_J2 = ["sprite2_profile.png", "sprite2_dos.png", "sprite2_face.png"]
-RESSOURCES_J3 = ["sprite3_profile.png", "sprite3_dos.png", "sprite3_face.png"]
-RESSOURCES_J4 = ["sprite4_profile.png", "sprite4_dos.png", "sprite4_face.png"]
+RESSOURCES_J1 = ["sprite_profile.png", "face_1.png", "face_2.png"]
+RESSOURCES_J2 = ["sprite2_profile.png", "face_1.png", "face_2.png"]
+RESSOURCES_J3 = ["sprite3_profile.png", "face_1.png", "face_2.png"]
+RESSOURCES_J4 = ["sprite4_profile.png", "face_1.png", "face_2.png"]
 
 
 class Healthbar(object):
@@ -101,13 +101,31 @@ class Player(pygame.sprite.Sprite):
     def deplacer(self, direction):
         if direction == 'droite':
             self.x_velocite = VELOCITY * self.speed
-            self.image = self.droite
+            if self.nbTrame >= 15:
+                if self.nbTrame >= 30:
+                    self.nbTrame = 0
+                self.image = self.droite
+            else:
+                self.image = self.gauche
+
         elif direction == 'gauche':
             self.x_velocite = -VELOCITY * self.speed
-            self.image = self.gauche
+            if self.nbTrame >= 15:
+                if self.nbTrame >= 30:
+                    self.nbTrame = 0
+                self.image = self.gauche
+            else:
+                self.image = self.droite
+
         elif direction == 'haut':
             self.y_velocite = -VELOCITY * self.speed
-            self.image = self.haut
+            if self.nbTrame >= 15:
+                if self.nbTrame >= 30:
+                    self.nbTrame = 0
+                self.image = self.haut
+            else:
+                self.image = self.bas
+
         elif direction == 'bas':
             self.y_velocite = VELOCITY * self.speed
             if self.nbTrame >= 15:
@@ -170,8 +188,8 @@ class Player(pygame.sprite.Sprite):
     def dash(self):
         if self.dash_cooldown <= 0:
             self.speed = 20
-            self.dash_cooldown = 10
-            dash= pygame.mixer.Sound("dash.ogg")
+            self.dash_cooldown = 500
+            dash = pygame.mixer.Sound("dash.ogg")
             dash.play()
 
     def spawn(self,x,y):
@@ -236,7 +254,7 @@ class Player(pygame.sprite.Sprite):
                 self.dash_cooldown = 0
 
             self.death_cooldown -= 1
-            if self.death_cooldown == 0: # Si =0, on fait repop
+            if self.death_cooldown == 0:  # Si =0, on fait repop
                 self.death_cooldown = -1
                 self.reinit()
             elif self.death_cooldown <= -1:
