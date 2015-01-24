@@ -72,16 +72,17 @@ class Jeu():
             #gestion collision avec le decors
             for other in collision_decors:
                     print "dans le decors"
+            #rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map()
             self.joueurs.update()
             self.joueurs.draw(self.screen)
             pygame.display.flip()
-
+    #recuperer je joueur controlle par le client
     def playerById(self, id_player):
         for j in self.joueurs:
             if j.classe == id_player:
                 return j
-    
+    #deplacer la map
     def deplacer(self, x, y) :
         #decaller map
         print str(y)
