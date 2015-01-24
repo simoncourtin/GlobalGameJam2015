@@ -3,13 +3,11 @@ import pygame
 import math
 class Layer():
 
-    def __init__(self,screen,fichier,x_tile=32,y_tile=32):
+    def __init__(self,screen,fichier,image,x_tile=32,y_tile=32,):
         #fenetre ou ajouter
         self.screen = screen
         #image du calque
-        self.mur = pygame.image.load('../maps/cobblestone/mur.png').convert_alpha()
-        self.plant = pygame.image.load('../maps/cobblestone/grass.png').convert_alpha()
-        self.tilset = pygame.image.load('../maps/cobblestone/cobblestone.png').convert_alpha()
+        self.tilset = pygame.image.load(image).convert_alpha()
         #lecture du fichier
         self.f = open(fichier, "r")
         self.ligne = self.f.read()
