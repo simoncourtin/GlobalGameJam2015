@@ -19,7 +19,8 @@ class Item(pygame.sprite.Sprite):
         self.camp = camp
         
     def afficherItem(self, jeu):
-        self.screen.blit(self.image, (self.rect.x,self.rect.y))
+        if self.setVisible(True):
+            self.screen.blit(self.image, (self.rect.x,self.rect.y))
 
     def setVisible(self,bool):
         self.visible=bool
