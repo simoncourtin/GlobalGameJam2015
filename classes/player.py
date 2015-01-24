@@ -145,14 +145,20 @@ class Player(pygame.sprite.Sprite):
             if not keys[K_UP] and not keys[K_DOWN]:
                 self.y_velocite = 0
 
-            self.jeu.deplacer(self.x_velocite, self.y_velocite)
-
+            old_x = self.rect.x
+            old_y = self.rect.y
             self.setX(self.x_velocite)
             self.setY(self.y_velocite)
+            collision_decors = pygame.sprite.spritecollide(self.jeu.playerById(self.jeu.id_client),
+                                                           self.jeu.map.layer2.tuiles_colision, False)
+            if collision_decors:
+                self.rect.x = old_x
+                self.rect.y = old_y
 
 
     def getHealthbar(self):
         return self.healthbar
+
 
     def setControllable(self, boolean):
         self.is_controllable = boolean
