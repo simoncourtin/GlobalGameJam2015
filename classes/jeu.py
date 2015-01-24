@@ -14,9 +14,6 @@ class Jeu():
 
     def __init__(self,id_client,socket,width=300,height=300):
         pygame.init()
-        global BASICFONT, BASICFONTSIZE
-        BASICFONTSIZE = 20
-        BASICFONT = pygame.font.Font('freesansbold.ttf', BASICFONTSIZE)
         self.screen = pygame.display.set_mode((800,800))
         pygame.display.set_caption('Broken pipe')
         self.id_client = id_client
@@ -33,7 +30,7 @@ class Jeu():
             if not j is self.playerById(self.id_client):
                 groupe_sansJ.add(j)
         
-        self.interface = interface.Interface(self.playerById(self.id_client),self.screen)
+        self.interface = interface.Interface(self)
         
         #definition du sprite controlable
         self.playerById(self.id_client).setControllable(True)

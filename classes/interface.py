@@ -4,13 +4,14 @@ from pygame.locals import *
 
 class Interface(pygame.sprite.Sprite):
 
-    def __init__(self,  player, screen):
+    def __init__(self,  jeu):
         pygame.sprite.Sprite.__init__(self)
-        self.player = player
-        self.screen = screen
+        self.jeu.playerById(self.id_client)
+        self.jeu.screen
+        self.font = pygame.font.Font('freesansbold.ttf', 20)
         
     def displayScoreJoueur(self, player):
-        resultSurf = BASICFONT.render('Vie : %s' %(player.life), True, (0,0,0))
+        resultSurf = self.font.render('Vie : %s' %(player.life), True, (0,0,0))
         resultRect = resultSurf.get_rect()
         resultRect.topleft = (700, 25)
-        DISPLAYSURF.blit(resultSurf, resultRect)
+        self.screen.blit(resultSurf, resultRect)
