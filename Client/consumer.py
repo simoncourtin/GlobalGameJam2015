@@ -23,14 +23,14 @@ class Consumer(threading.Thread):
         
         #changement de direction du personnage
         
-        if(self.jeu.playerById(numero).x<x):
+        if(self.jeu.playerById(numero).rect.x<x):
             self.jeu.playerById(numero).changerPosition("droite")
-        elif(self.jeu.playerById(numero).x>x):
+        elif(self.jeu.playerById(numero).rect.x>x):
             self.jeu.playerById(numero).changerPosition("gauche")
         
-        if(self.jeu.playerById(numero).y<y):
+        if(self.jeu.playerById(numero).rect.y<y):
             self.jeu.playerById(numero).changerPosition("bas")
-        elif(self.jeu.playerById(numero).y>y):
+        elif(self.jeu.playerById(numero).rect.y>y):
             self.jeu.playerById(numero).changerPosition("haut")
         
         self.jeu.playerById(numero).rect.x = x 
