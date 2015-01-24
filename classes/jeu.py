@@ -13,11 +13,11 @@ FONT_SIZE = 16
 FONT_STYLE = None
 KEY_REPEAT_DELAY = 2000  # milliseconds
 
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 800
+WINDOW_WIDTH = 900
+WINDOW_HEIGHT = 700
 
 LINE_THIKNESS = 20
-SCOREBOARD_TOP_X = WINDOW_WIDTH * 5 / 8
+SCOREBOARD_TOP_X = WINDOW_WIDTH * 7 / 8
 SCOREBOARD_TOP_Y = WINDOW_HEIGHT - NB_JOUEURS * LINE_THIKNESS
 
 
@@ -132,7 +132,7 @@ class Jeu():
                 text, rect = joueur.getHealthbar().displayName(joueur.getX() - 20, joueur.getY() - 20)
                 self.screen.blit(text, self.cam.apply_rect(rect))
 
-                self.displayScore(joueur, SCOREBOARD_TOP_X * (id + 1), SCOREBOARD_TOP_Y * (id + 1))
+                self.displayScore(joueur, SCOREBOARD_TOP_X, SCOREBOARD_TOP_Y + LINE_THIKNESS * (id + 1))
 
                 if id == self.id_client:
                     text, rect = joueur.getHealthbar().displayLife(joueur.getX() - 20, joueur.getY() - 10)
