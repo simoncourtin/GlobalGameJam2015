@@ -86,7 +86,7 @@ class Jeu():
         timeFirst = pygame.time.get_ticks()
         
         self.groupe_attaque = pygame.sprite.Group()
-        self.groupe_attaque.add(self.playerById(self.id_client).attaque)
+        
         # LOOP
         while True:
             clock.tick(MAX_FPS)
@@ -102,7 +102,7 @@ class Jeu():
                         self.playerById(self.id_client).setSpeed(0)
 
                         if timeFirst + KEY_REPEAT_DELAY < pygame.time.get_ticks():
-                            target = pygame.sprite.spritecollide(self.playerById(self.id_client), self.joueurs, False)
+                            target = pygame.sprite.spritecollide(self.playerById(self.id_client).attaque, self.joueurs, False)
                             self.playerById(self.id_client).attack(target)
                             timeFirst = pygame.time.get_ticks()
 
@@ -125,14 +125,22 @@ class Jeu():
             # rafraichissement de la map des des affichages des joueurs
             self.cam.update(self.playerById(self.id_client))
             
-            if (self.playerById(self.id_client)).attaque.getVisible() :
-                self.groupe_attaque.draw(self.playerById(self.id_client).attaque.image)
-                #self.screen.blit(self.playerById(self.id_client).attaque.image,self.cam.apply(self.playerById(self.id_client).attaque))
-                #self.playerById(self.id_client).afficher_attaque = False
+            
+                
 
 
             # rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map(self.cam)
+            
+            if (self.playerById(self.id_client)).attaque.getVisible() :
+                self.groupe_attaque.add(self.playerById(self.id_client).attaque)
+                self.groupe_attaque.clear(self.screen,self.playerById(self.id_client).attaque.image)
+                self.groupe_attaque.draw(self.playerById(self.id_client).attaque.image)
+                self.screen.blit((self.playerById(self.id_client)).attaque.image, self.cam.apply((self.playerById(self.id_client)).attaque))
+            
+            if not (self.playerById(self.id_client)).attaque.getVisible() :
+                self.groupe_attaque.remove(self.playerById(self.id_client).attaque)
+            
             for j in self.joueurs:
                 self.screen.blit(j.image, self.cam.apply(j))
 
