@@ -52,7 +52,7 @@ class Jeu():
             else:
                 if(collision):
                     colliding=1
-                    print 'encule !'+self.playerById(self.id_client)
+                    print 'encule !'+self.id_client
                     self.playerById(self.id_client).life-=10
                     if(self.playerById(self.id_client).life==0):
                         print("perdu")
