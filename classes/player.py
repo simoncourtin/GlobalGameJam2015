@@ -80,6 +80,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = VELOCITY
         self.force = 1
         self.dash_cooldown = 0
+        self.death_cooldown = -1
         # la velocite
         self.x_velocite = 0
         self.y_velocite = 0
@@ -219,6 +220,13 @@ class Player(pygame.sprite.Sprite):
             if self.dash_cooldown < 0:
                 self.dash_cooldown = 0
 
+            self.death_cooldown -= 1
+            if self.death_cooldown == 0: # Si =0, on fait repop
+                self.death_cooldown = -1
+                self.reinit()
+            elif self.death_cooldown <= -1:
+                self.death_cooldown = -1
+
 
     def getHealthbar(self):
         return self.healthbar
@@ -263,3 +271,8 @@ class Player(pygame.sprite.Sprite):
     def deposerItem(self, camp):
         camp.deposer(self.items)
         self.items[:] = []
+
+    def mourir(self):
+        self.death_cooldown = 100
+        self.rect.x = -30
+        self.rect.y = -30
