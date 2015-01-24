@@ -23,9 +23,9 @@ class Player(pygame.sprite.Sprite):
         elif classe == 1:
             ressources = RESSOURCES_J2
         elif classe == 2:
-            ressources = RESSOURCES_J2
+            ressources = RESSOURCES_J3
         elif classe == 3:
-            ressources = RESSOURCES_J2
+            ressources = RESSOURCES_J4
 
         self.droite = pygame.image.load(BASE_RESSOURCE + ressources[0])
         self.gauche = pygame.transform.flip(self.droite, True, False)

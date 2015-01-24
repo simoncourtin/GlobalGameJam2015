@@ -74,11 +74,11 @@ class Jeu():
                     if (self.playerById(self.id_client).life <= 0):
                         print "You dead"
     
-            displayScoreJoueur(self.playerById(self.id_client))
+            interface.displayScoreJoueur(self.playerById(self.id_client))
             
             #gestion collision avec le decors
-            for other in collision_decors:
-                    print "dans le decors"
+            #for other in collision_decors:
+
             #rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map()
             self.joueurs.update()
