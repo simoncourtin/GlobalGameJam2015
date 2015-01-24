@@ -13,9 +13,9 @@ import os
 
 list_client = []
 
-PORT = 12345
-
+PORT = 12344
 BUFFER_SIZE = 2048
+MAX_PLAYERS = 4
 
 # DARTH VADER ****
 def kill_zombie(signum, frame):
@@ -23,11 +23,11 @@ def kill_zombie(signum, frame):
     os.waitpid(0, 0)
 
 # AGENT ****
-def agent(socket_client, list_client):
+def agent(socket_client, num, list_client):
 
     request = socket_client.recv(BUFFER_SIZE)
     while len(request) != 0:
-        print "recu de " + str(num) + " : " + request
+        #print "recu de " + str(num) + " : " + request
         for socket_other in list_client:
             if not socket_other is socket_client:
                 socket_other.send(request)
@@ -49,12 +49,11 @@ def main():
         print('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1])
         sys.exit()
     
-    listening_socket.listen(4)
+    listening_socket.listen(0)
     print('Waiting for the client ...')
 
     # LOOP  
-
-    for i in range(0,4) : 
+    for i in range(0,MAX_PLAYERS) : 
         try:
             socket_client, address_client = listening_socket.accept()
             list_client.append(socket_client)
@@ -67,7 +66,6 @@ def main():
     print "Tout le monde est connecté."
     for i in range(0,len(list_client)): 
         socket_client = list_client[i]
-        socket_client.send("CHARGER")
         pid = os.fork()
         if pid == 0:
             listening_socket.close()
@@ -76,10 +74,11 @@ def main():
             pass
             #socket_client.close()
 
-    os.wait()
-    os.wait()
-    os.wait()
-    os.wait()
+    for i in range(0, len(list_client)):
+        list_client[i].send("ALLHERE " + str(MAX_PLAYERS) + "@")
+
+    for i in range(0, len(list_client)):
+        os.wait()
 
 # PROGRAM ENTRY
 if __name__ == '__main__':
