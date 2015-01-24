@@ -48,7 +48,8 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
         self.jeu = jeu
-
+        self.attaque = pygame.image.load("images/frappe.png").convert_alpha()
+        self.afficher_attaque = False
         if name == "joueur":
             self.name = name + str(classe)
         else:
@@ -66,7 +67,7 @@ class Player(pygame.sprite.Sprite):
         elif classe == 3:
             ressources = RESSOURCES_J4
 
-        self.droite = pygame.image.load(BASE_RESSOURCE + ressources[0])
+        self.droite = pygame.image.load(BASE_RESSOURCE + ressources[0]).convert_alpha()
         self.gauche = pygame.transform.flip(self.droite, True, False)
         self.haut = pygame.image.load(BASE_RESSOURCE + ressources[1]).convert_alpha()
         self.bas = pygame.image.load(BASE_RESSOURCE + ressources[2]).convert_alpha()
@@ -159,7 +160,27 @@ class Player(pygame.sprite.Sprite):
                 self.x_velocite = 0
             if not keys[K_UP] and not keys[K_DOWN]:
                 self.y_velocite = 0
-
+            if keys[K_e]:
+                self.y_velocite = 0
+                self.x_velocite = 0
+                self.Arect = self.attaque.get_rect()
+                self.afficher_attaque = True
+                if self.image == self.droite:
+                    self.attaque = pygame.transform.rotate(self.attaque, 90)
+                    self.Arect.x = self.rect.x +32
+                    self.Arect.y = self.rect.y -32
+                elif self.image == self.gauche:
+                    self.attaque = pygame.transform.rotate(self.attaque, 90)
+                    self.Arect.x = self.rect.x -32
+                    self.Arect.y = self.rect.y -32
+                elif self.image == self.haut:
+                    self.Arect.x = self.rect.x -32
+                    self.Arect.y = self.rect.y -32
+                elif self.image == self.bas:
+                    self.attaque = pygame.transform.rotate(self.attaque, 180)
+                    self.Arect.x = self.rect.x -32
+                    self.Arect.y = self.rect.y +32
+            
             old_x = self.rect.x
             old_y = self.rect.y
             self.setX(self.x_velocite)
