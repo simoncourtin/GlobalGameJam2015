@@ -1,5 +1,6 @@
 import pygame
 import time
+from pygame import sprite
 from pygame.locals import *
 from classes import player, map, interface, camera, item, camp
 from Client import producer, consumer
@@ -34,7 +35,7 @@ class Jeu():
     def __init__(self, id_client, socket, idnom, width=300, height=300):
         pygame.init()
         self.idnom = idnom
-
+        
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Broken pipe')
         self.font = pygame.font.Font(FONT_STYLE, FONT_SIZE)
@@ -60,6 +61,8 @@ class Jeu():
         self.joueurs.add(player.Player(self, self.camp_bleu, 3, self.idnom[3], x, y))
 
         self.current_player = self.playerById(self.id_client)
+
+        self.groupe_attaque = pygame.sprite.Group()
 
         self.items = pygame.sprite.Group()
         self.items_taken = pygame.sprite.Group()
@@ -103,7 +106,7 @@ class Jeu():
 
         clock = pygame.time.Clock()
         timeLastAttack = pygame.time.get_ticks()
-
+        
         # LOOP
         while True:
             clock.tick(MAX_FPS)
@@ -154,20 +157,30 @@ class Jeu():
                         
             self.joueurs.update()
             
-            # rafraichissement de la map des des affichages des joueurs
             # Gestion de la camera
             self.cam.update(self.current_player) # Centre sur le joueur
-            if self.current_player.afficher_attaque:
-                self.cam.update(self.current_player)
-                self.current_player.afficher_attaque = False
 
             # rafraichissement de la map des des affichages des joueurs
-            self.map.afficher_map(self.cam)
+            self.map.afficher_map(self.cam)          
+
+            
+            # Affichage du sprite d'attaque
+            if (self.playerById(self.id_client)).attaque.getVisible() :
+                self.groupe_attaque.add(self.playerById(self.id_client).attaque)
+                self.groupe_attaque.clear(self.screen,self.playerById(self.id_client).attaque.image)
+                self.groupe_attaque.draw(self.playerById(self.id_client).attaque.image)
+                self.screen.blit((self.playerById(self.id_client)).attaque.image, self.cam.apply((self.playerById(self.id_client)).attaque))
+
+            # Cacher le sprite d'attaque
+            if not (self.playerById(self.id_client)).attaque.getVisible() :
+                self.groupe_attaque.remove(self.playerById(self.id_client).attaque)
+
+                
 
             # On blit les camps
             for c in self.camps:
                 self.screen.blit(c.image, self.cam.apply(c))
-
+                
             # On blit les joueurs
             for j in self.joueurs:
                 self.screen.blit(j.image, self.cam.apply(j))
