@@ -19,6 +19,8 @@ class Jeu():
         self.joueurs = pygame.sprite.Group()
         self.joueurs.add(player.Player(0))
         self.joueurs.add(player.Player(1))
+        self.joueurs.add(player.Player(2))
+        self.joueurs.add(player.Player(3))
         #definition du sprite controlable
         self.joueurs.sprites()[self.id_client].is_controllable = True
         #creation du producteur et du consommateur
