@@ -5,9 +5,11 @@ VELOCITY=3
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, classe = 0):
+    def __init__(self,  jeu, classe = 0):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
+        self.xAbs = 0
+        self.yAbs = 0
         #images du personnage
         if classe == 0 :
             self.droite = pygame.image.load("images/sprite_profile.png").convert_alpha()
@@ -112,6 +114,8 @@ class Player(pygame.sprite.Sprite):
                 self.y_velocite =0
             
             self.jeu.deplacer(self.x_velocite,self.y_velocite)
+            self.xAbs += x_velocite
+            self.yAbs += y_velocite
     
     def setControllable(self, boolean) :
         self.is_controllable = True
