@@ -118,8 +118,8 @@ class Jeu():
 
             # rafraichissement de la map des des affichages des joueurs
             self.cam.update(self.playerById(self.id_client))
-            if self.playerById(self.id_client).afficher_attaque:
-                self.cam.update(self.playerById(self.id_client))
+            if self.playerById(self.id_client).attaque.isVisible:
+                self.cam.update(self.playerById(self.id_client).attaque)
                 self.playerById(self.id_client).afficher_attaque = False
 
             # rafraichissement de la map des des affichages des joueurs

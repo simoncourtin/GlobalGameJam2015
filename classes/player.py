@@ -46,8 +46,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
         self.jeu = jeu
-        self.attaque = pygame.image.load("images/frappe.png").convert_alpha()
-        self.afficher_attaque = False
+        self.attaque = attaque.Attaque()
         if name == "":
             self.name = "Joueur" + ' ' + str(classe + 1)
         else:
@@ -244,23 +243,22 @@ class Player(pygame.sprite.Sprite):
             if keys[K_e]:
                 self.y_velocite = 0
                 self.x_velocite = 0
-                self.Arect = self.attaque.get_rect()
-                self.afficher_attaque = True
+                self.attaque.setVisible(True)
                 if self.image == self.droite:
-                    self.attaque = pygame.transform.rotate(self.attaque, 90)
-                    self.Arect.x = self.rect.x + 32
-                    self.Arect.y = self.rect.y - 32
+                    self.attaque.image = pygame.transform.rotate(self.attaque.image, 90)
+                    self.attaque.rect.x = self.rect.x + 32
+                    self.attaque.rect.y = self.rect.y - 32
                 elif self.image == self.gauche:
-                    self.attaque = pygame.transform.rotate(self.attaque, 90)
-                    self.Arect.x = self.rect.x - 32
-                    self.Arect.y = self.rect.y - 32
+                    self.attaque.image = pygame.transform.rotate(self.attaque.image, 90)
+                    self.attaque.rect.x  = self.rect.x - 32
+                    self.attaque.rect.y = self.rect.y - 32
                 elif self.image == self.haut:
-                    self.Arect.x = self.rect.x - 32
-                    self.Arect.y = self.rect.y - 32
+                    self.attaque.rect.x = self.rect.x - 32
+                    self.attaque.rect.y = self.rect.y - 32
                 elif self.image == self.bas:
-                    self.attaque = pygame.transform.rotate(self.attaque, 180)
-                    self.Arect.x = self.rect.x - 32
-                    self.Arect.y = self.rect.y + 32
+                    self.attaque.image = pygame.transform.rotate(self.attaque.image, 180)
+                    self.attaque.rect.x = self.rect.x - 32
+                    self.attaque.rect.y = self.rect.y + 32
 
             old_x = self.rect.x
             old_y = self.rect.y
