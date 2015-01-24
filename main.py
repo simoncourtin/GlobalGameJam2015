@@ -22,12 +22,7 @@ print "Vous etes le client numero "+str(numero_client)
 request = socket_joueur.recv(20)
 nbr_players = int(request.split(" ")[1])
 print request
-idnom = {
-    '0': 'Joueur 1',
-    '1': 'Joueur 2',
-    '2': 'Joueur 3',
-    '3': 'Joueur 4'
-}
+idnom = ['', '', '', '']
 socket_joueur.send("NAME "+str(numero_client) + " "+NOM+'@')
 
 car = socket_joueur.recv(1)
@@ -40,5 +35,5 @@ for i in range(0,nbr_players-1):
         car = socket_joueur.recv(1)
     donnee = request.split(' ')
     print donnee
-    idnom[donnee[1]] = donnee[2]
+    idnom[int(donnee[1])] = donnee[2]
 fenetre = jeu.Jeu(numero_client,socket_joueur,NOM, donnee)
