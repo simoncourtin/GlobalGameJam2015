@@ -19,7 +19,10 @@ class Consumer(threading.Thread):
             attaquant = donnee[1]
             attaque = donnee[2]
 
+            print "Attaquant : " + str(attaquant)
+            print "Attaque : " + str(attaque)
             if attaque == self.jeu.id_client:
+                print "C'est moi"
                 joueur_attaque = self.jeu.playerById(self.jeu.id_client)
                 joueur_attaque.receiveAttack()
                 
