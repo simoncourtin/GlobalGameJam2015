@@ -42,8 +42,8 @@ class Jeu():
                 if event.type == QUIT:
                     self.socket.close()
                     return
-            """
-            collision=pygame.sprite.spritecollide(player,joueurs,False,pygame.sprite.collide_circle_ratio(0.7))
+
+            collision=pygame.sprite.spritecollide(jeu.playerById(self.id_client),self.joueurs,False,pygame.sprite.collide_circle_ratio(0.7))
             if(colliding==1):
                 if(not collision):
                     colliding=0
@@ -54,7 +54,7 @@ class Jeu():
                     if(player.life==0):
                         print("perdu")
                         return
-                """
+    
             self.screen.fill((0,0,0))
             self.joueurs.update()
             self.joueurs.draw(self.screen)
