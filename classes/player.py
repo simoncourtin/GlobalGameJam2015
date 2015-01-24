@@ -137,6 +137,9 @@ class Player(pygame.sprite.Sprite):
     def getRect(self):
         return self.rect
 
+    def setSpeed(self, speed):
+        self.speed = speed
+
 
     def getDirection(self):
         if self.image == self.droite:
@@ -230,11 +233,6 @@ class Player(pygame.sprite.Sprite):
 
     def receiveAttack(self, damage):
         self.life -= damage
-        print "New life : %d / %d" % (self.life, self.life_max)
-        print str(self.healthbar.getLife())
-
-    def setSpeed(self, speed):
-        self.speed = speed
 
 
     def pickUpItem(self, item):
