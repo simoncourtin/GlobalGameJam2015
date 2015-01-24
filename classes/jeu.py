@@ -6,14 +6,12 @@ from classes import player
 from Client import producer, consumer
 
 MAX_FPS = 60
-colliding = 0
 
 class Jeu():
 
 
     def __init__(self,id_client,socket,width=300,height=300):
         pygame.init()
-        global colliding
         self.screen = pygame.display.set_mode((800,800))
         pygame.display.set_caption('Broken pipe')
         self.id_client = id_client
@@ -36,6 +34,7 @@ class Jeu():
         #repetition des touches
         pygame.key.set_repeat(5,20)
         clock = pygame.time.Clock()
+        colliding = 0
         #LOOP
         while True :
             clock.tick(MAX_FPS)
