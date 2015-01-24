@@ -11,11 +11,45 @@ RESSOURCES_J3 = ["sprite3_profile.png", "sprite3_dos.png", "sprite3_face.png"]
 RESSOURCES_J4 = ["sprite4_profile.png", "sprite4_dos.png", "sprite4_face.png"]
 
 
+class Healthbar(object):
+    def __init__(self, owner, unit_character="#", blank_unit_character="~", max_length=15):
+        self.owner = owner
+        self.unit = unit_character
+        self.max_length = max_length
+        self.blank_unit_character = blank_unit_character
+        self.amount = lambda: int((((10 * owner.life) / owner.life_max) / 10) * max_length)
+
+        self.font = pygame.font.Font(None, 13)
+
+
+    def displayLife(self, xAbs, yAbs):
+        rendered_text = self.font.render(self.getLife(), True, (0, 0, 0))
+        rendered_rect = rendered_text.get_rect()
+        rendered_rect.topleft = (xAbs, yAbs)
+        return rendered_text, rendered_rect
+
+    def getLife(self):
+        return self.unit * self.amount() + (self.max_length - self.amount()) * self.blank_unit_character
+
+
+    def displayName(self, xAbs, yAbs):
+        rendered_text = self.font.render(self.getName(), True, (0, 0, 0))
+        rendered_rect = rendered_text.get_rect()
+        rendered_rect.topleft = (xAbs, yAbs)
+        return rendered_text, rendered_rect
+
+    def getName(self):
+        return self.owner.name.upper()
+
+
 class Player(pygame.sprite.Sprite):
-    def __init__(self, jeu, classe=0):
+    def __init__(self, jeu, classe=0, name="joueur1"):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
         self.jeu = jeu
+
+        self.name = name
+        self.healthbar = Healthbar(owner=self)
 
         # images du personnage
         if classe == 0:
@@ -35,13 +69,14 @@ class Player(pygame.sprite.Sprite):
         self.image = self.droite
         # position de depart du personnage
         self.rect = self.image.get_rect()
-        self.rect.x=40
-        self.rect.y=40
+        self.rect.x = 40
+        self.rect.y = 40
         self.is_controllable = False
+        self.life_max = 100
         self.life = 100
         self.speed = 1
         self.force = 1
-        #la velocite
+        # la velocite
         self.x_velocite = 0
         self.y_velocite = 0
 
@@ -69,13 +104,19 @@ class Player(pygame.sprite.Sprite):
             self.image = self.haut
         elif direction == 'bas':
             self.image = self.bas
-    
-    def setX(self,x):
+
+    def setX(self, x):
         self.rect.x += x
 
-    def setY(self,y):
-            self.rect.y += y
-   
+    def setY(self, y):
+        self.rect.y += y
+
+    def getX(self):
+        return self.rect.x
+
+    def getY(self):
+        return self.rect.y
+
 
     def getDirection(self):
         if self.image == self.droite:
@@ -102,16 +143,22 @@ class Player(pygame.sprite.Sprite):
             if not keys[K_LEFT] and not keys[K_RIGHT]:
                 self.x_velocite = 0
             if not keys[K_UP] and not keys[K_DOWN]:
-                self.y_velocite =0
+                self.y_velocite = 0
 
             old_x = self.rect.x
             old_y = self.rect.y
             self.setX(self.x_velocite)
             self.setY(self.y_velocite)
-            collision_decors= pygame.sprite.spritecollide(self.jeu.playerById(self.jeu.id_client),self.jeu.map.layer2.tuiles_colision,False)
+            collision_decors = pygame.sprite.spritecollide(self.jeu.playerById(self.jeu.id_client),
+                                                           self.jeu.map.layer2.tuiles_colision, False)
             if collision_decors:
                 self.rect.x = old_x
                 self.rect.y = old_y
-    
+
+
+    def getHealthbar(self):
+        return self.healthbar
+
+
     def setControllable(self, boolean):
         self.is_controllable = boolean

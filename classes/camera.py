@@ -14,6 +14,9 @@ class Camera():
     def apply(self, target):
         return target.rect.move(self.state.topleft)
 
+    def apply_rect(self, rect):
+        return rect.move(self.state.topleft)
+
     def update(self, target):
         self.state = self.camera_func(self.state, target.rect, self.jeu.screen)
 
