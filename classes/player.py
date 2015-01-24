@@ -41,14 +41,14 @@ class Healthbar(object):
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, jeu, classe=0, name="joueur"):
+    def __init__(self, jeu, classe=0, name=""):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
         self.jeu = jeu
         self.attaque = pygame.image.load("images/frappe.png").convert_alpha()
         self.afficher_attaque = False
-        if name == "joueur":
-            self.name = name + ' ' + str(classe + 1)
+        if name == "":
+            self.name = "Joueur" + ' ' + str(classe + 1)
         else:
             self.name = name
 
@@ -86,6 +86,9 @@ class Player(pygame.sprite.Sprite):
         # les items
         self.items = []
 
+        self.nbTrame = 0
+
+
     def reinit(self):
         respawn = pygame.mixer.Sound("respawn.ogg")
         respawn.play()
@@ -105,7 +108,12 @@ class Player(pygame.sprite.Sprite):
             self.image = self.haut
         elif direction == 'bas':
             self.y_velocite = VELOCITY * self.speed
-            self.image = self.bas
+            if self.nbTrame >= 15:
+                if self.nbTrame >= 30:
+                    self.nbTrame = 0
+                self.image = self.bas
+            else:
+                self.image = self.haut
 
 
     def changerPosition(self, direction):
@@ -163,6 +171,8 @@ class Player(pygame.sprite.Sprite):
             self.dash_cooldown = 500
 
     def update(self):
+        self.nbTrame += 1
+
         if self.is_controllable:
             keys = pygame.key.get_pressed()
             if keys[K_UP]:
