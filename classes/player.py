@@ -12,25 +12,40 @@ RESSOURCES_J4 = ["sprite4_profile.png", "sprite4_dos.png", "sprite4_face.png"]
 
 
 class Healthbar(object):
-    def __init__(self, owner, unit_character="#", blank_unit_character="~", max_length=50):
+    def __init__(self, owner, unit_character="#", blank_unit_character="~", max_length=15):
         self.owner = owner
         self.unit = unit_character
         self.max_length = max_length
         self.blank_unit_character = blank_unit_character
         self.amount = lambda: int((((10 * owner.life) / owner.life_max) / 10) * max_length)
 
-    def __repr__(self):
-        return "HP {}{}|{}".format(self.owner.name.upper(), (20 - len(self.owner.name)) * " ",
-                                   self.unit * self.amount() + (
-                                   self.max_length - self.amount()) * self.blank_unit_character)
+        self.font = pygame.font.Font(None, 16)
+
+
+    def displayLife(self, xAbs, yAbs):
+        rendered_text = self.font.render(self.getLife(), True, (0, 0, 0))
+        rendered_rect = rendered_text.get_rect()
+        rendered_rect.topleft = (xAbs, yAbs)
+        return rendered_text, rendered_rect
+
+    def getLife(self):
+        return self.unit * self.amount() + (self.max_length - self.amount()) * self.blank_unit_character
+
+
+    def displayName(self, xAbs, yAbs):
+        rendered_text = self.font.render(self.getName(), True, (0, 0, 0))
+        rendered_rect = rendered_text.get_rect()
+        rendered_rect.topleft = (xAbs, yAbs)
+        return rendered_text, rendered_rect
+
+    def getName(self):
+        return self.owner.name.upper()
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, jeu, classe=0, name="joueur1"):
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
-        self.xAbs = 0
-        self.yAbs = 0
         self.jeu = jeu
 
         self.name = name
@@ -42,31 +57,18 @@ class Player(pygame.sprite.Sprite):
         elif classe == 1:
             ressources = RESSOURCES_J2
         elif classe == 2:
-            ressources = RESSOURCES_J2
+            ressources = RESSOURCES_J3
         elif classe == 3:
-            ressources = RESSOURCES_J2
+            ressources = RESSOURCES_J4
 
         self.droite = pygame.image.load(BASE_RESSOURCE + ressources[0])
         self.gauche = pygame.transform.flip(self.droite, True, False)
         self.haut = pygame.image.load(BASE_RESSOURCE + ressources[1]).convert_alpha()
         self.bas = pygame.image.load(BASE_RESSOURCE + ressources[2]).convert_alpha()
-
-        w, h = self.droite.get_size()
-        self.droite = pygame.transform.scale(self.droite, (w * 5, h * 5))
-        w, h = self.gauche.get_size()
-        self.gauche = pygame.transform.scale(self.gauche, (w * 5, h * 5))
-        w, h = self.haut.get_size()
-        self.haut = pygame.transform.scale(self.haut, (w * 5, h * 5))
-        w, h = self.bas.get_size()
-        self.bas = pygame.transform.scale(self.bas, (w * 5, h * 5))
         # image actuelle du personnage
         self.image = self.droite
         # position de depart du personnage
         self.rect = self.image.get_rect()
-        # caracteristique du player
-        self.rect.x = 400 - w / 2
-        self.rect.y = 400 - h / 2
-
         self.is_controllable = False
         self.life_max = 100
         self.life = 100
@@ -101,11 +103,18 @@ class Player(pygame.sprite.Sprite):
         elif direction == 'bas':
             self.image = self.bas
 
-    """def setX(self,x):
+    def setX(self, x):
         self.rect.x += x
 
-    def setY(self,y):
-            self.rect.y += y"""
+    def setY(self, y):
+        self.rect.y += y
+
+    def getX(self):
+        return self.rect.x
+
+    def getY(self):
+        return self.rect.y
+
 
     def getDirection(self):
         if self.image == self.droite:
@@ -135,23 +144,13 @@ class Player(pygame.sprite.Sprite):
                 self.y_velocite = 0
 
             self.jeu.deplacer(self.x_velocite, self.y_velocite)
-            self.xAbs += self.x_velocite
-            self.yAbs += self.y_velocite
+
+            self.setX(self.x_velocite)
+            self.setY(self.y_velocite)
 
 
     def getHealthbar(self):
         return self.healthbar
 
-    def getXAbs(self):
-        return self.xAbs
-
-    def getYAbs(self):
-        return self.yAbs
-
-
     def setControllable(self, boolean):
-        self.is_controllable = True
-        if boolean:
-            h, w = self.image.get_size()
-            self.rect.x = 400 - w / 2
-            self.rect.y = 400 - h / 2
+        self.is_controllable = boolean

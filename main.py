@@ -3,8 +3,8 @@ from classes import jeu
 import socket
 
 #Connexion au serveur
-PORT = 1234
-ADRESSE_SERVEUR = 'sixfoisneuf.fr'
+PORT = int(raw_input("Port du serveur : ")) #12345
+ADRESSE_SERVEUR = '127.0.0.1'
 
 print "Connexion au serveur..."
 #creation et connexion socket
