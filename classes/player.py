@@ -115,8 +115,4 @@ class Player(pygame.sprite.Sprite):
             self.setY(y)
     
     def setControllable(self, boolean):
-        self.is_controllable = True
-        if boolean:
-            h, w = self.image.get_size()
-            self.rect.x = 400 - w / 2
-            self.rect.y = 400 - h / 2
+        self.is_controllable = boolean
