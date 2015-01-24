@@ -17,11 +17,11 @@ class Consumer(threading.Thread):
         donnee = request.split(':')
         if donnee[0] == "ATK":
             attaquant = donnee[1]
-            attaque = donnee[2]
+            attaque = donnee[2].strip("@")
 
-            print "Attaquant : " + str(attaquant)
-            print "Attaque : " + str(attaque)
-            if attaque == self.jeu.id_client:
+            print "Attaquant : " + attaquant
+            print "Attaque : " + attaque
+            if int(attaque) == self.jeu.id_client:
                 print "C'est moi"
                 joueur_attaque = self.jeu.playerById(self.jeu.id_client)
                 joueur_attaque.receiveAttack()
