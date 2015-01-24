@@ -20,6 +20,7 @@ class Consumer(threading.Thread):
         donnee[1] = donnee[1].strip("@")
         x = int(donnee[0])
         y = int(donnee[1])
+        life = int(donnee[2])
         
         #changement de direction du personnage
         
@@ -35,6 +36,7 @@ class Consumer(threading.Thread):
         
         self.jeu.playerById(numero).rect.x = x 
         self.jeu.playerById(numero).rect.y = y
+        self.jeu.playerById(numero).life = life
 
         
     def run(self):
