@@ -19,14 +19,26 @@ print "Recuperation du numero client"
 numero_client = int(socket_joueur.recv(1024))
 print "Vous etes le client numero "+str(numero_client)
 #creation du jeu
-idnom =['','','','']
-socket_joueur.send("NAME "+str(numero_client) + NOM+'@')
-car = self.socket.recv(1)
+car = socket_joueur.recv(1)
+request = ""
+while car != "@":
+    request += car
+    car = socket_joueur.recv(1)
+
+nbr_players = int(request.split(" ")[1])
+print request
+idnom = ['', '', '', '']
+socket_joueur.send("NAME "+str(numero_client) + " "+NOM+'@')
+
+car = socket_joueur.recv(1)
 idnom[numero_client] = NOM
-for i in range(0,3):
+for i in range(0,nbr_players-1):
+    request = ''
     while car != "@":
+        print car
         request += car
-        car = self.socket.recv(1)
-    donnee = request.split(' ') 
+        car = socket_joueur.recv(1)
+    donnee = request.split(' ')
+    print donnee
     idnom[int(donnee[1])] = donnee[2]
 fenetre = jeu.Jeu(numero_client,socket_joueur,NOM, donnee)
