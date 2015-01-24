@@ -13,7 +13,7 @@ class Jeu():
     def __init__(self,id_client,socket,width=300,height=300):
         pygame.init()
         self.screen = pygame.display.set_mode((800,800))
-        pygame.display.set_caption('Play game')
+        pygame.display.set_caption('Broken pipe')
         self.id_client = id_client
         self.socket = socket
         self.joueurs = pygame.sprite.Group()
