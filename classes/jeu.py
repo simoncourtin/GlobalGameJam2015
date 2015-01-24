@@ -18,10 +18,10 @@ class Jeu():
         self.socket = socket
         
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(0))
-        self.joueurs.add(player.Player(1))
-        self.joueurs.add(player.Player(2))
-        self.joueurs.add(player.Player(3))
+        self.joueurs.add(player.Player(0,self))
+        self.joueurs.add(player.Player(1,self))
+        self.joueurs.add(player.Player(2,self))
+        self.joueurs.add(player.Player(3,self))
 
         groupe_sansJ = pygame.sprite.Group()
         for j in self.joueurs:
@@ -85,3 +85,6 @@ class Jeu():
         for j in self.joueurs:
             if j.classe == id_player:
                 return j
+    
+    def deplacer(self, x, y) :
+        print str(y)
