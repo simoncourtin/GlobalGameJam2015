@@ -1,5 +1,7 @@
 import pygame
 from pygame.locals import *
+ 
+from classes import attaque
 
 VELOCITY = 3
 WEAPON_DAMAGE = 2
