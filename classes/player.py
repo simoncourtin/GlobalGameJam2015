@@ -229,7 +229,7 @@ class Player(pygame.sprite.Sprite):
         if len(target) > 1:
             target.remove(self)
             for ennemy in target:
-                message = "ATK:%d:%d@" % (self.classe, ennemy.getClasse())
+                message = "ATK:%d:%d:%d@" % (self.classe, ennemy.getClasse(), WEAPON_DAMAGE)
                 print message
                 self.jeu.socket.send(message)
 
