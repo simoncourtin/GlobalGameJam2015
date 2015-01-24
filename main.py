@@ -4,7 +4,7 @@ import socket
 
 #Connexion au serveur
 PORT = int(raw_input("Port du serveur : ")) #12345
-ADRESSE_SERVEUR = '127.0.0.1'
+ADRESSE_SERVEUR = 'sixfoisneuf.fr'
 
 print "Connexion au serveur..."
 #creation et connexion socket
