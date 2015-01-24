@@ -51,7 +51,7 @@ class Layer():
                     else:
                         self.tuiles_non_colision.add(tuile)
                     if element == '256':
-                        self.spawn.append((x-16,y-16))
+                        self.spawn.append((x ,y))
                 x+=largeur
             else:
                 y+=hauteur
