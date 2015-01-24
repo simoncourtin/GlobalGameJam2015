@@ -27,9 +27,9 @@ class Consumer(threading.Thread):
 
             # Ensuite on verifie si le perso est mort, si oui on l'enleve
             joueur_attaque = self.jeu.playerById(int(attaque))
-            if (joueur_attaque.life - int(damage)) <= 0:
+            if joueur_attaque.life <= 0:
                 # Il est mort
-                self.jeu.players.remove(joueur_attaque)
+                self.jeu.joueurs.remove(joueur_attaque)
                 
         else: # Position
             numero = int(donnee[0])
