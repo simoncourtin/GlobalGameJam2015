@@ -11,12 +11,13 @@ class Consumer(threading.Thread):
     def recevoirDonneesServeur(self):
         request = ""
         car = self.socket.recv(1)
-        while socket != "@":
+        while car != "@":
             request += car
             car = self.socket.recv(1)
         donnee = request.split(':')
         numero = int(donnee[0])
         donnee = donnee[1].split(',')
+        donnee = donnee.strip("@")
         x = int(donnee[0])
         y = int(donnee[1])
         
