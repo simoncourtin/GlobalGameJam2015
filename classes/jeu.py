@@ -41,7 +41,8 @@ class Jeu():
         pygame.key.set_repeat(5,20)
         clock = pygame.time.Clock()
         colliding = 0
-        cooldown = 10
+        tempsAvantHit = 0
+        tempsApresHit = 0
         #LOOP
         while True :
             clock.tick(MAX_FPS)
