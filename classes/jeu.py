@@ -17,18 +17,11 @@ class Jeu():
         self.id_client = id_client
         self.socket = socket
         
-        #self.joueurs = pygame.sprite.Group()
-        #self.joueurs.add(player.Player(0))
-        #self.joueurs.add(player.Player(1))
-        #self.joueurs.add(player.Player(2))
-        #self.joueurs.add(player.Player(3))
-        
-        #declaration du groupe des joueurs
-        player_group=pygame.sprite.RenderClear()
-        
-        #ajout des joueurs au groupe
-        for i in range(0,3):
-            player_group.add(player_group, player.Player(i))
+        self.joueurs = pygame.sprite.Group()
+        self.joueurs.add(player.Player(0))
+        self.joueurs.add(player.Player(1))
+        self.joueurs.add(player.Player(2))
+        self.joueurs.add(player.Player(3))
         
         #definition du sprite controlable
         self.joueurs.sprites()[self.id_client].is_controllable = True
@@ -49,7 +42,7 @@ class Jeu():
                 if event.type == QUIT:
                     self.socket.close()
                     return
-            collision=pygame.sprite.spritecollide(player,player_group,False,pygame.sprite.collide_circle_ratio(0.7))
+            collision=pygame.sprite.spritecollide(player,joueurs,False,pygame.sprite.collide_circle_ratio(0.7))
             if(colliding==1):
                 if(not collision):
                     colliding=0
