@@ -66,6 +66,7 @@ class Jeu():
         pygame.mixer.music.load("fondSonore.ogg")
         pygame.mixer.music.queue("fondSonore.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
+        missCoins = pygame.mixer.Sound("missCoins.ogg")
         select = pygame.mixer.Sound("select.ogg")
 
         # declenchement du fond sonore
@@ -108,7 +109,7 @@ class Jeu():
                                 self.items.remove(coins)
                                 self.items_taken.add(coins)
                             else:
-                                pass # Faire un son d'erreur
+                                missCoins.play()
 
                 elif event.type == KEYUP:
                     if event.key == K_SPACE:
