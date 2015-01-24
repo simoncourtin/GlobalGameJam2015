@@ -3,7 +3,7 @@ import threading
 import pygame
 import time
 from pygame.locals import *
-from classes import player , map, interface, camera
+from classes import player , map, interface, camera, item
 from Client import producer, consumer
 
 
@@ -31,6 +31,9 @@ class Jeu():
         self.joueurs.add(player.Player(self, 2))
         self.joueurs.add(player.Player(self, 3))
 
+        self.items = pygame.sprite.Group()
+        self.items.add(item.Item(self, 100, 100))
+
         groupe_sansJ = pygame.sprite.Group()
         for j in self.joueurs:
             if not j is self.playerById(self.id_client):
@@ -52,7 +55,9 @@ class Jeu():
         self.map = map.Map(self.screen)
 
         # La camera
-        self.cam = camera.Camera(self, camera.simple_camera, self.screen.get_rect().width, self.screen.get_rect().height)
+        largeur_map = self.map.layer1.largeur_map * self.map.layer1.x_tile
+        hauteur_map = self.map.layer1.hauteur_map * self.map.layer1.y_tile
+        self.cam = camera.Camera(self, camera.complex_camera, largeur_map, hauteur_map)
         #repetition des touches
         pygame.key.set_repeat(5,20)
 
@@ -96,6 +101,8 @@ class Jeu():
             self.map.afficher_map(self.cam)
             for j in self.joueurs:
                 self.screen.blit(j.image, self.cam.apply(j))
+            
+            self.items.afficherItem(self)
 
             pygame.display.update()
             for id in range(len(self.joueurs.sprites())):
