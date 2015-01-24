@@ -5,6 +5,7 @@ import socket
 #Connexion au serveur
 PORT = 12345
 ADRESSE_SERVEUR = 'sixfoisneuf.fr'
+colliding=0
 
 print "Connexion au serveur..."
 #creation et connexion socket
