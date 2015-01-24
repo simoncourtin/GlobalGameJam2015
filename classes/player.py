@@ -34,13 +34,13 @@ class Player(pygame.sprite.Sprite):
             self.bas = pygame.image.load("images/sprite4_face.png").convert_alpha()
         
         w,h=self.droite.get_size()
-        self.droite = pygame.transform.scale(self.droite, (w*5, h*5),(400 - w/2,400 - h/2) )
+        self.droite = pygame.transform.scale(self.droite, (w*5, h*5) )
         w,h=self.gauche.get_size()
-        self.gauche = pygame.transform.scale(self.gauche, (w*5, h*5), (400 - w/2,400 - h/2))
+        self.gauche = pygame.transform.scale(self.gauche, (w*5, h*5))
         w,h=self.haut.get_size()
-        self.haut = pygame.transform.scale(self.haut, (w*5, h*5), (400 - w/2,400 - h/2))
+        self.haut = pygame.transform.scale(self.haut, (w*5, h*5))
         w,h=self.bas.get_size()
-        self.bas = pygame.transform.scale(self.bas, (w*5, h*5), (400 - w/2,400 - h/2))
+        self.bas = pygame.transform.scale(self.bas, (w*5, h*5))
         #image actuelle du personnage
         self.image = self.droite
         #position de depart du personnage
@@ -82,11 +82,11 @@ class Player(pygame.sprite.Sprite):
         elif direction == 'bas':
             self.image = self.bas
     
-    def setX(self,x):
+    """def setX(self,x):
         self.rect.x += x
 
     def setY(self,y):
-            self.rect.y += y
+            self.rect.y += y"""
    
     def getDirection(self):
         if self.image == self.droite:
