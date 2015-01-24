@@ -1,4 +1,3 @@
-from gtweak.tweaks.tweak_group_test import screen
 __author__ = 'Simon'
 import pygame
 from pygame.locals import *
