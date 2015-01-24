@@ -1,6 +1,7 @@
 __author__ = 'Simon'
 import pygame
 import math
+
 class Layer():
 
     def __init__(self,screen,fichier,image,x_tile=32,y_tile=32,):
@@ -18,6 +19,8 @@ class Layer():
         #hauteur et largeur des tuile
         self.x_tile=x_tile
         self.y_tile=y_tile
+        #collision
+        self.collision = False
 
 
     def afficher_layer(self):
@@ -30,8 +33,19 @@ class Layer():
                 if element!='0':
                     X = (((int(element))-(((int(element)-1)/16)*16))-1)*32
                     Y=(int(element)/16)*32
-                    self.screen.blit(self.tilset.subsurface(X,Y,hauteur,largeur),(x,y))
+                    tile = self.tilset.subsurface(X,Y,hauteur,largeur)
+                    if self.isCollision():
+                        wall = pygame.sprite.Sprite()
+                    else:
+                        self.screen.blit(tile,(x,y))
                 x+=largeur
             else:
                 y+=hauteur
                 x=0
+
+    def isCollision(self):
+        return self.collision
+
+
+    def setCollision(self,collision=True):
+        self.collision = collision
