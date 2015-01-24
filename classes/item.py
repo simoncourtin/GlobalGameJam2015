@@ -15,6 +15,10 @@ class Item(pygame.sprite.Sprite):
         self.rect.x=x
         self.rect.y=y
         self.screen = self.jeu.screen
+        self.visible = True
         
     def afficherItem(self, jeu):
-        self.screen.blit(self.image, self.jeu.cam.apply(self))
+        self.screen.blit(self.image, (self.rect.x,self.rect.y))
+
+    def setVisible(self,bool):
+        self.visible=bool

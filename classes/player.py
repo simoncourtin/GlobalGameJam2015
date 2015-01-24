@@ -1,6 +1,7 @@
 __author__ = 'Simon'
 import pygame
 from pygame.locals import *
+import item as _item
 
 VELOCITY = 3
 
@@ -83,6 +84,8 @@ class Player(pygame.sprite.Sprite):
         # la velocite
         self.x_velocite = 0
         self.y_velocite = 0
+        #les items
+        self.items = []
 
     def deplacer(self, direction):
         if direction == 'droite':
@@ -166,3 +169,17 @@ class Player(pygame.sprite.Sprite):
 
     def setControllable(self, boolean):
         self.is_controllable = boolean
+
+    def pickUpItem(self,item):
+        self.items.append(item)
+        item.setVisible(False)
+
+    def lachezItems(self):
+        for item in self.items:
+            item.setVisible(True)
+        self.items[:] = []
+
+    def deposerItem(self,camp):
+        camp.deposer(self.items)
+        self.items[:]=[]
+
