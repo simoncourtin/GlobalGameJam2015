@@ -55,6 +55,7 @@ class Jeu():
             
             for other in collision:
                 self.playerById(self.id_client).life -= 10
+                print 'hit'
                 if (self.playerById(self.id_client).life <= 0):
                     print "You dead"
             """
