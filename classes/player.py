@@ -41,10 +41,14 @@ class Healthbar(object):
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, jeu, classe=0, name="joueur",x=70,y=70):
+    def __init__(self, jeu, camp, classe=0, name="joueur",x=70,y=70):
 
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
+        
+        self.camp = camp
+        self.camp.joueurs.append(self)
+        
         self.jeu = jeu
         self.attaque = pygame.image.load("images/frappe.png").convert_alpha()
         self.afficher_attaque = False
@@ -291,8 +295,10 @@ class Player(pygame.sprite.Sprite):
 
 
     def pickUpItem(self, item):
-        if len(self.items) + len(item) <= 2:
-            self.items.append(item)
+        if (len(self.items) + len(item)) <= 2:
+            for it in item:
+                self.items.append(it)
+                self.jeu.socket.send("ITM_PK:%d:%d:%d@" % (self.camp.id_camp, it.id_item, self.classe))
             return True
 
         return False
@@ -301,14 +307,18 @@ class Player(pygame.sprite.Sprite):
     def lacherItems(self):
         self.items[:] = []
 
-    def deposerItem(self, camp):
-        camp.deposer(self.items)
+    def deposerItem(self):
+        for it in self.items:
+            it.camp.pieces_depart.remove(it)
+        self.camp.deposer(self.items)
+        self.jeu.socket.send("ITM_RL:%d@" % (self.classe))
         self.lacherItems()
 
     def mourir(self):
         # On lache tous ses items
         self.jeu.items.add(self.items)
         self.jeu.items_taken.remove(self.items)
+        self.jeu.socket.send("ITM_DR:%d@" % (self.classe))
         self.lacherItems()
 
         self.death_cooldown = 100

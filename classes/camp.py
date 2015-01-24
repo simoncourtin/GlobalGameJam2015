@@ -1,20 +1,25 @@
 
-class Camp():
+import pygame
 
-    def __int__(self,nom=equipe):
-        self.items = []
-        self.player_team = []
+CAMP_SIZE = 80
+
+class Camp(pygame.sprite.Sprite):
+
+    def __init__(self, id_camp, x, y, nom="equipe", couleur=(255, 255, 255)):
+        pygame.sprite.Sprite.__init__(self)
+        
+        self.id_camp = id_camp
+        self.joueurs = []
+        self.pieces_capturees = []
+        self.pieces_depart = []
         self.nom = nom
+        self.couleur = couleur
+        self.x = x
+        self.y = y
+        self.image = pygame.Surface((CAMP_SIZE, CAMP_SIZE))
+        self.image.fill(couleur)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
 
-    def ajouterJoueur(self,joueur):
-        self.player_team.append(joueur)
-
-    def ajouterItem(self,item):
-        self.items.append(item)
-
-    def detruireItem(self,item):
-        self.items.remove(item)
-
-    def deposerItem(self,items):
-        for item in items:
-            items.camp.deposerItem(item)
+    def deposer(self, items):
+        self.pieces_capturees.extend(items)
