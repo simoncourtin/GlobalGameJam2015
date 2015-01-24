@@ -5,6 +5,7 @@ import item as _item
 
 VELOCITY = 3
 WEAPON_DAMAGE = 2
+LIFE_MAX = 10
 
 BASE_RESSOURCE = "images/"
 RESSOURCES_J1 = ["sprite_profile.png", "sprite_dos.png", "sprite_face.png"]
@@ -14,18 +15,12 @@ RESSOURCES_J4 = ["sprite4_profile.png", "sprite4_dos.png", "sprite4_face.png"]
 
 
 class Healthbar(object):
-    def __init__(self, owner, unit_character="#", blank_unit_character="~", max_length=15):
+    def __init__(self, owner, unit_character="#", blank_unit_character="~"):
         self.owner = owner
         self.unit = unit_character
-        self.max_length = max_length
         self.blank_unit_character = blank_unit_character
-        self.amount = lambda: int((((10 * owner.life) / owner.life_max) / 10) * max_length)
 
         self.font = pygame.font.Font(None, 13)
-
-    def toString(self):
-        return "%s" % (repr(self.owner))
-
 
     def displayLife(self, xAbs, yAbs):
         rendered_text = self.font.render(self.getLife(), True, (0, 0, 0))
@@ -34,7 +29,7 @@ class Healthbar(object):
         return rendered_text, rendered_rect
 
     def getLife(self):
-        return self.unit * self.amount() + (self.max_length - self.amount()) * self.blank_unit_character
+        return self.unit * self.owner.life + self.blank_unit_character * (self.owner.life_max - self.owner.life)
 
 
     def displayName(self, xAbs, yAbs):
@@ -82,7 +77,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 70
         self.rect.y = 70
         self.is_controllable = False
-        self.life_max = 10
+        self.life_max = LIFE_MAX
         self.life = 10
         self.speed = VELOCITY
         self.force = 1
@@ -235,8 +230,8 @@ class Player(pygame.sprite.Sprite):
 
     def receiveAttack(self, damage):
         self.life -= damage
-        print str(self.life) + " / " + str(self.life_max)
-        print self.healthbar.toString()
+        print "New life : %d / %d" % (self.life, self.life_max)
+        print str(self.healthbar.getLife())
 
     def setSpeed(self, speed):
         self.speed = speed
