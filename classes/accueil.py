@@ -30,9 +30,17 @@ class Accueil() :
         saisie1=tk.Entry(textvariable=texte1, width=30)
         saisie1.pack()
 
+        invite2=tk.Label(fenetre, text='Pseudo :', width=20, height=3, fg="navy")
+        invite2.pack()
+        texte2=tk.StringVar()  # definition d'une variable-chaine pour recevoir la saisie d'un texte
+        texte2.set("Joueur")  # facultatif: assigne une valeur ? la variable
+        saisie2=tk.Entry(textvariable=texte2, width=30)
+        saisie2.pack()
+        
         b = Button(fenetre, text="OK",command=fenetre.quit)
         b.pack()
         
         fenetre.mainloop()
         self.ADRESSE = texte0.get()
         self.PORT = int(texte1.get())
+        self.NOM = text2.get()
