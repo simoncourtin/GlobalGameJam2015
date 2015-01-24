@@ -18,7 +18,7 @@ class Healthbar(object):
         self.unit = unit_character
         self.blank_unit_character = blank_unit_character
 
-        self.font = pygame.font.Font(None, 13)
+        self.font = pygame.font.Font(None, 16)
 
     def displayLife(self, xAbs, yAbs):
         rendered_text = self.font.render(self.getLife(), True, (0, 0, 0))
@@ -41,14 +41,15 @@ class Healthbar(object):
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, jeu, classe=0, name="joueur"):
+    def __init__(self, jeu, classe=0, name="joueur",x=70,y=70):
+
         pygame.sprite.Sprite.__init__(self)
         self.classe = classe
         self.jeu = jeu
         self.attaque = pygame.image.load("images/frappe.png").convert_alpha()
         self.afficher_attaque = False
-        if name == "joueur":
-            self.name = name + ' ' + str(classe + 1)
+        if name == "":
+            self.name = "Joueur" + ' ' + str(classe + 1)
         else:
             self.name = name
 
@@ -72,19 +73,23 @@ class Player(pygame.sprite.Sprite):
         self.image = self.droite
         # position de depart du personnage
         self.rect = self.image.get_rect()
-        self.rect.x = 70
-        self.rect.y = 70
+        self.rect.x = x
+        self.rect.y = y
         self.is_controllable = False
         self.life_max = LIFE_MAX
         self.life = 10
         self.speed = VELOCITY
         self.force = 1
         self.dash_cooldown = 0
+        self.death_cooldown = -1
         # la velocite
         self.x_velocite = 0
         self.y_velocite = 0
         # les items
         self.items = []
+
+        self.nbTrame = 0
+
 
     def reinit(self):
         respawn = pygame.mixer.Sound("respawn.ogg")
@@ -105,7 +110,12 @@ class Player(pygame.sprite.Sprite):
             self.image = self.haut
         elif direction == 'bas':
             self.y_velocite = VELOCITY * self.speed
-            self.image = self.bas
+            if self.nbTrame >= 15:
+                if self.nbTrame >= 30:
+                    self.nbTrame = 0
+                self.image = self.bas
+            else:
+                self.image = self.haut
 
 
     def changerPosition(self, direction):
@@ -164,7 +174,13 @@ class Player(pygame.sprite.Sprite):
             dash= pygame.mixer.Sound("dash.ogg")
             dash.play()
 
+    def spawn(self,x,y):
+        self.rect.x=x
+        self.rect.y=y
+
     def update(self):
+        self.nbTrame += 1
+
         if self.is_controllable:
             keys = pygame.key.get_pressed()
             if keys[K_UP]:
@@ -219,6 +235,13 @@ class Player(pygame.sprite.Sprite):
             if self.dash_cooldown < 0:
                 self.dash_cooldown = 0
 
+            self.death_cooldown -= 1
+            if self.death_cooldown == 0: # Si =0, on fait repop
+                self.death_cooldown = -1
+                self.reinit()
+            elif self.death_cooldown <= -1:
+                self.death_cooldown = -1
+
 
     def getHealthbar(self):
         return self.healthbar
@@ -263,3 +286,8 @@ class Player(pygame.sprite.Sprite):
     def deposerItem(self, camp):
         camp.deposer(self.items)
         self.items[:] = []
+
+    def mourir(self):
+        self.death_cooldown = 100
+        self.rect.x = -30
+        self.rect.y = -30
