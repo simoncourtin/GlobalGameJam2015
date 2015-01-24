@@ -103,6 +103,11 @@ class Player(pygame.sprite.Sprite):
                 self.x_velocite = 0
             if not keys[K_UP] and not keys[K_DOWN]:
                 self.y_velocite =0
+
+            collision_decors= pygame.sprite.spritecollide(self.jeu.playerById(self.jeu.id_client),self.jeu.map.layer2.tuiles_colision,False)
+            if collision_decors:
+                self.x_velocite = 0
+                self.y_velocite = 0
             
             self.setX(self.x_velocite)
             self.setY(self.y_velocite)
