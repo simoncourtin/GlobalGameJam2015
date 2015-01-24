@@ -254,7 +254,7 @@ class Player(pygame.sprite.Sprite):
                     self.attaque.image = pygame.transform.rotate(self.attaque.image, 90)
                     self.attaque.rect.x  = self.rect.x - 32
                     self.attaque.rect.y = self.rect.y - 32
-                elif self.image == self.haut_1 or seft.image == self.haut_2:
+                elif self.image == self.haut_1 or self.image == self.haut_2:
                     self.attaque.rect.x = self.rect.x - 32
                     self.attaque.rect.y = self.rect.y - 32
                 elif self.image == self.bas_1 or self.image == self.bas_1:
