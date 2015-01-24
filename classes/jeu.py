@@ -71,7 +71,6 @@ class Jeu():
                     if (self.playerById(self.id_client).life <= 0):
                         print "You dead"
             self.map.afficher_map()
-            self.screen.fill((0,0,0))
             self.joueurs.update()
             self.joueurs.draw(self.screen)
 
