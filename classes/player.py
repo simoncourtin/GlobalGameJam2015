@@ -246,18 +246,18 @@ class Player(pygame.sprite.Sprite):
                 self.y_velocite = 0
                 self.x_velocite = 0
                 self.attaque.setVisible(True)
-                if self.image == self.droite:
+                if self.image == self.droite_1 or self.image == self.droite_2:
                     self.attaque.image = pygame.transform.rotate(self.attaque.image, 90)
                     self.attaque.rect.x = self.rect.x + 32
                     self.attaque.rect.y = self.rect.y - 32
-                elif self.image == self.gauche:
+                elif self.image == self.gauche_1 or self.image==self.gauche_2:
                     self.attaque.image = pygame.transform.rotate(self.attaque.image, 90)
                     self.attaque.rect.x  = self.rect.x - 32
                     self.attaque.rect.y = self.rect.y - 32
-                elif self.image == self.haut:
+                elif self.image == self.haut_1 or seft.image == self.haut_2:
                     self.attaque.rect.x = self.rect.x - 32
                     self.attaque.rect.y = self.rect.y - 32
-                elif self.image == self.bas:
+                elif self.image == self.bas_1 or self.image == self.bas_1:
                     self.attaque.image = pygame.transform.rotate(self.attaque.image, 180)
                     self.attaque.rect.x = self.rect.x - 32
                     self.attaque.rect.y = self.rect.y + 32
