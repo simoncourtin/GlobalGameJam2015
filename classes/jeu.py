@@ -140,6 +140,8 @@ class Jeu():
 
             pygame.display.flip()
 
+            # pygame.draw.line(self.screen, (180, 0, 0), (SCOREBOARD_TOP_X, SCOREBOARD_TOP_Y), (WINDOW_WIDTH * 2 / 8, SCOREBOARD_TOP_Y), 50)
+
 
     # recuperer je joueur controlle par le client
     def playerById(self, id_player):
@@ -150,7 +152,11 @@ class Jeu():
 
     def displayScore(self, joueur, xAbs, yAbs):
         handlebar = joueur.getHealthbar()
-        joueur_text = self.font.render(handlebar.getName()[:11] + "  :  " + handlebar.getLife(), True, (0, 0, 0))
+
+        name = handlebar.getName()[:11]
+        name += (17 - len(name)) * " "
+
+        joueur_text = self.font.render(name + "  :  " + handlebar.getLife(), True, (0, 0, 0))
         joueur_rect = joueur_text.get_rect()
         joueur_rect.topleft = (xAbs, yAbs)
 
