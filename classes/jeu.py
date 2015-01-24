@@ -45,13 +45,14 @@ class Jeu():
                     self.socket.close()
                     return
 
-            collision=pygame.sprite.spritecollide(self.playerById(self.id_client),self.joueurs,False,pygame.sprite.collide_circle_ratio(0.7))
+            collision=pygame.sprite.spritecollide(self.playerById(self.id_client),self.joueurs,False)
             if(colliding==1):
                 if(not collision):
                     colliding=0
             else:
                 if(collision):
                     colliding=1
+                    print 'encule !'
                     self.playerById(self.id_client).life-=10
                     if(self.playerById(self.id_client).life==0):
                         print("perdu")
