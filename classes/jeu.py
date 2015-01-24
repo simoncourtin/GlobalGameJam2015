@@ -40,6 +40,7 @@ class Jeu():
         self.producer.start()
         #map
         self.map = map.Map(self.screen)
+        collision_decors= pygame.sprite.spritecollide(self.playerById(self.id_client),self.map.layer2.tuiles,False)
         #repetition des touches
         pygame.key.set_repeat(5,20)
         clock = pygame.time.Clock()
