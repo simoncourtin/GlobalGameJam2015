@@ -16,11 +16,20 @@ class Jeu():
         pygame.display.set_caption('Broken pipe')
         self.id_client = id_client
         self.socket = socket
-        self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(0))
-        self.joueurs.add(player.Player(1))
-        self.joueurs.add(player.Player(2))
-        self.joueurs.add(player.Player(3))
+        
+        #self.joueurs = pygame.sprite.Group()
+        #self.joueurs.add(player.Player(0))
+        #self.joueurs.add(player.Player(1))
+        #self.joueurs.add(player.Player(2))
+        #self.joueurs.add(player.Player(3))
+        
+        #déclaration du groupe des joueurs
+        player_group=pygame.sprite.RenderClear()
+        
+        #ajout des joueurs au groupe
+        for i in range(0,3):
+            joueur_group.add(joueur_group, player.Player(i))
+        
         #definition du sprite controlable
         self.joueurs.sprites()[self.id_client].is_controllable = True
         #creation du producteur et du consommateur
@@ -40,6 +49,17 @@ class Jeu():
                 if event.type == QUIT:
                     self.socket.close()
                     return
+            collision=pygame.sprite.spritecollide(player,joueur_group,False,pygame.sprite.collide_circle_ratio(0.7))
+            if(colliding==1):
+                if(not collision):
+                    colliding=0
+            else:
+                if(collision):
+                    colliding=1
+                    player.life-=10
+                    if(player.life==0):
+                        print("perdu")
+                        return
                 
             self.screen.fill((0,0,0))
             self.joueurs.update()
