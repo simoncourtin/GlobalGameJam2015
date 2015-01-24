@@ -7,6 +7,7 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, classe = 0):
         pygame.sprite.Sprite.__init__(self)
+        self.classe = classe
         #images du personnage
         if classe == 0 :
             self.droite = pygame.image.load("images/sprite_profile.png").convert_alpha()

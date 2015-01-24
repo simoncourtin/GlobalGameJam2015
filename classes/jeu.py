@@ -24,7 +24,7 @@ class Jeu():
         self.joueurs.add(player.Player(3))
         
         #definition du sprite controlable
-        self.joueurs.sprites()[self.id_client].is_controllable = True
+        self.playerById(self.id_client).is_controllable = True
         #creation du producteur et du consommateur
         self.consumer = consumer.Consumer(self.socket, self)
         self.producer = producer.Producer(self.socket, self)
@@ -42,6 +42,7 @@ class Jeu():
                 if event.type == QUIT:
                     self.socket.close()
                     return
+            """
             collision=pygame.sprite.spritecollide(player,joueurs,False,pygame.sprite.collide_circle_ratio(0.7))
             if(colliding==1):
                 if(not collision):
@@ -53,11 +54,13 @@ class Jeu():
                     if(player.life==0):
                         print("perdu")
                         return
-                
+                """
             self.screen.fill((0,0,0))
             self.joueurs.update()
             self.joueurs.draw(self.screen)
             pygame.display.flip()
-    
-    
-        
+
+    def playerById(self, id_player):
+        for j in self.joueurs:
+            if j.classe == id_player:
+                return j
