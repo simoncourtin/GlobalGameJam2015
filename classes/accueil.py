@@ -44,3 +44,5 @@ class Accueil() :
         self.ADRESSE = texte0.get()
         self.PORT = int(texte1.get())
         self.NOM = texte2.get()
+
+        fenetre.destroy()
