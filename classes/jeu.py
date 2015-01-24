@@ -62,7 +62,7 @@ class Jeu():
             #collision avec les autres joueurs
             collision=pygame.sprite.spritecollide(self.playerById(self.id_client),groupe_sansJ,False)
             #collision avec le decors
-            collision_decors= pygame.sprite.spritecollide(self.playerById(self.id_client),self.map.layer2.tuiles,False)
+           #collision_decors= pygame.sprite.spritecollide(self.playerById(self.id_client),self.map.layer2.tuiles,False)
             if tempsApresHit-tempsAvantHit > 2:
                 for other in collision:
                     self.playerById(self.id_client).life -= 10
