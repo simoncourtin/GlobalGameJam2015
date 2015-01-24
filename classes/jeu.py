@@ -87,7 +87,7 @@ class Jeu():
                         coins = pygame.sprite.spritecollide(self.playerById(self.id_client), self.items, False)
                         coins = [visible for visible in coins if visible.getVisible()]
                         if coins:
-                            self.playerById(self.id_client).pickUpItem(it)
+                            self.playerById(self.id_client).pickUpItem(coins)
                             pickCoins.play()
 
                 elif event.type == KEYUP:
@@ -108,7 +108,8 @@ class Jeu():
                 self.screen.blit(j.image, self.cam.apply(j))
 
             for it in self.items:
-                self.screen.blit(it.image, self.cam.apply(it))
+                if it.getVisible:
+                    self.screen.blit(it.image, self.cam.apply(it))
 
             pygame.display.update()
 
