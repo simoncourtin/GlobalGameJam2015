@@ -6,6 +6,7 @@ class Interface(pygame.sprite.Sprite):
 
     def __init__(self,  jeu):
         pygame.sprite.Sprite.__init__(self)
+        self.jeu = jeu
         self.jeu.playerById(self.id_client)
         self.jeu.screen
         self.font = pygame.font.Font('freesansbold.ttf', 20)
