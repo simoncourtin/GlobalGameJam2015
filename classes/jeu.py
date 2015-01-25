@@ -190,6 +190,7 @@ class Jeu():
                 self.current_player.deposerItem()
 
             self.joueurs.update()
+            self.groupe_attaque.update()
 
             # Gestion de la camera
             self.cam.update(self.current_player)  # Centre sur le joueur

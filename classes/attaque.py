@@ -9,10 +9,12 @@ DROITE = 'droite'
 
 
 class Attaque(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, joueur):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(RESSOURCE).convert_alpha()
         self.rect = self.image.get_rect()
+
+        self.joueur = joueur
 
         self.images = {
             HAUT: self.image,
@@ -27,19 +29,19 @@ class Attaque(pygame.sprite.Sprite):
         self.image = self.images[self.direction]
 
         if self.direction == HAUT:
-            self.rect.x = self.rect.x
-            self.rect.y = self.rect.y - 32
+            self.rect.x = self.joueur.rect.x
+            self.rect.y = self.joueur.rect.y - 32
 
         elif self.direction == BAS:
-            self.rect.x = self.rect.x
-            self.rect.y = self.rect.y + 32
+            self.rect.x = self.joueur.rect.x
+            self.rect.y = self.joueur.rect.y + 32
 
         elif self.direction == GAUCHE:
-            self.rect.x = self.rect.x - 32
-            self.rect.y = self.rect.y
+            self.rect.x = self.joueur.rect.x - 32
+            self.rect.y = self.joueur.rect.y
 
         elif self.direction == DROITE:
-            self.rect.x = self.rect.x + 32
-            self.rect.y = self.rect.y
+            self.rect.x = self.joueur.rect.x + 32
+            self.rect.y = self.joueur.rect.y
 
 

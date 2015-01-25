@@ -49,7 +49,7 @@ class Player(pygame.sprite.Sprite):
         self.camp.joueurs.append(self)
 
         self.jeu = jeu
-        self.attaque = attaque.Attaque()
+        self.attaque = attaque.Attaque(self)
 
         if name == "":
             self.name = "Joueur" + ' ' + str(classe + 1)
@@ -166,13 +166,13 @@ class Player(pygame.sprite.Sprite):
 
 
     def getDirection(self):
-        if self.image == self.droite_1 or self.image == self.droite_2:
+        if self.image == self.droite_1 or self.image == self.droite_2 or self.image == self.droite:
             direction = 1
-        elif self.image == self.gauche_1 or self.image == self.gauche_2:
+        elif self.image == self.gauche_1 or self.image == self.gauche_2 or self.image == self.gauche:
             direction = 2
-        elif self.image == self.haut_1 or self.image == self.haut_2:
+        elif self.image == self.haut_1 or self.image == self.haut_2 or self.image == self.haut:
             direction = 3
-        elif self.image == self.bas_1 or self.image == self.bas_2:
+        elif self.image == self.bas_1 or self.image == self.bas_2 or self.image == self.bas:
             direction = 4
         return direction
 
@@ -254,8 +254,6 @@ class Player(pygame.sprite.Sprite):
 
         elif self.getDirection() == 4:  # En bas
             self.attaque.direction = attaque.BAS
-
-        self.attaque.update()
 
         if len(target) > 1:
             target.remove(self)
