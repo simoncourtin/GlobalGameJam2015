@@ -288,10 +288,10 @@ class Jeu():
 
         # creation du jeu
         nbr_players_string = recup_message(self.socket)
-        nbr_players = int(nbr_players_string.split(" ")[1])
+        self.nbr_players = int(nbr_players_string.split(" ")[1])
 
         self.idnom = []
-        for i in range(nbr_players):
+        for i in range(self.nbr_players):
             self.idnom.append('')
 
         self.socket.send("NAME " + str(self.id_client) + " " + self.nom_joueur + '@')
