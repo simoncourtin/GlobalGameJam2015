@@ -51,6 +51,8 @@ class Jeu():
         self.camps.add(self.camp_rouge)
         self.camps.add(self.camp_bleu)
 
+        self.distribution_spawn(self.map)
+
         self.screen.blit(self.font_accueil.render("Veuillez patienter...", False, (255, 255, 255)), (WINDOW_WIDTH / 2 - 200, WINDOW_HEIGHT / 2 - 100))
         pygame.display.flip()
 
@@ -59,9 +61,9 @@ class Jeu():
         self.joueurs = pygame.sprite.Group()
         for i in range(len(self.idnom)):
             if i % 2 == 0:
-                self.joueurs.add(player.Player(self, self.camp_rouge, i, self.idnom[i], x, y))
+                self.joueurs.add(player.Player(self, self.camp_rouge, i, self.idnom[i], BASE_ROUGE_X, BASE_ROUGE_Y))
             else:
-                self.joueurs.add(player.Player(self, self.camp_bleu, i, self.idnom[i], x, y))
+                self.joueurs.add(player.Player(self, self.camp_bleu, i, self.idnom[i], BASE_BLEUE_X, BASE_BLEUE_Y))
 
 
         self.current_player = self.playerById(self.id_client)
@@ -70,34 +72,23 @@ class Jeu():
 
         self.items = pygame.sprite.Group()
         self.items_taken = pygame.sprite.Group()
-        
-        # for i in range(1, NB_PIECES + 1):
-        #     for j in range(NB_PIECES):
-        #         self.items.add(
-        #             item.Item(self, "sprite_coins.png", 250 + 50 * j, 100 + 50 * i, i * 10 + j, self.camp_rouge))
-
-        # for i in range(1, NB_PIECES + 1):
-        #     for j in range(NB_PIECES):
-        #         self.items.add(
-        #             item.Item(self, "sprite_coins.png", 820 + 50 * j, 400 + 50 * i, i * 100 + j, self.camp_bleu))
 
         i = 0
-        print self.map.objets
         for obj in self.map.objets:
             if obj[0] == "1":
                 if BASE_ROUGE_NB == 1:
                     self.items.add(
-                        item.Item(self, "sprite_coins.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
+                        item.Item(self, "pieces/piece_rouge.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
                 elif BASE_BLEUE_NB == 1:
                     self.items.add(
-                        item.Item(self, "sprite_coins.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
+                        item.Item(self, "pieces/piece_bleu.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
             elif obj[0] == "2":
                 if BASE_ROUGE_NB == 2:
                     self.items.add(
-                        item.Item(self, "sprite_coins.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
+                        item.Item(self, "pieces/piece_rouge.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
                 elif BASE_BLEUE_NB == 2:
                     self.items.add(
-                        item.Item(self, "sprite_coins.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
+                        item.Item(self, "pieces/piece_bleu.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
             i += 1
 
         # definition du sprite controlable
