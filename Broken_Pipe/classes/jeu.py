@@ -7,9 +7,6 @@ from classes import player, map, camera, item, camp
 from Client import producer, consumer
 from functions import recup_message
 
-NB_JOUEURS = 4
-NB_PIECES = 3
-
 MAX_FPS = 60
 FONT_SIZE = 16
 FONT_STYLE = None
@@ -19,8 +16,6 @@ WINDOW_WIDTH = 900
 WINDOW_HEIGHT = 700
 
 LINE_THIKNESS = 20
-SCOREBOARD_TOP_X = WINDOW_WIDTH * 6 / 8
-SCOREBOARD_TOP_Y = WINDOW_HEIGHT - NB_JOUEURS * LINE_THIKNESS
 
 BASE_ROUGE_X = 0
 BASE_ROUGE_Y = 0
@@ -59,6 +54,9 @@ class Jeu():
 
         self.connexion()
 
+        self.scoreboard_top_x = WINDOW_WIDTH * 6 / 8
+        self.scoreboard_top_y = WINDOW_HEIGHT - self.nbr_players * LINE_THIKNESS
+
         self.joueurs = pygame.sprite.Group()
         for i in range(len(self.idnom)):
             if i % 2 == 0:
@@ -75,10 +73,10 @@ class Jeu():
 
         i = 0
         for obj in self.map.objets:
-            if obj[0] == "1": # ROUGE
+            if obj[0] == "1":  # ROUGE
                 self.items.add(
                     item.Item(self, "pieces/piece_rouge.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
-            elif obj[0] == "2": # BLEU
+            elif obj[0] == "2":  # BLEU
                 self.items.add(
                     item.Item(self, "pieces/piece_bleu.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
             i += 1
@@ -225,7 +223,7 @@ class Jeu():
                 text, rect = joueur.getHealthbar().displayName(joueur.getX() - 20, joueur.getY() - 20)
                 self.screen.blit(text, self.cam.apply_rect(rect))
 
-                self.displayScore(joueur, SCOREBOARD_TOP_X, SCOREBOARD_TOP_Y + LINE_THIKNESS * (id + 1))
+                self.displayScore(joueur, self.scoreboard_top_x, self.scoreboard_top_y + LINE_THIKNESS * (id + 1))
 
                 if id == self.id_client:
                     text, rect = joueur.getHealthbar().displayLife(joueur.getX() - 20, joueur.getY() - 10)
@@ -288,16 +286,16 @@ class Jeu():
 
         # creation du jeu
         nbr_players_string = recup_message(self.socket)
-        nbr_players = int(nbr_players_string.split(" ")[1])
+        self.nbr_players = int(nbr_players_string.split(" ")[1])
 
         self.idnom = []
-        for i in range(nbr_players):
+        for i in range(self.nbr_players):
             self.idnom.append('')
 
         self.socket.send("NAME " + str(self.id_client) + " " + self.nom_joueur + '@')
 
         self.idnom[self.id_client] = self.nom_joueur
-        for i in range(0, nbr_players - 1):
+        for i in range(0, self.nbr_players - 1):
             resultat = recup_message(self.socket)
             donnee = resultat.split(' ')
         self.idnom[int(donnee[1])] = donnee[2]
