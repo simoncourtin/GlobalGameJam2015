@@ -6,11 +6,8 @@ VELOCITY = 3
 WEAPON_DAMAGE = 2
 LIFE_MAX = 10
 
-BASE_RESSOURCE = "images/"
-RESSOURCES_J1 = [["profile_1.png","profile_2.png"],["dos_1.png","dos_2.png"],["face_1.png","face_2.png"]]
-RESSOURCES_J2 = [["profile_1.png","profile_2.png"],["dos_1.png","dos_2.png"],["face_1.png","face_2.png"]]
-RESSOURCES_J3 = [["profile_1.png","profile_2.png"],["dos_1.png","dos_2.png"],["face_1.png","face_2.png"]]
-RESSOURCES_J4 = [["profile_1.png","profile_2.png"],["dos_1.png","dos_2.png"],["face_1.png","face_2.png"]]
+BASE_RESSOURCE = "images/sprite_anime/sprite"
+RESSOURCES = [["profile.png", "profile_1.png","profile_2.png"],["dos.png", "dos_1.png","dos_2.png"],["face.png", "face_1.png","face_2.png"]]
 
 
 class Healthbar(object):
@@ -22,7 +19,7 @@ class Healthbar(object):
         self.font = pygame.font.Font(None, 16)
 
     def displayLife(self, xAbs, yAbs):
-        rendered_text = self.font.render(self.getLife(), True, (0, 0, 0))
+        rendered_text = self.font.render(self.getLife(), True, self.owner.camp.couleur)
         rendered_rect = rendered_text.get_rect()
         rendered_rect.topleft = (xAbs, yAbs)
         return rendered_text, rendered_rect
@@ -61,22 +58,26 @@ class Player(pygame.sprite.Sprite):
 
         # images du personnage
         if classe == 0:
-            ressources = RESSOURCES_J1
+            prefixe = "_"
         elif classe == 1:
-            ressources = RESSOURCES_J2
+            prefixe = "2_"
         elif classe == 2:
-            ressources = RESSOURCES_J3
+            prefixe = "3_"
         elif classe == 3:
-            ressources = RESSOURCES_J4
-
-        self.gauche_1 = pygame.image.load(BASE_RESSOURCE + ressources[0][0]).convert_alpha()
-        self.gauche_2 = pygame.image.load(BASE_RESSOURCE + ressources[0][1]).convert_alpha()
-        self.droite_1 = pygame.transform.flip(self.gauche_1, True, False)
-        self.droite_2 = pygame.transform.flip(self.gauche_2, True, False)
-        self.haut_1 = pygame.image.load(BASE_RESSOURCE + ressources[1][0]).convert_alpha()
-        self.haut_2 = pygame.image.load(BASE_RESSOURCE + ressources[1][1]).convert_alpha()
-        self.bas_1 = pygame.image.load(BASE_RESSOURCE + ressources[2][0]).convert_alpha()
-        self.bas_2 = pygame.image.load(BASE_RESSOURCE + ressources[2][1]).convert_alpha()
+            prefixe = "4_"
+        #chargement des images
+        self.droite = pygame.image.load(BASE_RESSOURCE + prefixe + RESSOURCES[0][0]).convert_alpha()
+        self.droite_1 = pygame.image.load(BASE_RESSOURCE + prefixe + RESSOURCES[0][1]).convert_alpha()
+        self.droite_2 = pygame.image.load(BASE_RESSOURCE + prefixe  + RESSOURCES[0][2]).convert_alpha()
+        self.gauche = pygame.transform.flip(self.droite, True, False)
+        self.gauche_1 = pygame.transform.flip(self.droite_1, True, False)
+        self.gauche_2 = pygame.transform.flip(self.droite_2, True, False)
+        self.haut = pygame.image.load(BASE_RESSOURCE + prefixe  + RESSOURCES[1][0]).convert_alpha()
+        self.haut_1 = pygame.image.load(BASE_RESSOURCE + prefixe  + RESSOURCES[1][1]).convert_alpha()
+        self.haut_2 = pygame.image.load(BASE_RESSOURCE + prefixe  +RESSOURCES[1][2]).convert_alpha()
+        self.bas = pygame.image.load(BASE_RESSOURCE  + prefixe  + RESSOURCES[2][0]).convert_alpha()
+        self.bas_1 = pygame.image.load(BASE_RESSOURCE  + prefixe  + RESSOURCES[2][1]).convert_alpha()
+        self.bas_2 = pygame.image.load(BASE_RESSOURCE  + prefixe  + RESSOURCES[2][2]).convert_alpha()
         # image actuelle du personnage
         self.image = self.droite_1
         # position de depart du personnage
@@ -109,39 +110,19 @@ class Player(pygame.sprite.Sprite):
     def deplacer(self, direction):
         if direction == 'droite':
             self.x_velocite = VELOCITY * self.speed
-            if self.nbTrame >= 15:
-                if self.nbTrame >= 30:
-                    self.nbTrame = 0
-                self.image = self.droite_1
-            else:
-                self.image = self.droite_2
+            self.annimation(self.droite,self.droite_1,self.droite_2)
 
         elif direction == 'gauche':
             self.x_velocite = -VELOCITY * self.speed
-            if self.nbTrame >= 15:
-                if self.nbTrame >= 30:
-                    self.nbTrame = 0
-                self.image = self.gauche_1
-            else:
-                self.image = self.gauche_2
+            self.annimation(self.gauche,self.gauche_1,self.gauche_2)
 
         elif direction == 'haut':
             self.y_velocite = -VELOCITY * self.speed
-            if self.nbTrame >= 15:
-                if self.nbTrame >= 30:
-                    self.nbTrame = 0
-                self.image = self.haut_1
-            else:
-                self.image = self.haut_2
+            self.annimation(self.haut,self.haut_1,self.haut_2)
 
         elif direction == 'bas':
             self.y_velocite = VELOCITY * self.speed
-            if self.nbTrame >= 15:
-                if self.nbTrame >= 30:
-                    self.nbTrame = 0
-                self.image = self.bas_1
-            else:
-                self.image = self.bas_2
+            self.annimation(self.bas,self.bas_1,self.bas_2)
 
 
     def changerPosition(self, direction):
@@ -351,3 +332,16 @@ class Player(pygame.sprite.Sprite):
         self.death_cooldown = 100
         self.rect.x = -40
         self.rect.y = -40
+
+
+    def annimation(self,image,image1,image2):
+        if self.nbTrame >= 30:
+            if self.nbTrame >= 40:
+                self.nbTrame = 0
+            self.image = image2
+        elif self.nbTrame >= 20:
+            self.image = image
+        elif self.nbTrame >= 10:
+            self.image = image1
+        else:
+            self.image = image
