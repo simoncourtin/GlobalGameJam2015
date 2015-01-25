@@ -87,6 +87,7 @@ class Jeu():
 
         # load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
+        stress = pygame.mixer.Sound("stress.ogg")
         pygame.mixer.music.queue("fondSonore.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
         missCoins = pygame.mixer.Sound("missCoins.ogg")
@@ -153,21 +154,37 @@ class Jeu():
                     if event.key == K_SPACE:
                         self.current_player.setSpeed(player.VELOCITY)
 
+            # Declenchement de la musique du stress
+            if len(self.camp_rouge.pieces_depart) <= 2:
+                pygame.mixer.music.stop()
+                stress.play()
+
+            if len(self.camp_bleu.pieces_depart) <= 2:
+                pygame.mixer.music.stop()
+                stress.play()
+
             # Verification de la victoire
             if len(self.camp_rouge.pieces_depart) <= 0:
                 if self.current_player.camp.nom == "Camp Rouge":
+                    pygame.mixer.music.stop()
+                    stress.stop()
                     defaite.play()
                 else:
+                    pygame.mixer.music.stop()
+                    stress.stop()
                     victoire.play()
                 
                 print "LES BLEUS ONT GAGNE, BRAVO !!"
                 break
             
             elif len(self.camp_bleu.pieces_depart) <= 0:
-                victoire.play()
                 if self.current_player.camp.nom == "Camp Bleu":
+                    pygame.mixer.music.stop()
+                    stress.stop()
                     defaite.play()
                 else:
+                    pygame.mixer.music.stop()
+                    stress.stop()
                     victoire.play()
 
                 print "LES ROUGES ONT GAGNE, BRAVO !!"
