@@ -51,6 +51,7 @@ class Layer():
                     else:
                         self.tuiles_non_colision.add(tuile)
                     if element == '256':
+                        self.tuiles_non_colision.remove(tuile)
                         self.spawn.append((x ,y))
                 x+=largeur
             else:

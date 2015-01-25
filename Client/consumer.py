@@ -55,13 +55,13 @@ class Consumer(threading.Thread):
             # Declenchement de la musique du stress
             if len(self.jeu.camp_rouge.pieces_depart) - self.jeu.camp_bleu.nbPiecesPickedUp() <= 2:
                 if self.jeu.current_player.camp.nom == "Camp Rouge":
-                    pygame.mixer.music.stop()
-                    self.jeu.stress.play()
+                    pygame.mixer.music.load("stress.ogg")
+                    pygame.mixer.music.play(-1)
 
             if len(self.jeu.camp_bleu.pieces_depart) - self.jeu.camp_rouge.nbPiecesPickedUp() <= 2:
                 if self.jeu.current_player.camp.nom == "Camp Bleu":
-                    pygame.mixer.music.stop()
-                    self.jeu.stress.play()
+                    pygame.mixer.music.load("stress.ogg")
+                    pygame.mixer.music.play(-1)
 
         elif donnee[0] == "ITM_RL": # Item Release (on depose un item au camp)
             id_joueur = int(donnee[1])
@@ -84,6 +84,7 @@ class Consumer(threading.Thread):
             id_joueur = int(donnee[1])
             
             joueur = self.jeu.playerById(id_joueur)
+            nb_pieces_avant = joueur.camp.nbPiecesPickedUp()
 
             for it in joueur.items:
                 self.jeu.items.add(it)
@@ -91,6 +92,13 @@ class Consumer(threading.Thread):
             
             joueur.lacherItems()
             print joueur.name + " est mort est a lache ses pieces"
+
+            nb_pieces_apres = joueur.camp.nbPiecesPickedUp()
+
+            # On remet la musique normale
+            if len(self.jeu.current_player.camp.pieces_depart) - nb_pieces_avant <= 2 and len(self.jeu.current_player.camp.pieces_depart) - nb_pieces_apres > 2:
+                pygame.mixer.music.load("fondSonore.ogg")
+                pygame.mixer.music.play(-1)
             
         
         else: # Position

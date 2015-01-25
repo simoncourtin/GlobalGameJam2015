@@ -7,7 +7,7 @@ from pygame import sprite
 from pygame.locals import *
 from classes import player, map, interface, camera, item, camp
 from Client import producer, consumer
-
+import random
 
 NB_JOUEURS = 4
 NB_PIECES = 3
@@ -46,11 +46,8 @@ class Jeu():
         self.socket = socket
         # map
         self.map = map.Map(self.screen)
-        self.spawn = self.map.getSpawn()
-        if len(self.spawn) > 0:
-            x = self.spawn[0][0]
-            y = self.spawn[0][1]
 
+        self.distribution_spawn(self.map)
         self.camps = pygame.sprite.Group()
         self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", "rouge")
         self.camp_bleu = camp.Camp(1, BASE_BLEUE_X, BASE_BLEUE_Y, "Camp Bleu", "bleu")
@@ -60,9 +57,9 @@ class Jeu():
         self.joueurs = pygame.sprite.Group()
         for i in range(len(self.idnom)):
             if i % 2 == 0:
-                self.joueurs.add(player.Player(self, self.camp_rouge, i, self.idnom[i], x, y))
+                self.joueurs.add(player.Player(self, self.camp_rouge, i, self.idnom[i], BASE_ROUGE_X, BASE_ROUGE_Y))
             else:
-                self.joueurs.add(player.Player(self, self.camp_bleu, i, self.idnom[i], x, y))
+                self.joueurs.add(player.Player(self, self.camp_bleu, i, self.idnom[i], BASE_BLEUE_X, BASE_BLEUE_Y))
 
         self.current_player = self.playerById(self.id_client)
 
@@ -92,8 +89,8 @@ class Jeu():
 
         # load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
-        self.stress = pygame.mixer.Sound("stress.ogg")
-        pygame.mixer.music.queue("fondSonore.ogg")
+        # self.stress = pygame.mixer.Sound("stress.ogg")
+        # pygame.mixer.music.queue("fondSonore.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
         missCoins = pygame.mixer.Sound("missCoins.ogg")
         select = pygame.mixer.Sound("select.ogg")
@@ -101,7 +98,7 @@ class Jeu():
         defaite = pygame.mixer.Sound("defeat.ogg")
 
         # declenchement du fond sonore
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(-1)
         # pygame.mixer.music.set_volume(0.5)
 
         # La camera
@@ -269,3 +266,19 @@ class Jeu():
         joueur_rect.topleft = (xAbs, yAbs)
 
         self.screen.blit(joueur_text, joueur_rect)
+
+    def distribution_spawn(self,map_jeu):
+        spawn = map_jeu.getSpawn()
+        global BASE_ROUGE_X
+        global BASE_ROUGE_Y
+        global BASE_BLEUE_X
+        global BASE_BLEUE_Y
+        aleatoire = random.randint(0,1)
+        if aleatoire == 0:
+            autre_nb = 1
+        else:
+            autre_nb=0
+        BASE_ROUGE_X= spawn[aleatoire][0]
+        BASE_ROUGE_Y= spawn[aleatoire][1]
+        BASE_BLEUE_X = spawn[autre_nb][0]
+        BASE_BLEUE_Y = spawn[autre_nb][1]
