@@ -17,7 +17,7 @@ class Producer(threading.Thread):
         
         
     def run(self):
-        while not self.stopped():
+        while True:
             time.sleep(0.05)
             self.envoyerDonneeServeur()
     

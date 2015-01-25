@@ -127,7 +127,7 @@ class Consumer(threading.Thread):
 
         
     def run(self):
-        while not self.stopped() :
+        while True :
             self.recevoirDonneesServeur()
             self.death_cooldown -= 1
             if self.death_cooldown < 0:
