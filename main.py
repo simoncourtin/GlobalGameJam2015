@@ -1,4 +1,6 @@
-__author__ = 'Simon'
+#!/usr/bin/env python2
+# coding: utf-8
+
 from classes import jeu
 import socket
 from classes import accueil

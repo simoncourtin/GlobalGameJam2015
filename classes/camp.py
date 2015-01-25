@@ -10,8 +10,8 @@ class Camp(pygame.sprite.Sprite):
         
         self.id_camp = id_camp
         self.joueurs = []
-        self.pieces_capturees = []
-        self.pieces_depart = []
+        self.pieces_capturees = pygame.sprite.Group()
+        self.pieces_depart = pygame.sprite.Group()
         self.nom = nom
         self.couleur = couleur
         self.x = x
@@ -22,4 +22,5 @@ class Camp(pygame.sprite.Sprite):
         self.rect.topleft = (x, y)
 
     def deposer(self, items):
-        self.pieces_capturees.extend(items)
+        for it in items:
+            self.pieces_capturees.add(it)
