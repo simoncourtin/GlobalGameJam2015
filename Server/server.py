@@ -17,6 +17,9 @@ PORT = 12345
 BUFFER_SIZE = 2048
 MAX_PLAYERS = 2
 
+if len(sys.argv) == 2:
+	MAX_PLAYERS = int(sys.argv[1])
+
 # DARTH VADER ****
 def kill_zombie(signum, frame):
     print('Luke, I''m your father !\n')
