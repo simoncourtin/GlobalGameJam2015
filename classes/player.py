@@ -127,35 +127,13 @@ class Player(pygame.sprite.Sprite):
 
     def changerPosition(self, direction):
         if direction == 'droite':
-            self.x_velocite = VELOCITY * self.speed
-            if self.nbTrame >= 15:
-                if self.nbTrame >= 30:
-                    self.nbTrame = 0
-                self.image = self.droite_1
-            else:
-                self.image = self.droite_2
+            self.annimation(self.droite,self.droite_1,self.droite_2)
         elif direction == 'gauche':
-            if self.nbTrame >= 15:
-                if self.nbTrame >= 30:
-                    self.nbTrame = 0
-                self.image = self.gauche_1
-            else:
-                self.image = self.gauche_2
+            self.annimation(self.gauche,self.gauche_1,self.gauche_2)
         elif direction == 'haut':
-            self.y_velocite = -VELOCITY * self.speed
-            if self.nbTrame >= 15:
-                if self.nbTrame >= 30:
-                    self.nbTrame = 0
-                self.image = self.haut_1
-            else:
-                self.image = self.haut_2
+            self.annimation(self.haut,self.haut_1,self.haut_2)
         elif direction == 'bas':
-            if self.nbTrame >= 15:
-                if self.nbTrame >= 30:
-                    self.nbTrame = 0
-                self.image = self.bas_1
-            else:
-                self.image = self.bas_2
+            self.annimation(self.bas,self.bas_1,self.bas_2)
 
     def getClasse(self):
         return self.classe
@@ -197,7 +175,7 @@ class Player(pygame.sprite.Sprite):
         return direction
 
     def dash(self):
-        if self.dash_cooldown <= 0:
+        if self.dash_cooldown <= 0 and len(self.items) < 2:
             self.speed = 20
             self.dash_cooldown = 500
             dash = pygame.mixer.Sound("dash.ogg")

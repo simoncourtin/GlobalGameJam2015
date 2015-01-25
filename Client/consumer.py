@@ -9,6 +9,7 @@ class Consumer(threading.Thread):
         self.socket = socket
         self.jeu = jeu
         self.death_cooldown = 0
+        self._stop = threading.Event()
         
     def recevoirDonneesServeur(self):
         request = ""
@@ -107,11 +108,16 @@ class Consumer(threading.Thread):
 
         
     def run(self):
-        while True:
+        while not self.stopped() :
             self.recevoirDonneesServeur()
             self.death_cooldown -= 1
             if self.death_cooldown < 0:
                 self.death_cooldown = 0
     
     
-    
+    def stop(self):
+        self._stop.set()
+
+    def stopped(self):
+        return self._stop.isSet()
+

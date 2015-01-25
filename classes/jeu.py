@@ -49,8 +49,8 @@ class Jeu():
             y = self.spawn[0][1]
 
         self.camps = pygame.sprite.Group()
-        self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", ROUGE)
-        self.camp_bleu = camp.Camp(1, BASE_BLEUE_X, BASE_BLEUE_Y, "Camp Bleu", BLEU)
+        self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", "rouge")
+        self.camp_bleu = camp.Camp(1, BASE_BLEUE_X, BASE_BLEUE_Y, "Camp Bleu", "bleu")
         self.camps.add(self.camp_rouge)
         self.camps.add(self.camp_bleu)
             
@@ -118,7 +118,6 @@ class Jeu():
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.socket.send("QUIT")
-                    reponse = self.socket.recv(1024)
                     self.socket.close()
 
                 elif event.type == KEYDOWN:
