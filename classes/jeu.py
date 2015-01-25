@@ -291,19 +291,14 @@ class Jeu():
         spawn = map_jeu.getSpawn()
         global BASE_ROUGE_NB, BASE_ROUGE_X, BASE_ROUGE_Y
         global BASE_BLEUE_NB, BASE_BLEUE_X, BASE_BLEUE_Y
-        aleatoire = random.randint(1,2)
-        if aleatoire == 1:
-            autre_nb = 2
-        else:
-            autre_nb = 1
 
-        BASE_ROUGE_NB = aleatoire
-        BASE_ROUGE_X = spawn[aleatoire-1][0]
-        BASE_ROUGE_Y = spawn[aleatoire-1][1]
+        BASE_ROUGE_NB = 0
+        BASE_ROUGE_X = spawn[0][0]
+        BASE_ROUGE_Y = spawn[0][1]
 
-        BASE_BLEUE_NB = autre_nb
-        BASE_BLEUE_X = spawn[autre_nb-1][0]
-        BASE_BLEUE_Y = spawn[autre_nb-1][1]
+        BASE_BLEUE_NB = 1
+        BASE_BLEUE_X = spawn[1][0]
+        BASE_BLEUE_Y = spawn[1][1]
 
     def connexion(self):
         print "Connexion au serveur..."     
