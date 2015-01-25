@@ -1,7 +1,8 @@
 import pygame
 import time
+from pygame import sprite
 from pygame.locals import *
-from classes import player, map, interface, camera, item
+from classes import player, map, interface, camera, item, camp
 from Client import producer, consumer
 
 
@@ -19,6 +20,15 @@ WINDOW_HEIGHT = 700
 LINE_THIKNESS = 20
 SCOREBOARD_TOP_X = WINDOW_WIDTH * 6 / 8
 SCOREBOARD_TOP_Y = WINDOW_HEIGHT - NB_JOUEURS * LINE_THIKNESS
+
+BASE_ROUGE_X = 1500
+BASE_ROUGE_Y = 1100
+
+BASE_BLEUE_X = 1000
+BASE_BLEUE_Y = 200
+
+ROUGE = (255, 0, 0)
+BLEU = (0, 0, 255)
 
 
 class Jeu():
@@ -38,22 +48,36 @@ class Jeu():
             x = self.spawn[0][0]
             y = self.spawn[0][1]
 
+        self.camps = pygame.sprite.Group()
+        self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", ROUGE)
+        self.camp_bleu = camp.Camp(1, BASE_BLEUE_X, BASE_BLEUE_Y, "Camp Bleu", BLEU)
+        self.camps.add(self.camp_rouge)
+        self.camps.add(self.camp_bleu)
+
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(self, 0, self.idnom[0], x, y))
-        self.joueurs.add(player.Player(self, 1, self.idnom[1], x, y))
-        self.joueurs.add(player.Player(self, 2, self.idnom[2], x, y))
-        self.joueurs.add(player.Player(self, 3, self.idnom[3], x, y))
+        self.joueurs.add(player.Player(self, self.camp_rouge, 0, self.idnom[0], x, y))
+        self.joueurs.add(player.Player(self, self.camp_rouge, 1, self.idnom[1], x, y))
+        self.joueurs.add(player.Player(self, self.camp_bleu, 2, self.idnom[2], x, y))
+        self.joueurs.add(player.Player(self, self.camp_bleu, 3, self.idnom[3], x, y))
+
+        self.current_player = self.playerById(self.id_client)
+
+        self.groupe_attaque = pygame.sprite.Group()
 
         self.items = pygame.sprite.Group()
         self.items_taken = pygame.sprite.Group()
-        for i in range(NB_PIECES):
+        for i in range(1, NB_PIECES + 1):
             for j in range(NB_PIECES):
-                self.items.add(item.Item(self, "sprite_coins.png", 200 + 50 * j, 200 + 50 * i, "rouge"))
+                self.items.add(
+                    item.Item(self, "sprite_coins.png", 250 + 50 * j, 100 + 50 * i, i * 10 + j, self.camp_rouge))
 
-        self.items.add(item.Item(self, "sprite_coins.png", 10, 10, "bleu"))
+        for i in range(1, NB_PIECES + 1):
+            for j in range(NB_PIECES):
+                self.items.add(
+                    item.Item(self, "sprite_coins.png", 820 + 50 * j, 400 + 50 * i, i * 100 + j, self.camp_bleu))
 
         # definition du sprite controlable
-        self.playerById(self.id_client).setControllable(True)
+        self.current_player.setControllable(True)
         # creation du producteur et du consommateur
         self.consumer = consumer.Consumer(self.socket, self)
         self.producer = producer.Producer(self.socket, self)
@@ -82,7 +106,7 @@ class Jeu():
         pygame.key.set_repeat(5, 20)
 
         clock = pygame.time.Clock()
-        timeFirst = pygame.time.get_ticks()
+        timeLastAttack = pygame.time.get_ticks()
 
         # LOOP
         while True:
@@ -96,21 +120,28 @@ class Jeu():
 
                 elif event.type == KEYDOWN:
                     if event.key == K_SPACE:
-                        self.playerById(self.id_client).setSpeed(0)
+                        self.current_player.setSpeed(0)
 
-                        if timeFirst + KEY_REPEAT_DELAY < pygame.time.get_ticks():
-                            sprite = self.playerById(self.id_client).getRect()
-                            surface = pygame.Surface(sprite.inflate(70, 30))
-                            target = pygame.sprite.spritecollide(surface, self.joueurs, False)
+                        if timeLastAttack + KEY_REPEAT_DELAY < pygame.time.get_ticks():
+                            self.groupe_attaque.add(self.current_player.attaque)
 
-                            print target
-                            self.playerById(self.id_client).attack(target)
-                            timeFirst = pygame.time.get_ticks()
+                            print "1." + repr(self.groupe_attaque)
+
+                            target = pygame.sprite.spritecollide(self.current_player, self.joueurs, False)
+                            # faire un collide all group ou autre
+                            self.current_player.attack(target)
+
+                            print "1." + repr(target)
+
+                            timeLastAttack = pygame.time.get_ticks()
 
                     if event.key == K_e:
-                        coins = pygame.sprite.spritecollide(self.playerById(self.id_client), self.items, False)
+                        coins = pygame.sprite.spritecollide(self.current_player, self.items, False)
+                        # On ne garde que les pieces n'appartenant pas au camp du joueur
+                        coins = [it for it in coins if it.camp != self.current_player.camp]
+
                         if coins:
-                            if self.playerById(self.id_client).pickUpItem(coins):
+                            if self.current_player.pickUpItem(coins):
                                 pickCoins.play()
                                 self.items.remove(coins)
                                 self.items_taken.add(coins)
@@ -119,26 +150,53 @@ class Jeu():
 
                 elif event.type == KEYUP:
                     if event.key == K_SPACE:
-                        self.playerById(self.id_client).setSpeed(player.VELOCITY)
+                        self.current_player.setSpeed(player.VELOCITY)
+                        self.groupe_attaque.empty()
+
+            # Verification de la victoire
+            if len(self.camp_rouge.pieces_depart) <= 0:
+                print "LES BLEUS ONT GAGNE, BRAVO !!"
+                break
+            elif len(self.camp_bleu.pieces_depart) <= 0:
+                print "LES ROUGES ONT GAGNE, BRAVO !!"
+                break
+
+            collision_camp = pygame.sprite.collide_rect(self.current_player, self.current_player.camp)
+            if collision_camp and len(self.current_player.items) > 0:
+                self.current_player.deposerItem()
 
             self.joueurs.update()
 
-            # rafraichissement de la map des des affichages des joueurs
-            self.cam.update(self.playerById(self.id_client))
-            if self.playerById(self.id_client).afficher_attaque:
-                self.cam.update(self.playerById(self.id_client))
-                self.playerById(self.id_client).afficher_attaque = False
+            # Gestion de la camera
+            self.cam.update(self.current_player)  # Centre sur le joueur
 
             # rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map(self.cam)
+
+            if self.groupe_attaque:
+                print "2." + repr(self.groupe_attaque)
+                print "2." + repr(self.current_player.attaque)
+                self.groupe_attaque.clear(self.screen, self.current_player.attaque.image)
+                self.groupe_attaque.draw(self.current_player.attaque.image)
+                self.screen.blit(self.current_player.attaque.image,
+                                 self.cam.apply(self.current_player.attaque))
+
+
+            # On blit les camps
+            for c in self.camps:
+                self.screen.blit(c.image, self.cam.apply(c))
+
+            # On blit les joueurs
             for j in self.joueurs:
                 self.screen.blit(j.image, self.cam.apply(j))
 
+            # On blit les items
             for it in self.items:
                 self.screen.blit(it.image, self.cam.apply(it))
 
             pygame.display.update()
 
+            # Affichage des infos joueurs
             for id in range(len(self.joueurs.sprites())):
                 joueur = self.playerById(id)
 
@@ -156,13 +214,26 @@ class Jeu():
             # pygame.draw.line(self.screen, (180, 0, 0), (SCOREBOARD_TOP_X, SCOREBOARD_TOP_Y), (WINDOW_WIDTH * 2 / 8, SCOREBOARD_TOP_Y), 50)
 
 
-    # recuperer je joueur controlle par le client
+    # recuperer un joueur par son id
     def playerById(self, id_player):
         for j in self.joueurs:
             if j.classe == id_player:
                 return j
 
 
+    def itemById(self, id_item):
+        for i in self.items:
+            if i.id_item == id_item:
+                return i
+
+
+    def campById(self, id_camp):
+        for c in self.camps:
+            if c.id_camp == id_camp:
+                return c
+
+
+    # Affiche le scoreboard
     def displayScore(self, joueur, xAbs, yAbs):
         handlebar = joueur.getHealthbar()
 

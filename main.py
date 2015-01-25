@@ -16,7 +16,7 @@ print "Connexion au serveur..."
 socket_joueur=socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
 socket_joueur.connect((ADRESSE_SERVEUR, PORT))
 print "Recuperation du numero client"
-numero_client = int(socket_joueur.recv(1024))
+numero_client = int(socket_joueur.recv(1))
 print "Vous etes le client numero "+str(numero_client)
 #creation du jeu
 car = socket_joueur.recv(1)

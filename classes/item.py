@@ -6,9 +6,10 @@ BASE_RESSOURCE = "images/"
 
 
 class Item(pygame.sprite.Sprite):
-    def __init__(self, jeu, resource, x, y, camp=None):
+    def __init__(self, jeu, resource, x, y, id_item, camp=None):
         pygame.sprite.Sprite.__init__(self)
         self.jeu = jeu
+        self.id_item = id_item
         self.resource = BASE_RESSOURCE + resource
         self.image = pygame.image.load(self.resource)
         self.rect = self.image.get_rect()
@@ -17,6 +18,8 @@ class Item(pygame.sprite.Sprite):
         self.screen = self.jeu.screen
         self.visible = True
         self.camp = camp
+        if self.camp is not None:
+            self.camp.pieces_depart.append(self)
 
     def update(self):
         if self.visible:
