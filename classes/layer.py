@@ -51,7 +51,7 @@ class Layer():
                     if self.isCollision():
                         self.tuiles_colision.add(tuile)
                     elif self.layer_objet:
-                        self.objets.append((element,(X,Y)))
+                        self.objets.append((element,(x,y)))
                     else:
                         self.tuiles_non_colision.add(tuile)
                     if element == '256':
