@@ -103,7 +103,7 @@ class Player(pygame.sprite.Sprite):
 
 
     def reinit(self):
-        respawn = pygame.mixer.Sound("respawn.ogg")
+        respawn = pygame.mixer.Sound("sounds/respawn.ogg")
         respawn.play()
         self.rect.x = 70
         self.rect.y = 70
@@ -180,7 +180,7 @@ class Player(pygame.sprite.Sprite):
         if self.dash_cooldown <= 0 and len(self.items) < 2:
             self.speed = 20
             self.dash_cooldown = 500
-            dash = pygame.mixer.Sound("dash.ogg")
+            dash = pygame.mixer.Sound("sounds/dash.ogg")
             dash.play()
 
     def spawn(self, x, y):
@@ -262,7 +262,7 @@ class Player(pygame.sprite.Sprite):
             self.jeu.socket.send(message)
             print message
 
-            hit = pygame.mixer.Sound("hit.ogg")
+            hit = pygame.mixer.Sound("sounds/hit.ogg")
             hit.play()
 
     def receiveAttack(self, damage):
@@ -270,7 +270,7 @@ class Player(pygame.sprite.Sprite):
             self.life = 0
         else:
             self.life -= damage
-            hit = pygame.mixer.Sound("hit.ogg")
+            hit = pygame.mixer.Sound("sounds/hit.ogg")
             hit.play()
 
 
@@ -288,7 +288,7 @@ class Player(pygame.sprite.Sprite):
         self.items[:] = []
 
     def deposerItem(self):
-        dropCoins = pygame.mixer.Sound("dropCoins.ogg")
+        dropCoins = pygame.mixer.Sound("sounds/dropCoins.ogg")
         for it in self.items:
             it.camp.pieces_depart.remove(it)
         dropCoins.play()

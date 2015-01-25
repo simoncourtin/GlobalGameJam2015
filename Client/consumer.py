@@ -33,7 +33,7 @@ class Consumer(threading.Thread):
             # Ensuite on verifie si le perso est mort, si oui on l'enleve
             joueur_attaque = self.jeu.playerById(int(attaque))
             if joueur_attaque.life <= 0:
-                death = pygame.mixer.Sound("death.ogg")
+                death = pygame.mixer.Sound("sounds/death.ogg")
                 death.play()
                 # Il est mort
                 joueur_attaque.mourir()
@@ -55,12 +55,12 @@ class Consumer(threading.Thread):
             # Declenchement de la musique du stress
             if len(self.jeu.camp_rouge.pieces_depart) - self.jeu.camp_bleu.nbPiecesPickedUp() <= 2:
                 if self.jeu.current_player.camp.nom == "Camp Rouge":
-                    pygame.mixer.music.load("stress.ogg")
+                    pygame.mixer.music.load("sounds/stress.ogg")
                     pygame.mixer.music.play(-1)
 
             if len(self.jeu.camp_bleu.pieces_depart) - self.jeu.camp_rouge.nbPiecesPickedUp() <= 2:
                 if self.jeu.current_player.camp.nom == "Camp Bleu":
-                    pygame.mixer.music.load("stress.ogg")
+                    pygame.mixer.music.load("sounds/stress.ogg")
                     pygame.mixer.music.play(-1)
 
         elif donnee[0] == "ITM_RL": # Item Release (on depose un item au camp)
@@ -97,7 +97,7 @@ class Consumer(threading.Thread):
 
             # On remet la musique normale
             if len(self.jeu.current_player.camp.pieces_depart) - nb_pieces_avant <= 2 and len(self.jeu.current_player.camp.pieces_depart) - nb_pieces_apres > 2:
-                pygame.mixer.music.load("fondSonore.ogg")
+                pygame.mixer.music.load("sounds/fondSonore.ogg")
                 pygame.mixer.music.play(-1)
             
         
