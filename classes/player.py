@@ -197,7 +197,7 @@ class Player(pygame.sprite.Sprite):
         return direction
 
     def dash(self):
-        if self.dash_cooldown <= 0:
+        if self.dash_cooldown <= 0 and len(self.items) < 2:
             self.speed = 20
             self.dash_cooldown = 500
             dash = pygame.mixer.Sound("dash.ogg")
