@@ -102,12 +102,12 @@ class Jeu():
 
 
         # load de toutes les musiques + bruitages
-        pygame.mixer.music.load("fondSonore.ogg")
-        pickCoins = pygame.mixer.Sound("pickCoins.ogg")
-        missCoins = pygame.mixer.Sound("missCoins.ogg")
-        select = pygame.mixer.Sound("select.ogg")
-        victoire = pygame.mixer.Sound("victory.ogg")
-        defaite = pygame.mixer.Sound("defeat.ogg")
+        pygame.mixer.music.load("sounds/fondSonore.ogg")
+        pickCoins = pygame.mixer.Sound("sounds/pickCoins.ogg")
+        missCoins = pygame.mixer.Sound("sounds/missCoins.ogg")
+        select = pygame.mixer.Sound("sounds/select.ogg")
+        victoire = pygame.mixer.Sound("sounds/victory.ogg")
+        defaite = pygame.mixer.Sound("sounds/defeat.ogg")
 
         # declenchement du fond sonore
         pygame.mixer.music.play(-1)
