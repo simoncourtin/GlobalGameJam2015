@@ -45,13 +45,13 @@ class Jeu():
         # map
         self.map = map.Map(self.screen)
 
+        self.distribution_spawn(self.map)
+        
         self.camps = pygame.sprite.Group()
         self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", "rouge")
         self.camp_bleu = camp.Camp(1, BASE_BLEUE_X, BASE_BLEUE_Y, "Camp Bleu", "bleu")
         self.camps.add(self.camp_rouge)
         self.camps.add(self.camp_bleu)
-
-        self.distribution_spawn(self.map)
 
         self.screen.blit(self.font_accueil.render("Veuillez patienter...", False, (255, 255, 255)), (WINDOW_WIDTH / 2 - 200, WINDOW_HEIGHT / 2 - 100))
         pygame.display.flip()
