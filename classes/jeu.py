@@ -117,6 +117,8 @@ class Jeu():
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.socket.send("QUIT")
+                    self.producer.stop()
+                    self.consumer.stop()
                     reponse = self.socket.recv(1024)
                     self.socket.close()
 
