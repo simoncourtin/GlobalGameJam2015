@@ -55,7 +55,7 @@ class Jeu():
         self.connexion()
 
         self.scoreboard_top_x = WINDOW_WIDTH * 6 / 8
-        self.scoreboard_top_y = WINDOW_HEIGHT - 7 * LINE_THIKNESS
+        self.scoreboard_top_y = WINDOW_HEIGHT - 8 * LINE_THIKNESS
 
         self.joueurs = pygame.sprite.Group()
         for i in range(len(self.idnom)):
