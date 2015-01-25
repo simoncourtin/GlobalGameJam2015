@@ -13,7 +13,7 @@ import os
 
 list_client = []
 
-PORT = 12344
+PORT = 12345
 BUFFER_SIZE = 2048
 MAX_PLAYERS = 2
 
@@ -30,12 +30,14 @@ def agent(socket_client, num, list_client):
         for socket_other in list_client:
             if request == "QUIT" :
                 print "num client se deconnecte"
-                socket_client.shutdown(0)
-                socket_client.close()
+                socket_client.send("OK@")
+                for socket_q in list_client:
+                    socket_q.shutdown(0)
+                    socket_q.close()
                 sys.exit()
             if not socket_other is socket_client:
                 if socket_other.send(request):
-                    pass    
+                    pass   
                 
         request = socket_client.recv(BUFFER_SIZE)
     socket_client.close()
@@ -63,8 +65,8 @@ def main():
         try:
             socket_client, address_client = listening_socket.accept()
             list_client.append(socket_client)
-            socket_client.send(str(i)+"\n")
-            print "client "+str(i) +" arrivee"
+            socket_client.send(str(i)+"@")
+            print "client "+str(i) +" arrive"
         except socket.error:
             time.sleep(0.01)
             continue

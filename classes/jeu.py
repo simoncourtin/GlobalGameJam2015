@@ -49,16 +49,17 @@ class Jeu():
             y = self.spawn[0][1]
 
         self.camps = pygame.sprite.Group()
-        self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", ROUGE)
-        self.camp_bleu = camp.Camp(1, BASE_BLEUE_X, BASE_BLEUE_Y, "Camp Bleu", BLEU)
+        self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", "rouge")
+        self.camp_bleu = camp.Camp(1, BASE_BLEUE_X, BASE_BLEUE_Y, "Camp Bleu", "bleu")
         self.camps.add(self.camp_rouge)
         self.camps.add(self.camp_bleu)
 
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(self, self.camp_rouge, 0, self.idnom[0], x, y))
-        self.joueurs.add(player.Player(self, self.camp_rouge, 1, self.idnom[1], x, y))
-        self.joueurs.add(player.Player(self, self.camp_bleu, 2, self.idnom[2], x, y))
-        self.joueurs.add(player.Player(self, self.camp_bleu, 3, self.idnom[3], x, y))
+        for i in range(len(self.idnom)):
+            if i % 2 == 0:
+                self.joueurs.add(player.Player(self, self.camp_rouge, i, self.idnom[i], x, y))
+            else:
+                self.joueurs.add(player.Player(self, self.camp_bleu, i, self.idnom[i], x, y))
 
         self.current_player = self.playerById(self.id_client)
 
@@ -88,10 +89,13 @@ class Jeu():
 
         # load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
+        stress = pygame.mixer.Sound("stress.ogg")
         pygame.mixer.music.queue("fondSonore.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
         missCoins = pygame.mixer.Sound("missCoins.ogg")
         select = pygame.mixer.Sound("select.ogg")
+        victoire = pygame.mixer.Sound("victory.ogg")
+        defaite = pygame.mixer.Sound("defeat.ogg")
 
         # declenchement du fond sonore
         pygame.mixer.music.play()
@@ -151,13 +155,41 @@ class Jeu():
                 elif event.type == KEYUP:
                     if event.key == K_SPACE:
                         self.current_player.setSpeed(player.VELOCITY)
-                        self.groupe_attaque.empty()
+                        self.groupe_attaque.remove(self.current_player.attaque)
+
+            # Declenchement de la musique du stress
+            if len(self.camp_rouge.pieces_depart) <= 2:
+                pygame.mixer.music.stop()
+                stress.play()
+
+            if len(self.camp_bleu.pieces_depart) <= 2:
+                pygame.mixer.music.stop()
+                stress.play()
 
             # Verification de la victoire
             if len(self.camp_rouge.pieces_depart) <= 0:
+                if self.current_player.camp.nom == "Camp Rouge":
+                    pygame.mixer.music.stop()
+                    stress.stop()
+                    defaite.play()
+                else:
+                    pygame.mixer.music.stop()
+                    stress.stop()
+                    victoire.play()
+
                 print "LES BLEUS ONT GAGNE, BRAVO !!"
                 break
+
             elif len(self.camp_bleu.pieces_depart) <= 0:
+                if self.current_player.camp.nom == "Camp Bleu":
+                    pygame.mixer.music.stop()
+                    stress.stop()
+                    defaite.play()
+                else:
+                    pygame.mixer.music.stop()
+                    stress.stop()
+                    victoire.play()
+
                 print "LES ROUGES ONT GAGNE, BRAVO !!"
                 break
 
@@ -180,7 +212,6 @@ class Jeu():
                 self.groupe_attaque.draw(self.current_player.attaque.image)
                 self.screen.blit(self.current_player.attaque.image,
                                  self.cam.apply(self.current_player.attaque))
-
 
             # On blit les camps
             for c in self.camps:

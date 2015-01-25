@@ -19,7 +19,7 @@ class Item(pygame.sprite.Sprite):
         self.visible = True
         self.camp = camp
         if self.camp is not None:
-            self.camp.pieces_depart.append(self)
+            self.camp.pieces_depart.add(self)
 
     def update(self):
         if self.visible:

@@ -9,6 +9,7 @@ class Consumer(threading.Thread):
         self.socket = socket
         self.jeu = jeu
         self.death_cooldown = 0
+        self._stop = threading.Event()
         
     def recevoirDonneesServeur(self):
         request = ""
@@ -56,11 +57,15 @@ class Consumer(threading.Thread):
 
             joueur = self.jeu.playerById(id_joueur)
             camp = joueur.camp
+            camp_adverse = joueur.items[0].camp
+
+            print joueur.items
 
             for it in joueur.items:
-                camp.pieces_capturees.append(it)
-                it.camp.pieces_depart.remove(it)
-                joueur.items.remove(it)
+                camp.pieces_capturees.add(it)
+                camp_adverse.pieces_depart.remove(it)
+                
+            joueur.lacherItems()
 
             print joueur.name + " a depose ses pieces."
 
@@ -103,11 +108,16 @@ class Consumer(threading.Thread):
 
         
     def run(self):
-        while True:
+        while not self.stopped() :
             self.recevoirDonneesServeur()
             self.death_cooldown -= 1
             if self.death_cooldown < 0:
                 self.death_cooldown = 0
     
     
-    
+    def stop(self):
+        self._stop.set()
+
+    def stopped(self):
+        return self._stop.isSet()
+
