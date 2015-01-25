@@ -8,6 +8,7 @@ from pygame.locals import *
 from classes import player, map, interface, camera, item, camp
 from Client import producer, consumer
 import random
+from functions import recup_message
 
 NB_JOUEURS = 4
 NB_PIECES = 3
@@ -35,15 +36,15 @@ BLEU = (0, 0, 255)
 
 
 class Jeu():
-    def __init__(self, id_client, socket, idnom, width=300, height=300):
+    def __init__(self, nom_joueur, socket):
         pygame.init()
-        self.idnom = idnom
 
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Broken pipe')
         self.font = pygame.font.Font(FONT_STYLE, FONT_SIZE)
-        self.id_client = id_client
+        self.font_accueil = pygame.font.Font("pixelmix.ttf", 32)
         self.socket = socket
+        self.nom_joueur = nom_joueur
         # map
         self.map = map.Map(self.screen)
         #distribution du spawn
@@ -54,6 +55,11 @@ class Jeu():
         self.camps.add(self.camp_rouge)
         self.camps.add(self.camp_bleu)
 
+        self.screen.blit(self.font_accueil.render("Veuillez patienter...", False, (255, 255, 255)), (WINDOW_WIDTH / 2 - 200, WINDOW_HEIGHT / 2 - 100))
+        pygame.display.flip()
+
+        self.connexion()
+        
         self.joueurs = pygame.sprite.Group()
         for i in range(len(self.idnom)):
             if i % 2 == 0:
@@ -276,7 +282,7 @@ class Jeu():
 
         name = handlebar.getName()[:11]
         name += (17 - len(name)) * " "
-
+        
         joueur_text = self.font.render(name + "  :  " + handlebar.getLife(), True, (0, 0, 0))
         joueur_rect = joueur_text.get_rect()
         joueur_rect.topleft = (xAbs, yAbs)
@@ -300,3 +306,26 @@ class Jeu():
         BASE_BLEUE_NB = autre_nb
         BASE_BLEUE_X = spawn[autre_nb-1][0]
         BASE_BLEUE_Y = spawn[autre_nb-1][1]
+
+    def connexion(self):
+        print "Connexion au serveur..."     
+        print "Recuperation du numero client"
+        self.id_client = int(recup_message(self.socket))
+        print "Vous etes le client numero "+str(self.id_client)
+        
+        #creation du jeu
+        nbr_players_string = recup_message(self.socket)
+        nbr_players = int(nbr_players_string.split(" ")[1])
+        
+        self.idnom = []
+        for i in range(nbr_players):
+            self.idnom.append('')
+            
+        self.socket.send("NAME "+str(self.id_client) + " "+self.nom_joueur+'@')
+        
+        self.idnom[self.id_client] = self.nom_joueur
+        for i in range(0,nbr_players-1):
+            resultat = recup_message(self.socket)
+            donnee = resultat.split(' ')
+        self.idnom[int(donnee[1])] = donnee[2]
+
