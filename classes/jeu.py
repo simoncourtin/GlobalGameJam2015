@@ -46,7 +46,7 @@ class Jeu():
         self.socket = socket
         # map
         self.map = map.Map(self.screen)
-
+        #distribution du spawn
         self.distribution_spawn(self.map)
         self.camps = pygame.sprite.Group()
         self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", "rouge")
