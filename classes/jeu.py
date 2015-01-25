@@ -49,8 +49,8 @@ class Jeu():
             y = self.spawn[0][1]
 
         self.camps = pygame.sprite.Group()
-        self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", ROUGE)
-        self.camp_bleu = camp.Camp(1, BASE_BLEUE_X, BASE_BLEUE_Y, "Camp Bleu", BLEU)
+        self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", "rouge")
+        self.camp_bleu = camp.Camp(1, BASE_BLEUE_X, BASE_BLEUE_Y, "Camp Bleu", "bleu")
         self.camps.add(self.camp_rouge)
         self.camps.add(self.camp_bleu)
             
@@ -89,6 +89,7 @@ class Jeu():
 
         # load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
+        stress = pygame.mixer.Sound("stress.ogg")
         pygame.mixer.music.queue("fondSonore.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
         missCoins = pygame.mixer.Sound("missCoins.ogg")
@@ -119,9 +120,6 @@ class Jeu():
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.socket.send("QUIT")
-                    self.producer.stop()
-                    self.consumer.stop()
-                    reponse = self.socket.recv(1024)
                     self.socket.close()
 
                 elif event.type == KEYDOWN:
@@ -150,21 +148,37 @@ class Jeu():
                     if event.key == K_SPACE:
                         self.current_player.setSpeed(player.VELOCITY)
 
+            # Declenchement de la musique du stress
+            if len(self.camp_rouge.pieces_depart) <= 2:
+                pygame.mixer.music.stop()
+                stress.play()
+
+            if len(self.camp_bleu.pieces_depart) <= 2:
+                pygame.mixer.music.stop()
+                stress.play()
+
             # Verification de la victoire
             if len(self.camp_rouge.pieces_depart) <= 0:
                 if self.current_player.camp.nom == "Camp Rouge":
+                    pygame.mixer.music.stop()
+                    stress.stop()
                     defaite.play()
                 else:
+                    pygame.mixer.music.stop()
+                    stress.stop()
                     victoire.play()
                 
                 print "LES BLEUS ONT GAGNE, BRAVO !!"
                 break
             
             elif len(self.camp_bleu.pieces_depart) <= 0:
-                victoire.play()
                 if self.current_player.camp.nom == "Camp Bleu":
+                    pygame.mixer.music.stop()
+                    stress.stop()
                     defaite.play()
                 else:
+                    pygame.mixer.music.stop()
+                    stress.stop()
                     victoire.play()
 
                 print "LES ROUGES ONT GAGNE, BRAVO !!"
