@@ -65,8 +65,8 @@ def main():
         try:
             socket_client, address_client = listening_socket.accept()
             list_client.append(socket_client)
-            socket_client.send(str(i)+"\n")
-            print "client "+str(i) +" arrivee"
+            socket_client.send(str(i)+"@")
+            print "client "+str(i) +" arrive"
         except socket.error:
             time.sleep(0.01)
             continue

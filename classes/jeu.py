@@ -55,10 +55,12 @@ class Jeu():
         self.camps.add(self.camp_bleu)
             
         self.joueurs = pygame.sprite.Group()
-        self.joueurs.add(player.Player(self, self.camp_rouge, 0, self.idnom[0], x, y))
-        self.joueurs.add(player.Player(self, self.camp_rouge, 1, self.idnom[1], x, y))
-        self.joueurs.add(player.Player(self, self.camp_bleu, 2, self.idnom[2], x, y))
-        self.joueurs.add(player.Player(self, self.camp_bleu, 3, self.idnom[3], x, y))
+        for i in range(len(self.idnom)):
+            if i % 2 == 0:
+                self.joueurs.add(player.Player(self, self.camp_rouge, i, self.idnom[i], x, y))
+            else:
+                self.joueurs.add(player.Player(self, self.camp_bleu, i, self.idnom[i], x, y))
+
 
         self.current_player = self.playerById(self.id_client)
 
@@ -143,13 +145,6 @@ class Jeu():
                                 self.items_taken.add(coins)
                             else:
                                 missCoins.play()
-
-                    if event.key == K_j:
-                        print "Pieces de depart chez les rouges : "
-                        print self.camp_rouge.pieces_depart
-                        print ""
-                        print "Pieces de depart chez les bleus : "
-                        print self.camp_bleu.pieces_depart
 
                 elif event.type == KEYUP:
                     if event.key == K_SPACE:
