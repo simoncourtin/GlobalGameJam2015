@@ -223,7 +223,7 @@ class Jeu():
                 text, rect = joueur.getHealthbar().displayName(joueur.getX() - 20, joueur.getY() - 20)
                 self.screen.blit(text, self.cam.apply_rect(rect))
 
-                self.displayScore(joueur, SCOREBOARD_TOP_X, SCOREBOARD_TOP_Y + LINE_THIKNESS * (id + 1))
+                self.displayScore(joueur, self.scoreboard_top_x, self.scoreboard_top_y + LINE_THIKNESS * (id + 1))
 
                 if id == self.id_client:
                     text, rect = joueur.getHealthbar().displayLife(joueur.getX() - 20, joueur.getY() - 10)
