@@ -89,8 +89,8 @@ class Jeu():
 
         # load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
-        self.stress = pygame.mixer.Sound("stress.ogg")
-        pygame.mixer.music.queue("fondSonore.ogg")
+        # self.stress = pygame.mixer.Sound("stress.ogg")
+        # pygame.mixer.music.queue("fondSonore.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
         missCoins = pygame.mixer.Sound("missCoins.ogg")
         select = pygame.mixer.Sound("select.ogg")
@@ -98,7 +98,7 @@ class Jeu():
         defaite = pygame.mixer.Sound("defeat.ogg")
 
         # declenchement du fond sonore
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(-1)
         # pygame.mixer.music.set_volume(0.5)
 
         # La camera
