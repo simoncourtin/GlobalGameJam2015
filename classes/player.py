@@ -7,10 +7,7 @@ WEAPON_DAMAGE = 2
 LIFE_MAX = 10
 
 BASE_RESSOURCE = "images/sprite_anime/sprite"
-RESSOURCES_J1 = [["profile.png", "profile_1.png","profile_2.png"],["dos.png", "dos_1.png","dos_2.png"],["face.png", "face_1.png","face_2.png"]]
-RESSOURCES_J2 = [["profile_1.png","profile_2.png"],["dos.png","dos_1.png","dos_2.png"],["face.png","face_1.png","face_2.png"]]
-RESSOURCES_J3 = [["profile_1.png","profile_2.png"],["dos.png","dos_1.png","dos_2.png"],["face.png","face_1.png","face_2.png"]]
-RESSOURCES_J4 = [["profile_1.png","profile_2.png"],["dos.png","dos_1.png","dos_2.png"],["face.png","face_1.png","face_2.png"]]
+RESSOURCES = [["profile.png", "profile_1.png","profile_2.png"],["dos.png", "dos_1.png","dos_2.png"],["face.png", "face_1.png","face_2.png"]]
 
 
 class Healthbar(object):
@@ -22,7 +19,7 @@ class Healthbar(object):
         self.font = pygame.font.Font(None, 16)
 
     def displayLife(self, xAbs, yAbs):
-        rendered_text = self.font.render(self.getLife(), True, self.camp.couleur)
+        rendered_text = self.font.render(self.getLife(), True, self.owner.camp.couleur)
         rendered_rect = rendered_text.get_rect()
         rendered_rect.topleft = (xAbs, yAbs)
         return rendered_text, rendered_rect
@@ -32,7 +29,7 @@ class Healthbar(object):
 
 
     def displayName(self, xAbs, yAbs):
-        rendered_text = self.font.render(self.getName(), True, self.camp.couleur)
+        rendered_text = self.font.render(self.getName(), True, self.owner.camp.couleur)
         rendered_rect = rendered_text.get_rect()
         rendered_rect.topleft = (xAbs, yAbs)
         return rendered_text, rendered_rect
@@ -62,27 +59,25 @@ class Player(pygame.sprite.Sprite):
         # images du personnage
         if classe == 0:
             prefixe = "_"
-            ressources = RESSOURCES_J1
         elif classe == 1:
             prefixe = "2_"
-            ressources = RESSOURCES_J2
         elif classe == 2:
             prefixe = "3_"
-            ressources = RESSOURCES_J3
         elif classe == 3:
             prefixe = "4_"
-            ressources = RESSOURCES_J4
         #chargement des images
-
-        self.droite_1 = pygame.image.load(BASE_RESSOURCE + prefixe + ressources[0][0]).convert_alpha()
-        self.droite_2 = pygame.image.load(BASE_RESSOURCE + prefixe  + ressources[0][1]).convert_alpha()
+        self.droite = pygame.image.load(BASE_RESSOURCE + prefixe + RESSOURCES[0][0]).convert_alpha()
+        self.droite_1 = pygame.image.load(BASE_RESSOURCE + prefixe + RESSOURCES[0][1]).convert_alpha()
+        self.droite_2 = pygame.image.load(BASE_RESSOURCE + prefixe  + RESSOURCES[0][2]).convert_alpha()
+        self.gauche = pygame.transform.flip(self.droite, True, False)
         self.gauche_1 = pygame.transform.flip(self.droite_1, True, False)
         self.gauche_2 = pygame.transform.flip(self.droite_2, True, False)
-        self.haut_1 = pygame.image.load(BASE_RESSOURCE + prefixe  + ressources[1][0]).convert_alpha()
-        self.haut_2 = pygame.image.load(BASE_RESSOURCE + prefixe  +ressources[1][1]).convert_alpha()
-        self.bas = pygame.image.load(BASE_RESSOURCE  + prefixe  + ressources[2][0]).convert_alpha()
-        self.bas_1 = pygame.image.load(BASE_RESSOURCE  + prefixe  + ressources[2][1]).convert_alpha()
-        self.bas_2 = pygame.image.load(BASE_RESSOURCE  + prefixe  + ressources[2][2]).convert_alpha()
+        self.haut = pygame.image.load(BASE_RESSOURCE + prefixe  + RESSOURCES[1][0]).convert_alpha()
+        self.haut_1 = pygame.image.load(BASE_RESSOURCE + prefixe  + RESSOURCES[1][1]).convert_alpha()
+        self.haut_2 = pygame.image.load(BASE_RESSOURCE + prefixe  +RESSOURCES[1][2]).convert_alpha()
+        self.bas = pygame.image.load(BASE_RESSOURCE  + prefixe  + RESSOURCES[2][0]).convert_alpha()
+        self.bas_1 = pygame.image.load(BASE_RESSOURCE  + prefixe  + RESSOURCES[2][1]).convert_alpha()
+        self.bas_2 = pygame.image.load(BASE_RESSOURCE  + prefixe  + RESSOURCES[2][2]).convert_alpha()
         # image actuelle du personnage
         self.image = self.droite_1
         # position de depart du personnage
@@ -340,13 +335,13 @@ class Player(pygame.sprite.Sprite):
 
 
     def annimation(self,image,image1,image2):
-        if self.nbTrame >= 45:
-            if self.nbTrame >= 60:
+        if self.nbTrame >= 30:
+            if self.nbTrame >= 40:
                 self.nbTrame = 0
             self.image = image2
-        elif self.nbTrame >= 30:
+        elif self.nbTrame >= 20:
             self.image = image
-        elif self.nbTrame >= 15:
+        elif self.nbTrame >= 10:
             self.image = image1
         else:
             self.image = image
