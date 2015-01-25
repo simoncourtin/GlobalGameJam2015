@@ -21,11 +21,11 @@ LINE_THIKNESS = 20
 SCOREBOARD_TOP_X = WINDOW_WIDTH * 6 / 8
 SCOREBOARD_TOP_Y = WINDOW_HEIGHT - NB_JOUEURS * LINE_THIKNESS
 
-BASE_ROUGE_X = 1500
-BASE_ROUGE_Y = 1100
+BASE_ROUGE_X = 0
+BASE_ROUGE_Y = 0
 
-BASE_BLEUE_X = 1000
-BASE_BLEUE_Y = 200
+BASE_BLEUE_X = 0
+BASE_BLEUE_Y = 0
 
 ROUGE = (255, 0, 0)
 BLEU = (0, 0, 255)
@@ -43,10 +43,6 @@ class Jeu():
         self.socket = socket
         # map
         self.map = map.Map(self.screen)
-        self.spawn = self.map.getSpawn()
-        if len(self.spawn) > 0:
-            x = self.spawn[0][0]
-            y = self.spawn[0][1]
 
         self.camps = pygame.sprite.Group()
         self.camp_rouge = camp.Camp(0, BASE_ROUGE_X, BASE_ROUGE_Y, "Camp Rouge", "rouge")
@@ -68,14 +64,35 @@ class Jeu():
 
         self.items = pygame.sprite.Group()
         self.items_taken = pygame.sprite.Group()
-        for i in range(1, NB_PIECES+1):
-            for j in range(NB_PIECES):
-                self.items.add(item.Item(self, "sprite_coins.png", 250 + 50 * j, 100 + 50 * i, i*10+j, self.camp_rouge))
+        
+        # for i in range(1, NB_PIECES + 1):
+        #     for j in range(NB_PIECES):
+        #         self.items.add(
+        #             item.Item(self, "sprite_coins.png", 250 + 50 * j, 100 + 50 * i, i * 10 + j, self.camp_rouge))
 
+        # for i in range(1, NB_PIECES + 1):
+        #     for j in range(NB_PIECES):
+        #         self.items.add(
+        #             item.Item(self, "sprite_coins.png", 820 + 50 * j, 400 + 50 * i, i * 100 + j, self.camp_bleu))
 
-        for i in range(1, NB_PIECES+1):
-            for j in range(NB_PIECES):
-                self.items.add(item.Item(self, "sprite_coins.png", 820 + 50 * j, 400 + 50 * i, i*100+j, self.camp_bleu))
+        i = 0
+        print self.map.objets
+        for obj in self.map.objets:
+            if obj[0] == "1":
+                if BASE_ROUGE_NB == 1:
+                    self.items.add(
+                        item.Item(self, "sprite_coins.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
+                elif BASE_BLEUE_NB == 1:
+                    self.items.add(
+                        item.Item(self, "sprite_coins.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
+            elif obj[0] == "2":
+                if BASE_ROUGE_NB == 2:
+                    self.items.add(
+                        item.Item(self, "sprite_coins.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
+                elif BASE_BLEUE_NB == 2:
+                    self.items.add(
+                        item.Item(self, "sprite_coins.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
+            i += 1
 
         # definition du sprite controlable
         self.current_player.setControllable(True)
@@ -263,3 +280,21 @@ class Jeu():
         joueur_rect.topleft = (xAbs, yAbs)
 
         self.screen.blit(joueur_text, joueur_rect)
+
+    def distribution_spawn(self, map_jeu):
+        spawn = map_jeu.getSpawn()
+        global BASE_ROUGE_NB, BASE_ROUGE_X, BASE_ROUGE_Y
+        global BASE_BLEUE_NB, BASE_BLEUE_X, BASE_BLEUE_Y
+        aleatoire = random.randint(1,2)
+        if aleatoire == 1:
+            autre_nb = 2
+        else:
+            autre_nb = 1
+
+        BASE_ROUGE_NB = aleatoire
+        BASE_ROUGE_X = spawn[aleatoire-1][0]
+        BASE_ROUGE_Y = spawn[aleatoire-1][1]
+
+        BASE_BLEUE_NB = autre_nb
+        BASE_BLEUE_X = spawn[autre_nb-1][0]
+        BASE_BLEUE_Y = spawn[autre_nb-1][1]

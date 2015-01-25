@@ -4,7 +4,7 @@ import tuile as _tuile
 
 class Layer():
 
-    def __init__(self,screen,fichier,image,collision=False,x_tile=32,y_tile=32,):
+    def __init__(self,screen,fichier,image,collision=False,objet=False,x_tile=32,y_tile=32,):
         #fenetre ou ajouter
         self.screen = screen
         #image du calque
@@ -24,9 +24,11 @@ class Layer():
         self.hauteur_map = 0
         #collision
         self.collision = collision
+        self.layer_objet = objet
         self.tuiles_colision = pygame.sprite.Group()
         self.tuiles_non_colision = pygame.sprite.Group()
         self.spawn = []
+        self.objets =[]
 
         self.construire_layer()
 
@@ -48,6 +50,8 @@ class Layer():
                     tuile = _tuile.Tuile(tile,x,y)
                     if self.isCollision():
                         self.tuiles_colision.add(tuile)
+                    elif self.layer_objet:
+                        self.objets.append((element,(x,y)))
                     else:
                         self.tuiles_non_colision.add(tuile)
                     if element == '256':
@@ -70,6 +74,8 @@ class Layer():
     def isCollision(self):
         return self.collision
 
-
     def setCollision(self,collision=True):
         self.collision = collision
+
+    def setLayerObjet(self,objet=True):
+        self.layer_objet = objet
