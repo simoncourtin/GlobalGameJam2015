@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 import pygame
 import time
 from pygame import sprite
@@ -127,15 +130,14 @@ class Jeu():
                         self.current_player.setSpeed(0)
 
                         if timeLastAttack + KEY_REPEAT_DELAY < pygame.time.get_ticks():
+                            self.current_player.updateAttaque()
                             self.groupe_attaque.add(self.current_player.attaque)
 
-                            print "1." + repr(self.groupe_attaque)
+                            group_sans_J = [j for j in self.joueurs if j.classe != self.id_client]
 
-                            target = pygame.sprite.spritecollide(self.current_player, self.joueurs, False)
-                            # faire un collide all group ou autre
+                            # On test le collide du joueur et de l'epee
+                            target = pygame.sprite.spritecollide(self.current_player.attaque, group_sans_J, False)
                             self.current_player.attack(target)
-
-                            print "1." + repr(target)
 
                             timeLastAttack = pygame.time.get_ticks()
 
@@ -199,8 +201,6 @@ class Jeu():
             self.map.afficher_map(self.cam)
 
             if self.groupe_attaque:
-                print "2." + repr(self.groupe_attaque)
-                print "2." + repr(self.current_player.attaque)
                 self.groupe_attaque.clear(self.screen, self.current_player.attaque.image)
                 self.groupe_attaque.draw(self.current_player.attaque.image)
                 self.screen.blit(self.current_player.attaque.image,

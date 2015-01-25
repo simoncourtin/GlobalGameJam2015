@@ -240,9 +240,7 @@ class Player(pygame.sprite.Sprite):
         self.is_controllable = boolean
 
 
-    def attack(self, target=None):
-        self.setSpeed(0)
-
+    def updateAttaque(self):
         if self.getDirection() == 1:  # A droite
             self.attaque.direction = attaque.DROITE
 
@@ -255,14 +253,17 @@ class Player(pygame.sprite.Sprite):
         elif self.getDirection() == 4:  # En bas
             self.attaque.direction = attaque.BAS
 
-        if len(target) > 1:
-            target.remove(self)
-            for ennemy in target:
-                message = "ATK:%d:%d:%d@" % (self.classe, ennemy.getClasse(), WEAPON_DAMAGE)
-                hit = pygame.mixer.Sound("hit.ogg")
-                hit.play()
-                print message
-                self.jeu.socket.send(message)
+
+    def attack(self, target):
+        self.setSpeed(0)
+
+        for ennemy in target:
+            message = "ATK:%d:%d:%d@" % (self.classe, ennemy.getClasse(), WEAPON_DAMAGE)
+            self.jeu.socket.send(message)
+            print message
+
+            hit = pygame.mixer.Sound("hit.ogg")
+            hit.play()
 
     def receiveAttack(self, damage):
         if damage > self.life:
