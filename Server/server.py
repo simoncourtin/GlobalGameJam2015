@@ -31,12 +31,13 @@ def agent(socket_client, num, list_client):
             if request == "QUIT" :
                 print "num client se deconnecte"
                 socket_client.send("OK@")
-                socket_client.shutdown(0)
-                socket_client.close()
+                for socket_q in list_client:
+                    socket_q.shutdown(0)
+                    socket_q.close()
                 sys.exit()
             if not socket_other is socket_client:
                 if socket_other.send(request):
-                    pass    
+                    pass   
                 
         request = socket_client.recv(BUFFER_SIZE)
     socket_client.close()
