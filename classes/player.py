@@ -22,7 +22,7 @@ class Healthbar(object):
         self.font = pygame.font.Font(None, 16)
 
     def displayLife(self, xAbs, yAbs):
-        rendered_text = self.font.render(self.getLife(), True, (0, 0, 0))
+        rendered_text = self.font.render(self.getLife(), True, self.camp.couleur)
         rendered_rect = rendered_text.get_rect()
         rendered_rect.topleft = (xAbs, yAbs)
         return rendered_text, rendered_rect
@@ -32,7 +32,7 @@ class Healthbar(object):
 
 
     def displayName(self, xAbs, yAbs):
-        rendered_text = self.font.render(self.getName(), True, self.owner.camp.couleur)
+        rendered_text = self.font.render(self.getName(), True, self.camp.couleur)
         rendered_rect = rendered_text.get_rect()
         rendered_rect.topleft = (xAbs, yAbs)
         return rendered_text, rendered_rect
@@ -73,6 +73,7 @@ class Player(pygame.sprite.Sprite):
             prefixe = "4_"
             ressources = RESSOURCES_J4
         #chargement des images
+
         self.droite_1 = pygame.image.load(BASE_RESSOURCE + prefixe + ressources[0][0]).convert_alpha()
         self.droite_2 = pygame.image.load(BASE_RESSOURCE + prefixe  + ressources[0][1]).convert_alpha()
         self.gauche_1 = pygame.transform.flip(self.droite_1, True, False)
