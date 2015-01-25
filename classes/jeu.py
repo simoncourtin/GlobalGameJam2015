@@ -99,7 +99,11 @@ class Jeu():
                         self.playerById(self.id_client).setSpeed(0)
 
                         if timeFirst + KEY_REPEAT_DELAY < pygame.time.get_ticks():
-                            target = pygame.sprite.spritecollide(self.playerById(self.id_client), self.joueurs, False)
+                            sprite = self.playerById(self.id_client).getRect()
+                            surface = pygame.Surface(sprite.inflate(70, 30))
+                            target = pygame.sprite.spritecollide(surface, self.joueurs, False)
+
+                            print target
                             self.playerById(self.id_client).attack(target)
                             timeFirst = pygame.time.get_ticks()
 
