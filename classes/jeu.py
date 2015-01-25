@@ -153,11 +153,11 @@ class Jeu():
             if len(self.camp_rouge.pieces_depart) <= 0:
                 if self.current_player.camp.nom == "Camp Rouge":
                     pygame.mixer.music.stop()
-                    stress.stop()
+                    self.stress.stop()
                     defaite.play()
                 else:
                     pygame.mixer.music.stop()
-                    stress.stop()
+                    self.stress.stop()
                     victoire.play()
                 
                 print "LES BLEUS ONT GAGNE, BRAVO !!"
@@ -166,11 +166,11 @@ class Jeu():
             elif len(self.camp_bleu.pieces_depart) <= 0:
                 if self.current_player.camp.nom == "Camp Bleu":
                     pygame.mixer.music.stop()
-                    stress.stop()
+                    self.stress.stop()
                     defaite.play()
                 else:
                     pygame.mixer.music.stop()
-                    stress.stop()
+                    self.stress.stop()
                     victoire.play()
 
                 print "LES ROUGES ONT GAGNE, BRAVO !!"
