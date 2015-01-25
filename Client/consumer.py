@@ -58,7 +58,7 @@ class Consumer(threading.Thread):
                     pygame.mixer.music.stop()
                     self.jeu.stress.play()
 
-            if len(self.camp_bleu.pieces_depart) <= 2:
+            if len(self.jeu.camp_bleu.pieces_depart) <= 2:
                 if self.jeu.current_player.camp.nom == "Camp Bleu":
                     pygame.mixer.music.stop()
                     self.jeu.stress.play()
