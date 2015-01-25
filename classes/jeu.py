@@ -89,7 +89,7 @@ class Jeu():
 
         # load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
-        stress = pygame.mixer.Sound("stress.ogg")
+        self.stress = pygame.mixer.Sound("stress.ogg")
         pygame.mixer.music.queue("fondSonore.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
         missCoins = pygame.mixer.Sound("missCoins.ogg")

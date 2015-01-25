@@ -31,3 +31,9 @@ class Camp(pygame.sprite.Sprite):
     def deposer(self, items):
         for it in items:
             self.pieces_capturees.add(it)
+
+    def nbPiecesPickedUp(self):
+        total = 0
+        for j in self.joueurs:
+            total += len(j.items)
+        return total
