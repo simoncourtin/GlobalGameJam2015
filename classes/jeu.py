@@ -75,10 +75,10 @@ class Jeu():
 
         i = 0
         for obj in self.map.objets:
-            if obj[0] == "1": # ROUGE
+            if obj[0] == "1":  # ROUGE
                 self.items.add(
                     item.Item(self, "pieces/piece_rouge.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
-            elif obj[0] == "2": # BLEU
+            elif obj[0] == "2":  # BLEU
                 self.items.add(
                     item.Item(self, "pieces/piece_bleu.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
             i += 1
