@@ -3,7 +3,7 @@
 
 import pygame
 from pygame.locals import *
-from classes import player, map, interface, camera, item, camp
+from classes import player, map, camera, item, camp
 from Client import producer, consumer
 from functions import recup_message
 
@@ -75,12 +75,20 @@ class Jeu():
 
         i = 0
         for obj in self.map.objets:
-            if obj[0] == "1": # ROUGES
-                self.items.add(
-                    item.Item(self, "pieces/piece_rouge.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
-            elif obj[0] == "2": # BLEUS
-                self.items.add(
-                    item.Item(self, "pieces/piece_bleu.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
+            if obj[0] == "1":
+                if BASE_ROUGE_NB == 1:
+                    self.items.add(
+                        item.Item(self, "pieces/piece_rouge.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
+                elif BASE_BLEUE_NB == 1:
+                    self.items.add(
+                        item.Item(self, "pieces/piece_bleu.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
+            elif obj[0] == "2":
+                if BASE_ROUGE_NB == 2:
+                    self.items.add(
+                        item.Item(self, "pieces/piece_rouge.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_rouge))
+                elif BASE_BLEUE_NB == 2:
+                    self.items.add(
+                        item.Item(self, "pieces/piece_bleu.png", int(obj[1][0]), int(obj[1][1]), i, self.camp_bleu))
             i += 1
 
         # definition du sprite controlable
@@ -271,12 +279,14 @@ class Jeu():
 
     def distribution_spawn(self, map_jeu):
         spawn = map_jeu.getSpawn()
-        global BASE_ROUGE_X, BASE_ROUGE_Y
-        global BASE_BLEUE_X, BASE_BLEUE_Y
+        global BASE_ROUGE_NB, BASE_ROUGE_X, BASE_ROUGE_Y
+        global BASE_BLEUE_NB, BASE_BLEUE_X, BASE_BLEUE_Y
 
+        BASE_ROUGE_NB = 0
         BASE_ROUGE_X = spawn[0][0]
         BASE_ROUGE_Y = spawn[0][1]
 
+        BASE_BLEUE_NB = 1
         BASE_BLEUE_X = spawn[1][0]
         BASE_BLEUE_Y = spawn[1][1]
 
