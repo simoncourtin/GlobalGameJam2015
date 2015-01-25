@@ -54,7 +54,7 @@ class Player(pygame.sprite.Sprite):
         self.jeu = jeu
         self.attaque = attaque.Attaque(self)
 
-        if name == "":
+        if name == "joueur":
             self.name = "Joueur" + ' ' + str(classe + 1)
         else:
             self.name = name
