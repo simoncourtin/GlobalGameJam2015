@@ -148,14 +148,6 @@ class Jeu():
                     if event.key == K_SPACE:
                         self.current_player.setSpeed(player.VELOCITY)
 
-            # Declenchement de la musique du stress
-            if len(self.camp_rouge.pieces_depart) <= 2:
-                pygame.mixer.music.stop()
-                stress.play()
-
-            if len(self.camp_bleu.pieces_depart) <= 2:
-                pygame.mixer.music.stop()
-                stress.play()
 
             # Verification de la victoire
             if len(self.camp_rouge.pieces_depart) <= 0:
