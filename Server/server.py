@@ -13,7 +13,7 @@ import os
 
 list_client = []
 
-PORT = 12344
+PORT = 12345
 BUFFER_SIZE = 2048
 MAX_PLAYERS = 2
 

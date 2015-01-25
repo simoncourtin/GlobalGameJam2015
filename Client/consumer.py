@@ -56,13 +56,15 @@ class Consumer(threading.Thread):
 
             joueur = self.jeu.playerById(id_joueur)
             camp = joueur.camp
+            camp_adverse = joueur.items[0].camp
 
             print joueur.items
 
             for it in joueur.items:
                 camp.pieces_capturees.add(it)
-                it.camp.pieces_depart.remove(it)
-                joueur.items.remove(it)
+                camp_adverse.pieces_depart.remove(it)
+                
+            joueur.lacherItems()
 
             print joueur.name + " a depose ses pieces."
 
