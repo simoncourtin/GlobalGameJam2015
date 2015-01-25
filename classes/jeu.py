@@ -91,6 +91,8 @@ class Jeu():
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
         missCoins = pygame.mixer.Sound("missCoins.ogg")
         select = pygame.mixer.Sound("select.ogg")
+        victoire = pygame.mixer.Sound("victory.ogg")
+        defaite = pygame.mixer.Sound("defeat.ogg")
 
         # declenchement du fond sonore
         pygame.mixer.music.play()
@@ -153,9 +155,21 @@ class Jeu():
 
             # Verification de la victoire
             if len(self.camp_rouge.pieces_depart) <= 0:
+                if self.current_player.camp.nom == "Camp Rouge":
+                    defaite.play()
+                else:
+                    victoire.play()
+                
                 print "LES BLEUS ONT GAGNE, BRAVO !!"
                 break
+            
             elif len(self.camp_bleu.pieces_depart) <= 0:
+                victoire.play()
+                if self.current_player.camp.nom == "Camp Bleu":
+                    defaite.play()
+                else:
+                    victoire.play()
+
                 print "LES ROUGES ONT GAGNE, BRAVO !!"
                 break
                         

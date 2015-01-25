@@ -316,11 +316,14 @@ class Player(pygame.sprite.Sprite):
         self.items[:] = []
 
     def deposerItem(self):
+        dropCoins = pygame.mixer.Sound("dropCoins.ogg")
         for it in self.items:
             it.camp.pieces_depart.remove(it)
+        dropCoins.play()
         self.camp.deposer(self.items)
         self.jeu.socket.send("ITM_RL:%d@" % (self.classe))
         self.lacherItems()
+        
 
     def mourir(self):
         # On lache tous ses items
