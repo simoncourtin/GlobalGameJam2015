@@ -24,7 +24,7 @@ class Camp(pygame.sprite.Sprite):
         self.nom = nom
         self.x = x
         self.y = y
-        self.image =  pygame.image.load("images/drapeau/drapeau_"+couleur+".png").convert_alpha()
+        self.image =  pygame.image.load("images/drapeau/spawn_"+couleur+".png").convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
 
