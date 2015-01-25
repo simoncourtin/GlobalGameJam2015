@@ -62,13 +62,14 @@ class Player(pygame.sprite.Sprite):
         self.healthbar = Healthbar(owner=self)
 
         # images du personnage
-        if classe == 0:
+        cl = self.classe % 4
+        if cl == 0:
             prefixe = "_"
-        elif classe == 1:
+        elif cl == 1:
             prefixe = "2_"
-        elif classe == 2:
+        elif cl == 2:
             prefixe = "3_"
-        elif classe == 3:
+        elif cl == 3:
             prefixe = "4_"
         # chargement des images
         self.droite = pygame.image.load(BASE_RESSOURCE + prefixe + RESSOURCES[0][0]).convert_alpha()
