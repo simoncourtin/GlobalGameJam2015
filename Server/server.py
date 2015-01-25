@@ -30,6 +30,7 @@ def agent(socket_client, num, list_client):
         for socket_other in list_client:
             if request == "QUIT" :
                 print "num client se deconnecte"
+                socket_client.send("OK@")
                 socket_client.shutdown(0)
                 socket_client.close()
                 sys.exit()
