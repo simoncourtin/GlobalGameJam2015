@@ -299,4 +299,4 @@ class Jeu():
         for i in range(0, self.nbr_players - 1):
             resultat = recup_message(self.socket)
             donnee = resultat.split(':')
-        self.idnom[int(donnee[1])] = donnee[2]
+            self.idnom[int(donnee[1])] = donnee[2]
