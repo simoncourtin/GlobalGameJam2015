@@ -13,7 +13,7 @@ NB_PIECES = 3
 MAX_FPS = 60
 FONT_SIZE = 16
 FONT_STYLE = None
-KEY_REPEAT_DELAY = 2000  # milliseconds
+KEY_REPEAT_DELAY = 1000  # milliseconds
 
 WINDOW_WIDTH = 900
 WINDOW_HEIGHT = 700
@@ -103,8 +103,6 @@ class Jeu():
 
         # load de toutes les musiques + bruitages
         pygame.mixer.music.load("fondSonore.ogg")
-        stress = pygame.mixer.Sound("stress.ogg")
-        # pygame.mixer.music.queue("fondSonore.ogg")
         pickCoins = pygame.mixer.Sound("pickCoins.ogg")
         missCoins = pygame.mixer.Sound("missCoins.ogg")
         select = pygame.mixer.Sound("select.ogg")
@@ -141,8 +139,15 @@ class Jeu():
                         self.current_player.setSpeed(0)
 
                         if timeLastAttack + KEY_REPEAT_DELAY < pygame.time.get_ticks():
-                            target = pygame.sprite.spritecollide(self.current_player, self.joueurs, False)
+                            self.current_player.updateAttaque()
+                            self.groupe_attaque.add(self.current_player.attaque)
+
+                            group_sans_J = [j for j in self.joueurs if j.classe != self.id_client]
+
+                            # On test le collide du joueur et de l'epee
+                            target = pygame.sprite.spritecollide(self.current_player.attaque, group_sans_J, False)
                             self.current_player.attack(target)
+
                             timeLastAttack = pygame.time.get_ticks()
 
                     if event.key == K_e:
@@ -161,17 +166,16 @@ class Jeu():
                 elif event.type == KEYUP:
                     if event.key == K_SPACE:
                         self.current_player.setSpeed(player.VELOCITY)
+                        self.groupe_attaque.remove(self.current_player.attaque)
 
 
             # Verification de la victoire
             if len(self.camp_rouge.pieces_depart) <= 0:
                 if self.current_player.camp.nom == "Camp Rouge":
                     pygame.mixer.music.stop()
-                    stress.stop()
                     defaite.play()
                 else:
                     pygame.mixer.music.stop()
-                    stress.stop()
                     victoire.play()
 
                 print "LES BLEUS ONT GAGNE, BRAVO !!"
@@ -180,11 +184,9 @@ class Jeu():
             elif len(self.camp_bleu.pieces_depart) <= 0:
                 if self.current_player.camp.nom == "Camp Bleu":
                     pygame.mixer.music.stop()
-                    stress.stop()
                     defaite.play()
                 else:
                     pygame.mixer.music.stop()
-                    stress.stop()
                     victoire.play()
 
                 print "LES ROUGES ONT GAGNE, BRAVO !!"
@@ -196,25 +198,19 @@ class Jeu():
 
             self.joueurs.update()
 
+            self.groupe_attaque.update()
+
             # Gestion de la camera
             self.cam.update(self.current_player)  # Centre sur le joueur
 
             # rafraichissement de la map des des affichages des joueurs
             self.map.afficher_map(self.cam)
 
-
-            # Affichage du sprite d'attaque
-            if self.current_player.attaque.getVisible():
-                self.groupe_attaque.add(self.current_player.attaque)
+            if self.groupe_attaque:
                 self.groupe_attaque.clear(self.screen, self.current_player.attaque.image)
                 self.groupe_attaque.draw(self.current_player.attaque.image)
-                self.screen.blit(self.current_player.attaque.image, self.cam.apply(self.current_player.attaque))
-
-            # Cacher le sprite d'attaque
-            if not self.current_player.attaque.getVisible():
-                self.groupe_attaque.remove(self.current_player.attaque)
-
-
+                self.screen.blit(self.current_player.attaque.image,
+                                 self.cam.apply(self.current_player.attaque))
 
             # On blit les camps
             for c in self.camps:
@@ -254,10 +250,12 @@ class Jeu():
             if j.classe == id_player:
                 return j
 
+
     def itemById(self, id_item):
         for i in self.items:
             if i.id_item == id_item:
                 return i
+
 
     def campById(self, id_camp):
         for c in self.camps:
@@ -311,4 +309,3 @@ class Jeu():
             resultat = recup_message(self.socket)
             donnee = resultat.split(' ')
         self.idnom[int(donnee[1])] = donnee[2]
-
