@@ -53,12 +53,12 @@ class Consumer(threading.Thread):
             print joueur.name + " a recupere un item d'id " + str(id_item)
 
             # Declenchement de la musique du stress
-            if len(self.jeu.camp_rouge.pieces_depart) <= 2:
+            if len(self.jeu.camp_rouge.pieces_depart) - self.jeu.camp_bleu.nbPiecesPickedUp() <= 2:
                 if self.jeu.current_player.camp.nom == "Camp Rouge":
                     pygame.mixer.music.stop()
                     self.jeu.stress.play()
 
-            if len(self.jeu.camp_bleu.pieces_depart) <= 2:
+            if len(self.jeu.camp_bleu.pieces_depart) - self.jeu.camp_rouge.nbPiecesPickedUp() <= 2:
                 if self.jeu.current_player.camp.nom == "Camp Bleu":
                     pygame.mixer.music.stop()
                     self.jeu.stress.play()
