@@ -5,7 +5,7 @@ Authors:
 --------
 
 - Chanson Guillaume
-- Courtin Tristan
+- Courtin Simon
 - Garrelou Simon
 - Lascombe Tristan
 - Tricard Thibault
@@ -29,7 +29,7 @@ Server configuration:
 - Client-side: Change the IP and the port to those used by your server
 
 
-Broken Pipe - FranÁais
+Broken Pipe - Fran√ßais
 ======================
  
 Auteurs :
@@ -41,20 +41,20 @@ Garrelou Simon
 Lascombe Tristan
 Tricard Thibault
 
-Jeu rÈalisÈ lors de la Global Game Jam 2015 ‡ Toulouse
+Jeu r√©alis√© lors de la Global Game Jam 2015 √† Toulouse
 
 
 Installation :
 --------------
 
-- Installer python 2.7 avec la bibliothËque pygame (python 2.7) http://www.pygame.org/download.shtml et Tkinter si vous ne l'avez pas.
+- Installer python 2.7 avec la biblioth√®que pygame (python 2.7) http://www.pygame.org/download.shtml et Tkinter si vous ne l'avez pas.
 - Lancer le serveur dans Server/serveur.py votre ordinateur (Linux).
-- Lancer le jeu avec Broken_Pipe/main.py et connectez-vous au serveur gr‚ce ‡ l'interface.
+- Lancer le jeu avec Broken_Pipe/main.py et connectez-vous au serveur gr√¢ce √† l'interface.
 Attendre au moins une autre personne et jouer.
 
 Configuration du serveur :
 --------------------------
 
-- Serveur : pour changer le port changer PORT=XXXX par le numero de votre port utilisÈ
+- Serveur : pour changer le port changer PORT=XXXX par le numero de votre port utilis√©
 
-- Client : prÈciser l'adresse ip du serveur et le port d'Ècoute utilisÈ par le serveur  
+- Client : pr√©ciser l'adresse ip du serveur et le port d'√©coute utilis√© par le serveur  
