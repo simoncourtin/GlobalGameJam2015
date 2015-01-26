@@ -7,29 +7,41 @@ class Layer():
     def __init__(self,screen,fichier,image,collision=False,objet=False,x_tile=32,y_tile=32,):
         #fenetre ou ajouter
         self.screen = screen
-        #image du calque
+
+        #tilset de l'image du calque
         self.tilset = pygame.image.load(image).convert_alpha()
+
+        #definition si claque de collision
+        self.collision = collision
+
+        #definition si calque d'objet interactif
+        self.layer_objet = objet
+
+        #hauteur et largeur des tuile dans le tilset
+        self.x_tile=x_tile
+        self.y_tile=y_tile
+
+        #creation des groupe des tuile de collision et non collision
+        self.tuiles_colision = pygame.sprite.Group()
+        self.tuiles_non_colision = pygame.sprite.Group()
+
+        #tableau des spawn et des objet interactif
+        self.spawn = []
+        self.objets =[]
+
+        #largeur de la map
+        self.largeur_map = 0
+        self.hauteur_map = 0
+
+        #Debut de le creation du calque
         #lecture du fichier
         self.f = open(fichier, "r")
         self.ligne = self.f.read()
         self.ligne = self.ligne.replace('\n','\n,')
+
         #generation du tableau pour les differents element du calque
         self.calque=[]
         self.calque= self.ligne.split(',')
-        #hauteur et largeur des tuile
-        self.x_tile=x_tile
-        self.y_tile=y_tile
-
-        self.largeur_map = 0
-        self.hauteur_map = 0
-        #collision
-        self.collision = collision
-        self.layer_objet = objet
-        self.tuiles_colision = pygame.sprite.Group()
-        self.tuiles_non_colision = pygame.sprite.Group()
-        self.spawn = []
-        self.objets =[]
-
         self.construire_layer()
 
 
@@ -79,3 +91,6 @@ class Layer():
 
     def setLayerObjet(self,objet=True):
         self.layer_objet = objet
+
+    def isLayerObjet(self):
+        return  self.layer_objet

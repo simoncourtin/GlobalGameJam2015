@@ -37,8 +37,12 @@ class Jeu():
         self.font_accueil = pygame.font.Font("pixelmix.ttf", 32)
         self.socket = socket
         self.nom_joueur = nom_joueur
-        # map
-        self.map = map.Map(self.screen)
+
+        #Creation de la map
+        self.map = map.Map(self.screen,[("maps/cobblestone2/background.txt",'maps/cobblestone2/cobblestone.png',False,False,32,32),
+            ("maps/cobblestone2/collision.txt",'maps/cobblestone2/cobblestone.png',True,False,32,32),
+            ("maps/cobblestone2/spawn.txt",'maps/cobblestone2/cobblestone.png',False,False,32,32),
+            ("maps/cobblestone2/piece.txt",'maps/cobblestone2/piece_tile.png',False,True,32,32)])
 
         self.distribution_spawn(self.map)
 
@@ -104,8 +108,8 @@ class Jeu():
         # pygame.mixer.music.set_volume(0.5)
 
         # La camera
-        largeur_map = self.map.layer1.largeur_map * self.map.layer1.x_tile
-        hauteur_map = self.map.layer1.hauteur_map * self.map.layer1.y_tile
+        largeur_map = self.map.calques[0].largeur_map * self.map.calques[0].x_tile
+        hauteur_map = self.map.calques[0].hauteur_map * self.map.calques[0].y_tile
         self.cam = camera.Camera(self, camera.complex_camera, largeur_map, hauteur_map)
 
         # repetition des touches

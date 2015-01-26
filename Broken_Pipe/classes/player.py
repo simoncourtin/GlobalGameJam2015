@@ -216,7 +216,7 @@ class Player(pygame.sprite.Sprite):
             self.setX(self.x_velocite)
             self.setY(self.y_velocite)
             collision_decors = pygame.sprite.spritecollide(self.jeu.playerById(self.jeu.id_client),
-                                                           self.jeu.map.layer2.tuiles_colision, False)
+                                                           self.jeu.map.calques[1].tuiles_colision, False)
             if collision_decors:
                 self.rect.x = old_x
                 self.rect.y = old_y
