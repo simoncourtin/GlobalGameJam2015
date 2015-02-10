@@ -3,9 +3,11 @@
 
 import pygame
 from pygame.locals import *
+
 from classes import player, map, camera, item, camp
 from Client import producer, consumer
-from functions import recup_message
+from bomberLAN.functions import recup_message
+
 
 MAX_FPS = 60
 FONT_SIZE = 16
